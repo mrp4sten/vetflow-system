@@ -172,7 +172,7 @@ CREATE INDEX idx_appointments_date_status ON appointments(appointment_date, stat
 -- Medical records indexes
 CREATE INDEX idx_medical_records_patient_id ON medical_records(patient_id);
 CREATE INDEX idx_medical_records_visit_date ON medical_records(visit_date);
-CREATE INDEX idx_medical_records_veterinarian ON medical_records(veterinarian);
+CREATE INDEX idx_medical_records_veterinarian ON medical_records(veterinarian_id);
 
 -- System users indexes
 CREATE INDEX idx_system_users_username ON system_users(username);
