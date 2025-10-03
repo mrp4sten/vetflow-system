@@ -13,12 +13,25 @@
 
 echo "🔧 Setting up environment variables..."
 
+# SonarQube configuration
 export SONAR_HOST_URL=""
 export SONAR_TOKEN=""
 export SONAR_PROJECT_KEY=""
 
+# API configuration
+export DB_URL=""
+export DB_USERNAME=""
+export DB_PASSWORD=""
+export SERVER_PORT=""
+
 
 echo "✅ Environment configured!"
+echo "================================="
 echo "🌐 SonarQube URL: $SONAR_HOST_URL"
-echo "🔑 Project: $SONAR_TOKEN"
 echo "📊 Project Key: $SONAR_PROJECT_KEY"
+echo "🔑 Project: $SONAR_TOKEN"
+echo "================================="
+echo "🗄️  Database URL: $DB_URL"
+echo "👤 Database User: $DB_USERNAME"
+echo "🔑 Database Password: $DB_PASSWORD"
+echo "🌐 Server Port: $SERVER_PORT"
