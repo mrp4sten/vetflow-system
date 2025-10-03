@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# post-commit - Actions after committing
+#
+# Description: This script performs actions after a commit is made.
+# Author: Mauricio Pasten (@mrp4sten)
+# Version: 1.1.0
+# Created: 2025-10-01
+# Updated: 2025-10-02 - Enhanced logging
+#
+
+echo "📝 Post-commit actions..."
+
+# Create commit history if it doesn't exist
+mkdir -p .git/hooks/logs
+echo "$(date -Iseconds) - [$(git branch --show-current)] $(git log -1 --pretty=format:'%h %s')" >> .git/hooks/logs/commit-history.log
+
+# Different messages based on branch
+CURRENT_BRANCH=$(git branch --show-current)
+if [[ "$CURRENT_BRANCH" == feature/* ]]; then
+    echo "💡 Remember to create a Pull Request when ready!"
+elif [[ "$CURRENT_BRANCH" == "main" ]]; then
+    echo "🚀 Production commit! Ensure everything is tested."
+fi
+
+echo "✅ Post-commit actions completed!"
