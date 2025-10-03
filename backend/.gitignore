@@ -28,6 +28,3 @@ replay_pid*
 
 # custom scripts
 scripts/setup-env.sh
-
-# VSCode settings
-.vscode/
