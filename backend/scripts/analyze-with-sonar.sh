@@ -33,7 +33,7 @@ run_analysis() {
     # Análisis con cobertura y seguridad
     mvn clean verify jacoco:report sonar:sonar \
       -Dsonar.projectKey="$SONAR_PROJECT_KEY" \
-      -Dsonar.projectName="FHIR Federation Provider" \
+      -Dsonar.projectName="$SONAR_PROJECT_KEY" \
       -Dsonar.host.url="$SONAR_HOST_URL" \
       -Dsonar.token="$SONAR_TOKEN" \
       -Dsonar.coverage.exclusions="**/test/**,**/model/**" \
