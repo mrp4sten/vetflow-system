@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 
 import com.vetflow.api.infrastructure.persistence.entity.OwnerEntity;
 import com.vetflow.api.infrastructure.persistence.entity.PatientEntity;
@@ -16,7 +17,17 @@ import com.vetflow.api.infrastructure.persistence.repository.OwnerJpaRepository;
 import com.vetflow.api.infrastructure.persistence.repository.PatientJpaRepository;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+@TestPropertySource(properties = {
+    "spring.flyway.enabled=true",
+    "spring.flyway.locations=classpath:testdb/migration",
+    "spring.datasource.url=jdbc:h2:mem:vetflow;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
+    "spring.datasource.driverClassName=org.h2.Driver",
+    "spring.datasource.username=sa",
+    "spring.datasource.password=",
+    "spring.jpa.hibernate.ddl-auto=validate",
+    "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect"
+})
 class JpaSmokeTest {
 
     @Autowired OwnerJpaRepository owners;

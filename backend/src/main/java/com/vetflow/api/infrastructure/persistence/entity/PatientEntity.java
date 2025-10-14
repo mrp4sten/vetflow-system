@@ -35,7 +35,7 @@ public class PatientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name", length = 100, nullable = false)
     private String name;
@@ -88,8 +88,8 @@ public class PatientEntity {
     }
 
     // Getters/setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = (name != null ? name.trim() : null); }
     public String getSpecies() { return species; }
