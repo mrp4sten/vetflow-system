@@ -6,122 +6,174 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit tests for {@link Owner} domain model.
+ *
+ * Notes:
+ * - Uses the static factory Owner.create(...) to enforce invariants.
+ * - Asserts on error messages to keep UX/dev hints consistent.
+ */
 class OwnerTest {
 
   @Test
   @DisplayName("Should create owner with valid data")
   void shouldCreateOwnerWithValidData() {
-    String name = "Juan Pérez";
-    String phone = "+525512345678";
-    String email = "juan@vetflow.com";
-    String address = "Av. Reforma 123, CDMX";
-    Owner owner = new Owner(name, phone, email, address);
-    assertThat(owner.getName()).isEqualTo(name);
-    assertThat(owner.getPhone()).isEqualTo(phone);
-    assertThat(owner.getEmail()).isEqualTo(email);
-    assertThat(owner.getAddress()).isEqualTo(address);
+    var owner = Owner.create(
+        "Juan Pérez",
+        "+52 55 1234 5678",
+        "juan@vetflow.com",
+        "Av. Reforma 123, CDMX"
+    );
+
+    assertThat(owner.getId()).isNull();
+    assertThat(owner.getName()).isEqualTo("Juan Pérez");
+    assertThat(owner.getPhone()).isEqualTo("+52 55 1234 5678");
+    assertThat(owner.getEmail()).isEqualTo("juan@vetflow.com");
+    assertThat(owner.getAddress()).isEqualTo("Av. Reforma 123, CDMX");
     assertThat(owner.getCreatedAt()).isNotNull();
     assertThat(owner.getUpdatedAt()).isNotNull();
   }
 
   @Test
-  @DisplayName("Should throw exception when name is null or empty")
-  void shouldThrowExceptionWhenNameIsNullOrEmpty() {
-    assertThatThrownBy(() -> new Owner(null, "+525512345678", "test@email.com", "Address"))
+  @DisplayName("Should throw when name is null or empty")
+  void shouldThrowWhenNameIsNullOrEmpty() {
+    assertThatThrownBy(() -> Owner.create(null, "+525512345678", "t@e.com", "Addr"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("Owner name cannot be null");
-    assertThatThrownBy(() -> new Owner("", "+525512345678", "test@email.com", "Address"))
+        .hasMessageContaining("Owner name cannot be null or empty");
+
+    assertThatThrownBy(() -> Owner.create("  ", "+525512345678", "t@e.com", "Addr"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("Owner name cannot be null");
+        .hasMessageContaining("Owner name cannot be null or empty");
   }
 
   @Test
-  @DisplayName("Should throw excpetion when email is null or empty")
-  void shouldThrowExceptionWhenEmailIsNullOrEmpty() {
-    assertThatThrownBy(() -> new Owner("John Doe", "+525512345678", null, "Address"))
+  @DisplayName("Should throw when name exceeds 100 characters")
+  void shouldThrowWhenNameExceedsLimit() {
+    var longName = "x".repeat(101);
+    assertThatThrownBy(() -> Owner.create(longName, "+525512345678", "t@e.com", "Addr"))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("Owner name cannot exceed 100 characters");
+  }
+
+  @Test
+  @DisplayName("Should throw when email is null or empty")
+  void shouldThrowWhenEmailIsNullOrEmpty() {
+    assertThatThrownBy(() -> Owner.create("John", "+525512345678", null, "Addr"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Owner email cannot be null or empty");
-    assertThatThrownBy(() -> new Owner("John Doe", "+525512345678", "", "Address"))
+
+    assertThatThrownBy(() -> Owner.create("John", "+525512345678", "   ", "Addr"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Owner email cannot be null or empty");
   }
 
   @Test
-  @DisplayName("Should throw exception when email is invalid")
-  void shouldThrowExceptionWhenEmailIsInvalid() {
-    String invalidEmail = "not-an-email";
-    assertThatThrownBy(() -> new Owner("John Doe", "+525512345678", invalidEmail, "Address"))
+  @DisplayName("Should throw when email is invalid")
+  void shouldThrowWhenEmailIsInvalid() {
+    assertThatThrownBy(() -> Owner.create("John", "+525512345678", "not-an-email", "Addr"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("Invalid Owner email format");
+        .hasMessageContaining("Invalid owner email format");
   }
 
   @Test
-  @DisplayName("Should throw exception when phone is null or empty")
-  void shouldThrowExceptionWhenPhoneIsNullOrEmpty() {
-    assertThatThrownBy(() -> new Owner("John Doe", null, "test@email.com", "Address"))
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("Owner phone cannot be null or empty");
-    assertThatThrownBy(() -> new Owner("John Doe", "", "test@email.com", "Address"))
+  @DisplayName("Should throw when phone is null or empty")
+  void shouldThrowWhenPhoneIsNullOrEmpty() {
+    assertThatThrownBy(() -> Owner.create("John", null, "t@e.com", "Addr"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Owner phone cannot be null or empty");
-  }
 
-  @Test
-  @DisplayName("Should throw exception when phone is invalid")
-  void shouldThrowExceptionWhenPhoneIsInvalid() {
-    String invalidPhone = "+3f31233441fa";
-    assertThatThrownBy(() -> new Owner("John Doe", invalidPhone, "test@email.com", "Address"))
+    assertThatThrownBy(() -> Owner.create("John", "   ", "t@e.com", "Addr"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("Invalid Owner phone format");
+        .hasMessageContaining("Owner phone cannot be null or empty");
   }
 
   @Test
-  @DisplayName("Should throw exception when address is null or empty")
-  void shouldThrowExceptionWhenAddressIsNullOrEmpty() {
-    assertThatThrownBy(() -> new Owner("John Doe", "+525512345678", "test@email.com", null))
+  @DisplayName("Should throw when phone contains invalid characters")
+  void shouldThrowWhenPhoneHasInvalidChars() {
+    assertThatThrownBy(() -> Owner.create("John", "+52-55-12ab-5678", "t@e.com", "Addr"))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("Invalid owner phone characters");
+  }
+
+  @Test
+  @DisplayName("Should throw when phone digits are less than 10 or more than 20")
+  void shouldThrowWhenPhoneDigitsOutOfBounds() {
+    // < 10 digits
+    assertThatThrownBy(() -> Owner.create("John", "+52 55 123", "t@e.com", "Addr"))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("must contain between 10 and 20 digits");
+    // > 20 digits
+    assertThatThrownBy(() -> Owner.create("John", "+52 55 12345678901234567890", "t@e.com", "Addr"))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("must contain between 10 and 20 digits");
+  }
+
+  @Test
+  @DisplayName("Should accept phone with spaces, dashes and parentheses")
+  void shouldAcceptPhoneWithSeparators() {
+    var owner = Owner.create("John", "+52 (55) 1234-5678", "t@e.com", "Addr");
+    assertThat(owner.getPhone()).isEqualTo("+52 (55) 1234-5678");
+  }
+
+  @Test
+  @DisplayName("Should throw when address is null or empty")
+  void shouldThrowWhenAddressIsNullOrEmpty() {
+    assertThatThrownBy(() -> Owner.create("John", "+525512345678", "t@e.com", null))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Owner address cannot be null or empty");
-    assertThatThrownBy(() -> new Owner("John Doe", "+525512345678", "test@email.com", ""))
+
+    assertThatThrownBy(() -> Owner.create("John", "+525512345678", "t@e.com", "  "))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Owner address cannot be null or empty");
   }
 
   @Test
-  @DisplayName("Should change email successfully")
-  void shouldChangeEmailSuccessfully() {
-    Owner owner = new Owner("Maria", "+525512345678", "old@email.com", "Address");
-    String newEmail = "new@email.com";
-    owner.changeEmail(newEmail);
-    assertThat(owner.getEmail()).isEqualTo(newEmail);
-    assertThat(owner.getUpdatedAt()).isNotNull();
+  @DisplayName("Should throw when address exceeds 500 characters")
+  void shouldThrowWhenAddressExceedsLimit() {
+    var longAddr = "x".repeat(501);
+    assertThatThrownBy(() -> Owner.create("John", "+525512345678", "t@e.com", longAddr))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("Owner address cannot exceed 500 characters");
   }
 
   @Test
-  @DisplayName("Should throw exception when changing to invalid email")
-  void shouldThrowExceptionWhenChangingToInvalidEmail() {
-    Owner owner = new Owner("Maria", "+525512345678", "old@email.com", "Address");
-    String invalidEmail = "invalid-email";
-    assertThatThrownBy(() -> owner.changeEmail(invalidEmail)).isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("Invalid Owner email format");
+  @DisplayName("Should update email and refresh updatedAt")
+  void shouldUpdateEmail() {
+    var owner = Owner.create("Maria", "+525512345678", "old@email.com", "Addr");
+    var before = owner.getUpdatedAt();
+    owner.changeEmail("new@email.com");
+    assertThat(owner.getEmail()).isEqualTo("new@email.com");
+    assertThat(owner.getUpdatedAt()).isNotNull();
+    // It may be equal if both operations are within the same tick, so use isAfterOrEqualTo
+    assertThat(owner.getUpdatedAt()).isAfterOrEqualTo(before);
   }
 
   @Test
-  @DisplayName("Should update phone number successfully")
-  void shouldUpdatePhoneNumberSuccessfully() {
-    Owner owner = new Owner("Carlos", "+525512345678", "carlos@email.com", "Address");
-    String newPhone = "+525598765432";
-    owner.changePhone(newPhone);
-    assertThat(owner.getPhone()).isEqualTo(newPhone);
-    assertThat(owner.getUpdatedAt()).isNotNull();
+  @DisplayName("Should throw when changing to invalid email")
+  void shouldThrowWhenChangingToInvalidEmail() {
+    var owner = Owner.create("Maria", "+525512345678", "old@email.com", "Addr");
+    assertThatThrownBy(() -> owner.changeEmail("invalid-email"))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("Invalid owner email format");
   }
 
   @Test
-  @DisplayName("Should update address successfully")
-  void shouldUpdateAddressSuccessfully() {
-    Owner owner = new Owner("Ana", "+525512345678", "ana@email.com", "Old Address");
-    String newAddress = "New Address 456";
-    owner.updateAddress(newAddress);
-    assertThat(owner.getAddress()).isEqualTo(newAddress);
-    assertThat(owner.getUpdatedAt()).isNotNull();
+  @DisplayName("Should update phone and refresh updatedAt")
+  void shouldUpdatePhone() {
+    var owner = Owner.create("Carlos", "+525512345678", "c@e.com", "Addr");
+    var before = owner.getUpdatedAt();
+    owner.changePhone("+52 55 9876 5432");
+    assertThat(owner.getPhone()).isEqualTo("+52 55 9876 5432");
+    assertThat(owner.getUpdatedAt()).isAfterOrEqualTo(before);
+  }
+
+  @Test
+  @DisplayName("Should update address and refresh updatedAt")
+  void shouldUpdateAddress() {
+    var owner = Owner.create("Ana", "+525512345678", "a@e.com", "Old Address");
+    var before = owner.getUpdatedAt();
+    owner.updateAddress("New Address 456");
+    assertThat(owner.getAddress()).isEqualTo("New Address 456");
+    assertThat(owner.getUpdatedAt()).isAfterOrEqualTo(before);
   }
 }
