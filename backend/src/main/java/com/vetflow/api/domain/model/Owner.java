@@ -4,6 +4,8 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,20 +17,24 @@ import lombok.ToString;
 /**
  * Represents a pet owner in the VetFlow domain.
  *
- * <p><strong>Design notes</strong>:
+ * <p>
+ * <strong>Design notes</strong>:
  * <ul>
- *   <li>DDD rich model: encapsulates invariants and domain behavior.</li>
- *   <li>No persistence annotations here (Hexagonal Architecture).</li>
- *   <li>Controlled mutability: no public setters; use factory and domain methods.</li>
+ * <li>DDD rich model: encapsulates invariants and domain behavior.</li>
+ * <li>No persistence annotations here (Hexagonal Architecture).</li>
+ * <li>Controlled mutability: no public setters; use factory and domain
+ * methods.</li>
  * </ul>
  * </p>
  *
- * <p><strong>Invariants</strong>:
+ * <p>
+ * <strong>Invariants</strong>:
  * <ul>
- *   <li><code>name</code>: required, 1..100 chars.</li>
- *   <li><code>email</code>: required, simple RFC-like format.</li>
- *   <li><code>phone</code>: required, international-like format, 10..20 digits.</li>
- *   <li><code>address</code>: required, 1..500 chars.</li>
+ * <li><code>name</code>: required, 1..100 chars.</li>
+ * <li><code>email</code>: required, simple RFC-like format.</li>
+ * <li><code>phone</code>: required, international-like format, 10..20
+ * digits.</li>
+ * <li><code>address</code>: required, 1..500 chars.</li>
  * </ul>
  * </p>
  */
@@ -49,10 +55,8 @@ public class Owner {
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 
-  private static final Pattern EMAIL_PATTERN =
-      Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
-  private static final Pattern PHONE_ALLOWED_CHARS =
-      Pattern.compile("^[+0-9()\\s-]+$");
+  private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+  private static final Pattern PHONE_ALLOWED_CHARS = Pattern.compile("^[+0-9()\\s-]+$");
 
   // ========= FACTORY METHODS =========
 
@@ -89,9 +93,13 @@ public class Owner {
     touch();
   }
 
-  void setId(Long id) { this.id = id; }
+  void setId(Long id) {
+    this.id = id;
+  }
 
-  private void touch() { this.updatedAt = LocalDateTime.now(); }
+  private void touch() {
+    this.updatedAt = LocalDateTime.now();
+  }
 
   // ========= VALIDATIONS =========
 
@@ -133,4 +141,18 @@ public class Owner {
       throw new IllegalArgumentException("Owner address cannot exceed 500 characters");
     return a;
   }
+
+  @PrePersist
+  void onCreate() {
+    if (createdAt == null)
+      createdAt = LocalDateTime.now();
+    if (updatedAt == null)
+      updatedAt = createdAt;
+  }
+
+  @PreUpdate
+  void onUpdate() {
+    updatedAt = LocalDateTime.now();
+  }
+
 }

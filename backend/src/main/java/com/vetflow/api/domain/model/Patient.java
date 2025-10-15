@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,21 +18,25 @@ import lombok.ToString;
 /**
  * Represents a veterinary patient (pet) in the VetFlow domain.
  *
- * <p><strong>Design notes</strong>:
+ * <p>
+ * <strong>Design notes</strong>:
  * <ul>
- *   <li>DDD-rich model: encapsulates invariants and behavior.</li>
- *   <li>No persistence annotations: keep JPA in infrastructure layer (Hexagonal).</li>
- *   <li>Controlled mutability: no public setters; use factory and domain methods.</li>
+ * <li>DDD-rich model: encapsulates invariants and behavior.</li>
+ * <li>No persistence annotations: keep JPA in infrastructure layer
+ * (Hexagonal).</li>
+ * <li>Controlled mutability: no public setters; use factory and domain
+ * methods.</li>
  * </ul>
  * </p>
  *
- * <p><strong>Invariants</strong>:
+ * <p>
+ * <strong>Invariants</strong>:
  * <ul>
- *   <li><code>name</code>: required, 1..100 chars.</li>
- *   <li><code>species</code>: required, one of {@link Species}.</li>
- *   <li><code>breed</code>: optional, max 50 chars.</li>
- *   <li><code>birthDate</code>: required, not in the future.</li>
- *   <li><code>owner</code>: required.</li>
+ * <li><code>name</code>: required, 1..100 chars.</li>
+ * <li><code>species</code>: required, one of {@link Species}.</li>
+ * <li><code>breed</code>: optional, max 50 chars.</li>
+ * <li><code>birthDate</code>: required, not in the future.</li>
+ * <li><code>owner</code>: required.</li>
  * </ul>
  * </p>
  */
@@ -46,12 +52,16 @@ public class Patient {
     DOG, CAT;
 
     public static Species from(String value) {
-      if (value == null) throw new IllegalArgumentException("Species cannot be null");
+      if (value == null)
+        throw new IllegalArgumentException("Species cannot be null");
       String v = value.trim().toLowerCase();
       switch (v) {
-        case "dog": return DOG;
-        case "cat": return CAT;
-        default: throw new IllegalArgumentException("Invalid species: " + value);
+        case "dog":
+          return DOG;
+        case "cat":
+          return CAT;
+        default:
+          throw new IllegalArgumentException("Invalid species: " + value);
       }
     }
   }
@@ -59,7 +69,7 @@ public class Patient {
   private Long id;
   private String name;
   private Species species;
-  private String breed;           // optional
+  private String breed; // optional
   private LocalDate birthDate;
   private Owner owner;
 
@@ -69,19 +79,19 @@ public class Patient {
   // ========= FACTORY METHODS =========
 
   public static Patient create(String name,
-                               String species,
-                               String breed,
-                               LocalDate birthDate,
-                               Owner owner) {
+      String species,
+      String breed,
+      LocalDate birthDate,
+      Owner owner) {
     return create(name, species, breed, birthDate, owner, Clock.systemDefaultZone());
   }
 
   static Patient create(String name,
-                        String species,
-                        String breed,
-                        LocalDate birthDate,
-                        Owner owner,
-                        Clock clock) {
+      String species,
+      String breed,
+      LocalDate birthDate,
+      Owner owner,
+      Clock clock) {
     LocalDateTime now = LocalDateTime.now(clock);
     return Patient.builder()
         .name(validateName(name))
@@ -106,10 +116,10 @@ public class Patient {
   }
 
   public void updateProfile(String species, String breed, LocalDate birthDate, Owner owner, Clock clock) {
-    this.species   = Species.from(species);
-    this.breed     = validateBreed(breed);
+    this.species = Species.from(species);
+    this.breed = validateBreed(breed);
     this.birthDate = validateBirthDate(birthDate, clock);
-    this.owner     = validateOwner(owner);
+    this.owner = validateOwner(owner);
     touch(clock);
   }
 
@@ -120,15 +130,22 @@ public class Patient {
   public int ageInYears(Clock clock) {
     LocalDate today = LocalDate.now(clock);
     int years = today.getYear() - birthDate.getYear();
-    if (today.getDayOfYear() < birthDate.getDayOfYear()) years--;
+    if (today.getDayOfYear() < birthDate.getDayOfYear())
+      years--;
     return years;
   }
 
-  void setId(Long id) { this.id = id; }
+  void setId(Long id) {
+    this.id = id;
+  }
 
-  private void touch() { this.updatedAt = LocalDateTime.now(); }
+  private void touch() {
+    this.updatedAt = LocalDateTime.now();
+  }
 
-  private void touch(Clock clock) { this.updatedAt = LocalDateTime.now(clock); }
+  private void touch(Clock clock) {
+    this.updatedAt = LocalDateTime.now(clock);
+  }
 
   // ========= VALIDATIONS =========
 
@@ -142,9 +159,11 @@ public class Patient {
   }
 
   private static String validateBreed(String breed) {
-    if (breed == null) return null;
+    if (breed == null)
+      return null;
     String b = breed.trim();
-    if (b.isEmpty()) return null;
+    if (b.isEmpty())
+      return null;
     if (b.length() > 50)
       throw new IllegalArgumentException("Breed cannot exceed 50 characters");
     return b;
@@ -161,4 +180,18 @@ public class Patient {
       throw new IllegalArgumentException("Patient birth date cannot be in the future");
     return birthDate;
   }
+
+  @PrePersist
+  void onCreate() {
+    if (createdAt == null)
+      createdAt = LocalDateTime.now();
+    if (updatedAt == null)
+      updatedAt = createdAt;
+  }
+
+  @PreUpdate
+  void onUpdate() {
+    updatedAt = LocalDateTime.now();
+  }
+
 }

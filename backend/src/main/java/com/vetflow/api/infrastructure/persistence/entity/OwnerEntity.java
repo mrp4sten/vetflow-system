@@ -15,20 +15,18 @@ import jakarta.persistence.UniqueConstraint;
 
 /**
  * JPA entity mapped to table 'owners'.
- * Mirrors DB constraints: unique email, phone regex (enforced at DB), length limits.
+ * Mirrors DB constraints: unique email, phone regex (enforced at DB), length
+ * limits.
  * No domain logic here—pure persistence model.
  */
 @Entity
-@Table(name = "owners",
-       indexes = {
-           @Index(name = "idx_owners_email", columnList = "email"),
-           @Index(name = "idx_owners_phone", columnList = "phone"),
-           @Index(name = "idx_owners_created_at", columnList = "created_at")
-       },
-       uniqueConstraints = {
-           @UniqueConstraint(name = "uk_owners_email", columnNames = "email")
-       }
-)
+@Table(name = "owners", indexes = {
+        @Index(name = "idx_owners_email", columnList = "email"),
+        @Index(name = "idx_owners_phone", columnList = "phone"),
+        @Index(name = "idx_owners_created_at", columnList = "created_at")
+}, uniqueConstraints = {
+        @UniqueConstraint(name = "uk_owners_email", columnNames = "email")
+})
 public class OwnerEntity {
 
     @Id
@@ -66,16 +64,51 @@ public class OwnerEntity {
     }
 
     // Getters/setters (o usa Lombok si quieres en infra):
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = (name != null ? name.trim() : null); }
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = (phone != null ? phone.trim() : null); }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = (email != null ? email.trim().toLowerCase() : null); }
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = (name != null ? name.trim() : null);
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = (phone != null ? phone.trim() : null);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = (email != null ? email.trim().toLowerCase() : null);
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }

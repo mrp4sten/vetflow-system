@@ -20,17 +20,16 @@ import jakarta.persistence.Table;
 
 /**
  * JPA entity mapped to table 'patients'.
- * Enforces FK to owners and keeps species normalized in lowercase to match DB CHECK.
+ * Enforces FK to owners and keeps species normalized in lowercase to match DB
+ * CHECK.
  */
 @Entity
-@Table(name = "patients",
-       indexes = {
-           @Index(name = "idx_patients_owner_id", columnList = "owner_id"),
-           @Index(name = "idx_patients_species", columnList = "species"),
-           @Index(name = "idx_patients_name", columnList = "name"),
-           @Index(name = "idx_patients_created_at", columnList = "created_at")
-       }
-)
+@Table(name = "patients", indexes = {
+        @Index(name = "idx_patients_owner_id", columnList = "owner_id"),
+        @Index(name = "idx_patients_species", columnList = "species"),
+        @Index(name = "idx_patients_name", columnList = "name"),
+        @Index(name = "idx_patients_created_at", columnList = "created_at")
+})
 public class PatientEntity {
 
     @Id
@@ -57,8 +56,7 @@ public class PatientEntity {
     private String allergies;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "owner_id", nullable = false,
-        foreignKey = @ForeignKey(name = "fk_patient_owner"))
+    @JoinColumn(name = "owner_id", nullable = false, foreignKey = @ForeignKey(name = "fk_patient_owner"))
     private OwnerEntity owner;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -82,28 +80,84 @@ public class PatientEntity {
     }
 
     private void normalize() {
-        if (this.species != null) this.species = this.species.trim().toLowerCase();
-        if (this.name != null) this.name = this.name.trim();
-        if (this.breed != null) this.breed = this.breed.trim();
+        if (this.species != null)
+            this.species = this.species.trim().toLowerCase();
+        if (this.name != null)
+            this.name = this.name.trim();
+        if (this.breed != null)
+            this.breed = this.breed.trim();
     }
 
     // Getters/setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = (name != null ? name.trim() : null); }
-    public String getSpecies() { return species; }
-    public void setSpecies(String species) { this.species = (species != null ? species.trim().toLowerCase() : null); }
-    public String getBreed() { return breed; }
-    public void setBreed(String breed) { this.breed = (breed != null ? breed.trim() : null); }
-    public LocalDate getBirthDate() { return birthDate; }
-    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
-    public BigDecimal getWeight() { return weight; }
-    public void setWeight(BigDecimal weight) { this.weight = weight; }
-    public String getAllergies() { return allergies; }
-    public void setAllergies(String allergies) { this.allergies = allergies; }
-    public OwnerEntity getOwner() { return owner; }
-    public void setOwner(OwnerEntity owner) { this.owner = owner; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = (name != null ? name.trim() : null);
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = (species != null ? species.trim().toLowerCase() : null);
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = (breed != null ? breed.trim() : null);
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public BigDecimal getWeight() {
+        return weight;
+    }
+
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
+    }
+
+    public String getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(String allergies) {
+        this.allergies = allergies;
+    }
+
+    public OwnerEntity getOwner() {
+        return owner;
+    }
+
+    public void setOwner(OwnerEntity owner) {
+        this.owner = owner;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }
