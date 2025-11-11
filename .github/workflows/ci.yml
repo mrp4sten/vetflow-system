@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - feature/backend-development
+      - feature/database-design
+  pull_request:
+    branches:
+      - master
+      - feature/backend-development
+      - feature/database-design
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+
+      - name: Build & test with Maven
+        working-directory: ./backend
+        run: mvn -B -ntp clean verify
+        env:
+          DB_URL: jdbc:postgresql://localhost:5432/vetflow
+          DB_USERNAME: vetflow
+          DB_PASSWORD: vetflow
