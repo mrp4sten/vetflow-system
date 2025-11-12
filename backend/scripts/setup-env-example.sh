@@ -24,6 +24,9 @@ export DB_USERNAME=""
 export DB_PASSWORD=""
 export SERVER_PORT=""
 
+# CORS
+export VETFLO_ALLOWED_ORIGINS=""
+
 
 echo "✅ Environment configured!"
 echo "================================="

@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "description": "A description for 'vetflow.api.cors.allowed-origins'",
+      "name": "vetflow.api.cors.allowed-origins",
+      "type": "java.lang.String"
+    }
+  ]
+}
