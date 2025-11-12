@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.vetflow.api.application.shared.ResourceNotFoundException;
 import com.vetflow.api.application.shared.ValidationException;
+import com.vetflow.api.audit.AuditService;
 import com.vetflow.api.domain.model.MedicalRecord;
 import com.vetflow.api.domain.model.Patient;
 import com.vetflow.api.domain.port.MedicalRecordRepository;
@@ -22,6 +23,7 @@ public class MedicalRecordApplicationService {
 
   private final MedicalRecordRepository medicalRecordRepository;
   private final PatientRepository patientRepository;
+  private final AuditService auditService;
 
   public MedicalRecordResult createMedicalRecord(CreateMedicalRecordCommand command) {
     Objects.requireNonNull(command, "command must not be null");
@@ -41,6 +43,7 @@ public class MedicalRecordApplicationService {
         command.medications(),
         command.notes());
     MedicalRecord saved = medicalRecordRepository.save(medicalRecord);
+    auditService.recordCreation("medical_records", saved.getId(), saved);
     return toResult(saved);
   }
 

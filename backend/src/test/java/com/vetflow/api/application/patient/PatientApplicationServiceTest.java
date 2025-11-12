@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.vetflow.api.application.shared.ResourceNotFoundException;
+import com.vetflow.api.audit.AuditService;
 import com.vetflow.api.domain.model.Owner;
 import com.vetflow.api.domain.model.Patient;
 import com.vetflow.api.domain.port.OwnerRepository;
@@ -30,6 +31,8 @@ class PatientApplicationServiceTest {
   private PatientRepository patientRepository;
   @Mock
   private OwnerRepository ownerRepository;
+  @Mock
+  private AuditService auditService;
 
   @InjectMocks
   private PatientApplicationService service;

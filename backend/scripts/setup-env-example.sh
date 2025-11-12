@@ -27,6 +27,8 @@ export SERVER_PORT=""
 # CORS
 export VETFLO_ALLOWED_ORIGINS=""
 
+# Security
+export VETFLO_JWT_SECRET=""
 
 echo "✅ Environment configured!"
 echo "================================="

@@ -18,6 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import com.vetflow.api.infrastructure.persistence.entity.MedicalRecordEntity;
 import com.vetflow.api.infrastructure.persistence.entity.OwnerEntity;
 import com.vetflow.api.infrastructure.persistence.entity.PatientEntity;
+import com.vetflow.api.infrastructure.persistence.entity.SystemUserEntity;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
@@ -35,6 +36,7 @@ class MedicalRecordJpaRepositoryTest {
 
   @Autowired OwnerJpaRepository owners;
   @Autowired PatientJpaRepository patients;
+  @Autowired SystemUserJpaRepository systemUsers;
   @Autowired MedicalRecordJpaRepository records;
 
   private PatientEntity newPatient() {
@@ -53,14 +55,24 @@ class MedicalRecordJpaRepositoryTest {
     return patients.saveAndFlush(p);
   }
 
+  private Long newVeterinarian() {
+    SystemUserEntity vet = new SystemUserEntity();
+    vet.setUsername("vet-" + System.currentTimeMillis());
+    vet.setEmail("vet+" + System.nanoTime() + "@vetflow.com");
+    vet.setPasswordHash("$2a$10$abcdefghijklmnopqrstuv"); // dummy hash
+    vet.setRole("VET");
+    return systemUsers.saveAndFlush(vet).getId();
+  }
+
   @Test
   @DisplayName("Saves medical record and queries by patient ordered by visit date DESC")
   void savesAndFindsByPatient() {
     PatientEntity p = newPatient();
+    Long vetId = newVeterinarian();
 
     MedicalRecordEntity r1 = new MedicalRecordEntity();
     r1.setPatient(p);
-    r1.setVeterinarianId(1L);
+    r1.setVeterinarianId(vetId);
     r1.setVisitDate(LocalDateTime.of(2025,1,1,9,0));
     r1.setDiagnosis("Dermatitis");
     r1.setNotes("Topical treatment");
@@ -68,7 +80,7 @@ class MedicalRecordJpaRepositoryTest {
 
     MedicalRecordEntity r2 = new MedicalRecordEntity();
     r2.setPatient(p);
-    r2.setVeterinarianId(1L);
+    r2.setVeterinarianId(vetId);
     r2.setVisitDate(LocalDateTime.of(2025,2,1,9,0));
     r2.setDiagnosis("Otitis");
     r2.setNotes("Antibiotics");
@@ -82,8 +94,9 @@ class MedicalRecordJpaRepositoryTest {
   @Test
   @DisplayName("Rejects record without patient or diagnosis")
   void rejectsInvalidRecord() {
+    Long vetId = newVeterinarian();
     MedicalRecordEntity r = new MedicalRecordEntity();
-    r.setVeterinarianId(1L);
+    r.setVeterinarianId(vetId);
     r.setVisitDate(LocalDateTime.now());
     r.setDiagnosis(null); // NOT NULL + CHECK en DB
     assertThatThrownBy(() -> records.saveAndFlush(r))
