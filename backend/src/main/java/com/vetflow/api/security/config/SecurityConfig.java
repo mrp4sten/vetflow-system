@@ -60,12 +60,19 @@ public class SecurityConfig {
         .authenticationProvider(authenticationProvider)
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers("/api/v1/auth/token").permitAll()
+            .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(exceptions -> exceptions
             .authenticationEntryPoint(authenticationEntryPoint)
             .accessDeniedHandler(accessDeniedHandler))
         .headers(headers -> headers
-            .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'none'; frame-ancestors 'none'; sandbox"))
+            .contentSecurityPolicy(csp -> csp.policyDirectives(
+	            "default-src 'self'; " +
+	                "script-src 'self'; " +
+	                "style-src 'self' 'unsafe-inline'; " +
+	                "img-src 'self' data:; " +
+	                "connect-src 'self'; " +
+	                "frame-ancestors 'none'"))
             .frameOptions(frame -> frame.deny())
             .httpStrictTransportSecurity(hsts -> hsts
                 .includeSubDomains(true)

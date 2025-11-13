@@ -19,9 +19,11 @@ import com.vetflow.api.application.shared.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 
 /** Centralized exception handling for the API layer. */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -69,6 +71,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Object> handleGeneral(Exception ex, HttpServletRequest request) {
+    log.error("Unhandled exception while processing {}", request.getRequestURI(), ex);
     ErrorResponse body = new ErrorResponse(Instant.now(),
         HttpStatus.INTERNAL_SERVER_ERROR.value(),
         HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
