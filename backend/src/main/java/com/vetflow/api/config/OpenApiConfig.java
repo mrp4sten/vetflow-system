@@ -17,7 +17,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 @Configuration
 public class OpenApiConfig {
 
-  private static final String SECURITY_SCHEME_NAME = "bearerAuth";
+  public static final String SECURITY_SCHEME_NAME = "bearerAuth";
 
   @Bean
   public OpenAPI vetflowOpenApi() {

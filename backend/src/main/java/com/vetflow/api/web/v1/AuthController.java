@@ -22,10 +22,13 @@ import com.vetflow.api.web.v1.error.ErrorResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @Validated
+@Tag(name = "Authentication", description = "Obtain JWT tokens for API access")
 public class AuthController {
 
   private final AuthenticationManager authenticationManager;
@@ -37,6 +40,7 @@ public class AuthController {
   }
 
   @PostMapping("/token")
+  @Operation(summary = "Issue JWT token", description = "Authenticates credentials and returns a bearer token.")
   public ResponseEntity<Object> issueToken(@Valid @RequestBody TokenRequest request, HttpServletRequest httpRequest) {
     try {
       Authentication authentication = authenticationManager.authenticate(

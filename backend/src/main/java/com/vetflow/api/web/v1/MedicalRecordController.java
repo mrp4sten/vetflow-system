@@ -13,12 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vetflow.api.config.OpenApiConfig;
+
 import com.vetflow.api.application.medicalrecord.CreateMedicalRecordCommand;
 import com.vetflow.api.application.medicalrecord.MedicalRecordApplicationService;
 import com.vetflow.api.application.medicalrecord.MedicalRecordResult;
 import com.vetflow.api.web.v1.medicalrecord.CreateMedicalRecordRequest;
 import com.vetflow.api.web.v1.medicalrecord.MedicalRecordResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -27,12 +32,15 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Validated
+@Tag(name = "Medical Records", description = "Capture and review clinical history")
+@SecurityRequirement(name = OpenApiConfig.SECURITY_SCHEME_NAME)
 public class MedicalRecordController {
 
   private final MedicalRecordApplicationService medicalRecordApplicationService;
 
   @PostMapping("/medical-records")
   @PreAuthorize("hasAnyRole('ADMIN','VETERINARIAN')")
+  @Operation(summary = "Create medical record", description = "Stores findings, treatment and notes for a visit.")
   public ResponseEntity<MedicalRecordResponse> createMedicalRecord(
       @Valid @RequestBody CreateMedicalRecordRequest request) {
     MedicalRecordResult result = medicalRecordApplicationService.createMedicalRecord(
@@ -48,6 +56,7 @@ public class MedicalRecordController {
 
   @GetMapping("/patients/{patientId}/medical-records")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
+  @Operation(summary = "List medical records by patient", description = "Shows the timeline of records for a patient.")
   public List<MedicalRecordResponse> listByPatient(@PathVariable Long patientId) {
     return medicalRecordApplicationService.listByPatient(patientId).stream()
         .map(MedicalRecordController::toResponse)

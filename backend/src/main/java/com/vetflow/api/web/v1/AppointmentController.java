@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vetflow.api.config.OpenApiConfig;
+
 import com.vetflow.api.application.appointment.AppointmentApplicationService;
 import com.vetflow.api.application.appointment.AppointmentResult;
 import com.vetflow.api.application.appointment.CancelAppointmentCommand;
@@ -28,6 +30,9 @@ import com.vetflow.api.web.v1.appointment.ScheduleAppointmentRequest;
 import com.vetflow.api.web.v1.appointment.ScheduleAppointmentRequest.AppointmentPriority;
 import com.vetflow.api.web.v1.appointment.ScheduleAppointmentRequest.AppointmentType;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -36,12 +41,15 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Validated
+@Tag(name = "Appointments", description = "Scheduling, rescheduling and cancelling visits")
+@SecurityRequirement(name = OpenApiConfig.SECURITY_SCHEME_NAME)
 public class AppointmentController {
 
   private final AppointmentApplicationService appointmentApplicationService;
 
   @PostMapping("/appointments")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
+  @Operation(summary = "Schedule appointment", description = "Creates a new appointment for a patient.")
   public ResponseEntity<AppointmentResponse> scheduleAppointment(
       @Valid @RequestBody ScheduleAppointmentRequest request) {
     ScheduleAppointmentCommand command = new ScheduleAppointmentCommand(
@@ -56,6 +64,7 @@ public class AppointmentController {
 
   @PatchMapping("/appointments/{appointmentId}/reschedule")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
+  @Operation(summary = "Reschedule appointment", description = "Moves an existing appointment to a new date/time.")
   public AppointmentResponse rescheduleAppointment(@PathVariable Long appointmentId,
       @Valid @RequestBody RescheduleAppointmentRequest request) {
     AppointmentResult result = appointmentApplicationService
@@ -65,6 +74,7 @@ public class AppointmentController {
 
   @PatchMapping("/appointments/{appointmentId}/cancel")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
+  @Operation(summary = "Cancel appointment", description = "Cancels an appointment and captures the reason.")
   public AppointmentResponse cancelAppointment(@PathVariable Long appointmentId,
       @Valid @RequestBody CancelAppointmentRequest request) {
     AppointmentResult result = appointmentApplicationService
@@ -74,6 +84,7 @@ public class AppointmentController {
 
   @GetMapping("/patients/{patientId}/appointments")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
+  @Operation(summary = "List appointments by patient", description = "Fetches every appointment scheduled for a patient.")
   public List<AppointmentResponse> listByPatient(@PathVariable Long patientId) {
     return appointmentApplicationService.listByPatient(patientId).stream()
         .map(AppointmentController::toResponse)
