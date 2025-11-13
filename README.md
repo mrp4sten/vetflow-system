@@ -5,7 +5,7 @@
 ## 🎯 Project Status: In Development
 
 - [x] Database Design
-- [ ] Backend API Development  
+- [x] Backend API Development  
 - [ ] Frontend Development
 - [ ] Mobile App
 - [ ] Deployment
