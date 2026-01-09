@@ -1,1 +1,4 @@
 .vscode/settings.json
+
+# Claude Code session files
+session-*.md
