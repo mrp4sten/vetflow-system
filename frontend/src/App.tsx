@@ -4,6 +4,7 @@ import { ProtectedRoute } from '@presentation/routes/ProtectedRoute'
 import { MainLayout } from '@presentation/components/layout/MainLayout'
 import { LoginPage } from '@presentation/pages/auth/LoginPage'
 import { DashboardPage } from '@presentation/pages/dashboard/DashboardPage'
+import { AppointmentsPage } from '@presentation/pages/appointments/AppointmentsPage'
 
 function App() {
   return (
@@ -16,8 +17,12 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
           
-          {/* Appointment routes - TODO */}
-          <Route path={ROUTES.APPOINTMENTS.LIST} element={<div>Appointments List</div>} />
+          {/* Appointment routes */}
+          <Route path={ROUTES.APPOINTMENTS.LIST} element={<AppointmentsPage />} />
+          <Route path={ROUTES.APPOINTMENTS.CREATE} element={<div>Create Appointment</div>} />
+          <Route path="/appointments/:id" element={<div>View Appointment</div>} />
+          <Route path="/appointments/:id/edit" element={<div>Edit Appointment</div>} />
+          <Route path={ROUTES.APPOINTMENTS.CALENDAR} element={<div>Calendar View</div>} />
           
           {/* Patient routes - TODO */}
           <Route path={ROUTES.PATIENTS.LIST} element={<div>Patients List</div>} />
