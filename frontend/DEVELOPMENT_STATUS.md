@@ -1,5 +1,16 @@
 # VetFlow Frontend - Development Status
 
+## 📅 Latest Update: v0.2.0 - Appointment Management Release
+
+### What's New in v0.2.0
+- ✨ Complete appointment management system with list and create views
+- 📊 Reusable DataTable component with TanStack Table integration
+- 🎨 Extended UI component library (Badge, Dialog, Select, Table, Textarea, DropdownMenu)
+- 🔄 React Query hooks for appointments, patients, and veterinarians
+- 📝 Appointment creation form with real-time availability checking
+- 🔐 Role-based actions (edit/delete for admin, status updates for veterinarians)
+- 🎯 Form validation with React Hook Form and Zod
+
 ## ✅ Completed Features
 
 ### Infrastructure & Setup
@@ -27,23 +38,31 @@
 - ✅ Dashboard with stats overview
 - ✅ Zustand store for auth state
 - ✅ Axios interceptors for API calls
+- ✅ React Query for server state management
+- ✅ Appointment listing with role-based actions
+- ✅ Appointment creation with validation
+- ✅ Real-time availability checking
 
 ### UI Components
 - ✅ Button, Input, Label, Card components
+- ✅ Badge, Dialog, DropdownMenu, Select, Table, Textarea components
 - ✅ Loading spinner and overlay
 - ✅ Responsive layout components
 - ✅ Theme support (light/dark ready)
+- ✅ DataTable with sorting, filtering, and pagination
+- ✅ FormField component for React Hook Form integration
 
 ## 🚧 In Progress / TODO
 
 ### High Priority Features
-- [ ] Appointment management (calendar, CRUD)
+- [x] Appointment listing with DataTable
+- [x] Appointment creation form
+- [ ] Appointment calendar view
+- [ ] Appointment edit/view pages
 - [ ] Patient management (CRUD, search)
 - [ ] Owner management (CRUD, search)
 - [ ] Medical records (create, view)
 - [ ] Real-time notifications
-- [ ] Data tables with sorting/filtering
-- [ ] Form components for each entity
 
 ### Medium Priority Features
 - [ ] User profile management
@@ -71,15 +90,17 @@
 
 ## 🏃 Next Steps
 
-1. **Implement Appointment Management**
+1. **Complete Appointment Management**
    - Calendar view with drag-and-drop
-   - Appointment form with validation
-   - Status management workflow
+   - Edit appointment functionality
+   - View appointment details page
+   - Implement recurring appointments
 
-2. **Create Reusable Data Table**
-   - TanStack Table integration
-   - Sorting, filtering, pagination
-   - Row actions and bulk operations
+2. **Build Patient Management**
+   - Patient listing with search
+   - Patient registration form
+   - Medical history timeline
+   - Link patients to owners
 
 3. **Build Patient Management**
    - Patient registration form
@@ -93,10 +114,12 @@
 
 ## 📊 Current Statistics
 
-- **Total Files:** ~50+
-- **Components:** 15+
+- **Total Files:** ~70+
+- **Components:** 25+
 - **Services:** 4
-- **Models:** 5
+- **Hooks:** 7+
+- **UI Components:** 15+
+- **Pages:** 5
 - **Test Coverage:** 0% (tests pending)
 - **Bundle Size:** TBD
 
@@ -118,5 +141,5 @@
 
 ---
 
-Last Updated: $(date)
+Last Updated: January 13, 2025
 Next Review: Before implementing major features
