@@ -1,8 +1,18 @@
 # VetFlow Frontend - Development Status
 
-## 📅 Latest Update: v0.2.0 - Appointment Management Release
+## 📅 Latest Update: v0.3.0 - CRUD Operations Complete
 
-### What's New in v0.2.0
+### What's New in v0.3.0
+- ✅ **Edit Pages** for Patients, Owners, and Appointments with form pre-population
+- ✅ **View Pages** for Patients, Owners, and Appointments with detailed information
+- ✅ Complete CRUD operations (Create, Read, Update) for all main entities
+- ✅ Owner management with patient relationships
+- ✅ Patient management with owner assignment
+- ✅ Appointment management with patient/veterinarian linking
+- 📝 Form validation and error handling across all pages
+- 🔄 Optimized React Query cache invalidation on updates
+
+### What Was New in v0.2.0
 - ✨ Complete appointment management system with list and create views
 - 📊 Reusable DataTable component with TanStack Table integration
 - 🎨 Extended UI component library (Badge, Dialog, Select, Table, Textarea, DropdownMenu)
@@ -39,9 +49,29 @@
 - ✅ Zustand store for auth state
 - ✅ Axios interceptors for API calls
 - ✅ React Query for server state management
+
+### Appointment Management
 - ✅ Appointment listing with role-based actions
 - ✅ Appointment creation with validation
 - ✅ Real-time availability checking
+- ✅ Appointment detail view with patient/veterinarian info
+- ✅ Appointment editing with pre-populated forms
+- ✅ Status update functionality
+
+### Patient Management
+- ✅ Patient listing with DataTable (search, filter, sort)
+- ✅ Patient registration form with inline owner creation
+- ✅ Patient detail view with medical info and quick actions
+- ✅ Patient editing with form pre-population
+- ✅ Age calculation and weight conversion utilities
+- ✅ Species and gender filtering
+
+### Owner Management
+- ✅ Owner listing with contact information
+- ✅ Owner registration form with address validation
+- ✅ Owner detail view with patient relationships
+- ✅ Owner editing with form pre-population
+- ✅ Owner statistics (total pets, active patients)
 
 ### UI Components
 - ✅ Button, Input, Label, Card components
@@ -57,11 +87,12 @@
 ### High Priority Features
 - [x] Appointment listing with DataTable
 - [x] Appointment creation form
-- [ ] Appointment calendar view
-- [ ] Appointment edit/view pages
-- [ ] Patient management (CRUD, search)
-- [ ] Owner management (CRUD, search)
-- [ ] Medical records (create, view)
+- [x] Appointment edit/view pages
+- [x] Patient management (CRUD, search)
+- [x] Owner management (CRUD, search)
+- [ ] Appointment calendar view (weekly/daily)
+- [ ] Medical records (CRUD)
+- [ ] Delete functionality with confirmation dialogs
 - [ ] Real-time notifications
 
 ### Medium Priority Features
@@ -90,45 +121,50 @@
 
 ## 🏃 Next Steps
 
-1. **Complete Appointment Management**
-   - Calendar view with drag-and-drop
-   - Edit appointment functionality
-   - View appointment details page
-   - Implement recurring appointments
-
-2. **Build Patient Management**
-   - Patient listing with search
-   - Patient registration form
-   - Medical history timeline
-   - Link patients to owners
-
-3. **Build Patient Management**
-   - Patient registration form
-   - Medical history timeline
-   - Owner relationship management
-
-4. **Add Medical Records**
+1. **Medical Records Management (HIGH PRIORITY)**
+   - Medical record listing with patient filter
+   - Create medical record form
+   - View medical record details
+   - Link to appointments
    - Rich text editor for notes
    - Prescription management
-   - File upload for lab results
+
+2. **Calendar View for Appointments**
+   - Weekly/daily calendar layout
+   - Drag-and-drop rescheduling
+   - Availability visualization
+   - Quick appointment creation from calendar
+
+3. **Delete Functionality**
+   - Confirmation dialogs for all entities
+   - Soft delete vs hard delete
+   - Cascade delete warnings
+
+4. **Enhanced Search & Filtering**
+   - Global search across entities
+   - Advanced filtering options
+   - Search history
+   - Export filtered results
 
 ## 📊 Current Statistics
 
-- **Total Files:** ~70+
-- **Components:** 25+
-- **Services:** 4
-- **Hooks:** 7+
-- **UI Components:** 15+
-- **Pages:** 5
+- **Total Files:** ~95+
+- **Components:** 35+
+- **Services:** 4 (Appointment, Patient, Owner, Veterinarian)
+- **Hooks:** 12+ (appointments, patients, owners, auth, veterinarians)
+- **UI Components:** 18+ (ShadCN UI)
+- **Pages:** 15 (Login, Dashboard, 3 entities × 4 pages each)
+- **Lines of Code:** ~9,500+
 - **Test Coverage:** 0% (tests pending)
 - **Bundle Size:** TBD
 
 ## 🐛 Known Issues
 
+- [ ] TypeScript type-only import errors (verbatimModuleSyntax enabled)
 - [ ] No error boundary implementation
 - [ ] Missing loading states in some areas
-- [ ] Need to implement proper data caching
 - [ ] Token refresh edge cases not fully tested
+- [ ] Delete methods exist in services but no UI implementation
 
 ## 💡 Improvement Ideas
 
@@ -141,5 +177,13 @@
 
 ---
 
-Last Updated: January 13, 2025
-Next Review: Before implementing major features
+**Commits in v0.3.0:**
+- `66bf318` - fix(utils): export isAfter/isBefore and fix calculateAge import
+- `7c8c193` - feat(crud): add edit pages for patients, owners, and appointments
+- `ce2abc5` - feat(routing): wire up owner detail view page
+- `beeb41e` - feat(owners): add owner detail view page
+- `e5937f3` - feat(routing): wire up owner and patient detail pages
+- `1de2703` - feat(patients): add patient detail view page
+
+Last Updated: January 14, 2026
+Next Review: After implementing Medical Records CRUD
