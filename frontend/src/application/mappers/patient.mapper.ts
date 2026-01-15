@@ -1,5 +1,6 @@
 import { Patient } from '@domain/models/Patient'
-import { calculateAge, convertKgToLbs } from '@infrastructure/utils/validation-utils'
+import { calculateAge } from '@infrastructure/utils/date-utils'
+import { convertKgToLbs } from '@infrastructure/utils/validation-utils'
 import { OwnerMapper } from './owner.mapper'
 
 export class PatientMapper {

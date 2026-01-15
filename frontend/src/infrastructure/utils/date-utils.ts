@@ -74,3 +74,6 @@ export const getDayBounds = (date: Date): { start: Date; end: Date } => {
     end: endOfDay(date),
   }
 }
+
+// Re-export date-fns functions that are used directly by mappers
+export { isAfter, isBefore }
