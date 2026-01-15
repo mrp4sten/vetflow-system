@@ -7,6 +7,8 @@ import { DashboardPage } from '@presentation/pages/dashboard/DashboardPage'
 import { AppointmentsPage } from '@presentation/pages/appointments/AppointmentsPage'
 import { CreateAppointmentPage } from '@presentation/pages/appointments/CreateAppointmentPage'
 import { ViewAppointmentPage } from '@presentation/pages/appointments/ViewAppointmentPage'
+import { PatientsPage } from '@presentation/pages/patients/PatientsPage'
+import { CreatePatientPage } from '@presentation/pages/patients/CreatePatientPage'
 
 function App() {
   return (
@@ -26,8 +28,11 @@ function App() {
           <Route path="/appointments/:id/edit" element={<div>Edit Appointment</div>} />
           <Route path={ROUTES.APPOINTMENTS.CALENDAR} element={<div>Calendar View</div>} />
           
-          {/* Patient routes - TODO */}
-          <Route path={ROUTES.PATIENTS.LIST} element={<div>Patients List</div>} />
+          {/* Patient routes */}
+          <Route path={ROUTES.PATIENTS.LIST} element={<PatientsPage />} />
+          <Route path={ROUTES.PATIENTS.CREATE} element={<CreatePatientPage />} />
+          <Route path="/patients/:id" element={<div>View Patient</div>} />
+          <Route path="/patients/:id/edit" element={<div>Edit Patient</div>} />
           
           {/* Owner routes - TODO */}
           <Route path={ROUTES.OWNERS.LIST} element={<div>Owners List</div>} />
