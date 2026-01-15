@@ -19,6 +19,7 @@ import { EditOwnerPage } from '@presentation/pages/owners/EditOwnerPage'
 import { MedicalRecordsPage } from '@presentation/pages/medical-records/MedicalRecordsPage'
 import { CreateMedicalRecordPage } from '@presentation/pages/medical-records/CreateMedicalRecordPage'
 import { ViewMedicalRecordPage } from '@presentation/pages/medical-records/ViewMedicalRecordPage'
+import { EditMedicalRecordPage } from '@presentation/pages/medical-records/EditMedicalRecordPage'
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           <Route path={ROUTES.MEDICAL_RECORDS.LIST} element={<MedicalRecordsPage />} />
           <Route path={ROUTES.MEDICAL_RECORDS.CREATE} element={<CreateMedicalRecordPage />} />
           <Route path="/medical-records/:id" element={<ViewMedicalRecordPage />} />
+          <Route path="/medical-records/:id/edit" element={<EditMedicalRecordPage />} />
           
           {/* Admin routes */}
           <Route 

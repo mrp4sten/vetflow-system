@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, Calendar, FileText, User, Stethoscope } from 'lucide-react'
+import { ArrowLeft, Calendar, FileText, User, Stethoscope, Pencil } from 'lucide-react'
 import { Button } from '@presentation/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'
 import { Badge } from '@presentation/components/ui/badge'
@@ -55,9 +55,17 @@ export const ViewMedicalRecordPage: React.FC = () => {
             </p>
           </div>
         </div>
-        <Badge className={RECORD_TYPE_COLORS[record.type]}>
-          {RECORD_TYPE_DISPLAY[record.type]}
-        </Badge>
+        <div className="flex items-center gap-3">
+          <Badge className={RECORD_TYPE_COLORS[record.type]}>
+            {RECORD_TYPE_DISPLAY[record.type]}
+          </Badge>
+          <Button
+            onClick={() => navigate(ROUTES.MEDICAL_RECORDS.EDIT(recordId))}
+          >
+            <Pencil className="mr-2 h-4 w-4" />
+            Edit
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
