@@ -1,8 +1,17 @@
 # VetFlow Frontend - Development Status
 
-## 📅 Latest Update: v0.4.1 - Complete Medical Records CRUD
+## 📅 Latest Update: v0.5.0 - Global Search Command Palette
 
-### What's New in v0.4.1
+### What's New in v0.5.0
+- 🔍 **Global Search (Cmd+K)** - Command palette for quick navigation
+- ⌨️ Keyboard shortcut (Cmd+K / Ctrl+K) to open search
+- 🔎 Search across appointments, patients, owners, and medical records
+- 🎯 Navigate directly to entity details from search results
+- 💡 Visual hint in header with keyboard shortcut display
+- 🎨 Beautiful UI with animations and keyboard navigation support
+- 📱 Responsive design with mobile support
+
+### What Was New in v0.4.1
 - ✏️ **Medical Records Edit Page** - Update existing medical records
 - 🔄 Form pre-population from existing data
 - ✅ Full CRUD operations complete for Medical Records
@@ -63,6 +72,8 @@
 - ✅ Zustand store for auth state
 - ✅ Axios interceptors for API calls
 - ✅ React Query for server state management
+- ✅ **Global search with command palette (Cmd+K)**
+- ✅ Keyboard shortcuts and navigation
 
 ### Appointment Management
 - ✅ Appointment listing with role-based actions
@@ -107,6 +118,7 @@
 - ✅ Theme support (light/dark ready)
 - ✅ DataTable with sorting, filtering, and pagination
 - ✅ FormField component for React Hook Form integration
+- ✅ **CommandPalette with keyboard navigation**
 
 ## 🚧 In Progress / TODO
 
@@ -117,18 +129,17 @@
 - [x] Patient management (CRUD, search)
 - [x] Owner management (CRUD, search)
 - [x] Medical records (Complete CRUD)
+- [x] Global search with command palette (Cmd+K)
 - [ ] Appointment calendar view (weekly/daily)
 - [ ] Delete functionality with confirmation dialogs
 - [ ] Real-time notifications
-- [ ] Enhanced filtering and search
 
 ### Medium Priority Features
 - [ ] User profile management
 - [ ] Settings page
 - [ ] Print functionality for records
 - [ ] Export data (CSV/PDF)
-- [ ] Search functionality
-- [ ] Pagination components
+- [ ] Advanced filtering and saved presets
 - [ ] Error boundaries
 
 ### Low Priority Features
@@ -179,14 +190,15 @@
 
 ## 📊 Current Statistics
 
-- **Total Files:** ~110+
-- **Components:** 39+
+- **Total Files:** ~115+
+- **Components:** 40+ (including CommandPalette)
 - **Services:** 5 (Appointment, Patient, Owner, Veterinarian, MedicalRecord)
 - **Hooks:** 13+ (appointments, patients, owners, medical-records, auth, veterinarians)
-- **UI Components:** 18+ (ShadCN UI)
+- **UI Components:** 19+ (ShadCN UI + CommandPalette)
 - **Pages:** 19 (Login, Dashboard, 4 entities with full CRUD - 4 pages each)
 - **CRUD Entities:** 4 complete (Appointments, Patients, Owners, Medical Records)
-- **Lines of Code:** ~10,750+
+- **Lines of Code:** ~11,300+
+- **NPM Dependencies:** 411 packages (including cmdk)
 - **Test Coverage:** 0% (tests pending)
 - **Bundle Size:** TBD
 
@@ -202,16 +214,22 @@
 
 1. Add optimistic updates for better UX
 2. Implement virtual scrolling for large lists
-3. Add keyboard shortcuts for power users
-4. Create a command palette (Cmd+K)
+3. ~~Add keyboard shortcuts for power users~~ ✅ Done (Cmd+K)
+4. ~~Create a command palette (Cmd+K)~~ ✅ Done
 5. Add breadcrumb navigation
 6. Implement undo/redo for critical actions
+7. Add search result highlighting
+8. Implement search history in command palette
 
 ---
 
 **Recent Commits:**
 
+v0.5.0:
+- `1b32641` - feat(search): add global search command palette (Cmd+K)
+
 v0.4.1:
+- `748fb81` - docs: update development status for v0.4.1
 - `5bd8543` - feat(medical-records): add edit page with form pre-population
 
 v0.4.0:
@@ -233,12 +251,13 @@ v0.3.0:
 - ✅ **Patients** - Full CRUD, inline owner creation, medical info
 - ✅ **Owners** - Full CRUD, patient relationships, contact management
 - ✅ **Medical Records** - Full CRUD, prescriptions, lab results, clinical notes
+- ✅ **Global Search** - Command palette with Cmd+K shortcut, search all entities
 
 ### In Progress Modules (0-50%)
 - 🔄 **Calendar View** - 0% (not started)
 - 🔄 **Delete Operations** - 0% (service layer ready, no UI)
-- 🔄 **Advanced Search** - 20% (basic search exists, needs global search)
 - 🔄 **Dashboard** - 30% (basic stats, needs charts)
+- 🔄 **Advanced Filtering** - 40% (basic filters exist, needs saved presets)
 
 ### Planned Modules (0%)
 - ⏳ **User Management** (admin only)
@@ -247,5 +266,5 @@ v0.3.0:
 - ⏳ **Reports & Analytics**
 - ⏳ **Notifications System**
 
-Last Updated: January 15, 2026
-Next Review: After implementing Calendar View
+Last Updated: January 15, 2026 (v0.5.0)
+Next Review: After implementing Calendar View or Delete Functionality
