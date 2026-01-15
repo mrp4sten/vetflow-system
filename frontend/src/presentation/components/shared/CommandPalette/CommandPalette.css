@@ -1,0 +1,250 @@
+/* Command Palette Overlay */
+.command-palette-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Command Palette Container */
+.command-palette {
+  width: 100%;
+  max-width: 640px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.command-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.command-icon {
+  width: 20px;
+  height: 20px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.command-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #111827;
+  background: transparent;
+}
+
+.command-input::placeholder {
+  color: #9ca3af;
+}
+
+.command-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.command-close:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* List Container */
+.command-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+/* Group */
+.command-group {
+  margin-bottom: 12px;
+}
+
+.command-group [cmdk-group-heading] {
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Item */
+.command-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin: 2px 0;
+}
+
+.command-item[aria-selected="true"] {
+  background: #f3f4f6;
+}
+
+.command-item:hover {
+  background: #f9fafb;
+}
+
+.command-item-icon {
+  width: 18px;
+  height: 18px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.command-item[aria-selected="true"] .command-item-icon {
+  color: #3b82f6;
+}
+
+.command-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.command-item-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.command-item-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+/* Empty State */
+.command-empty {
+  padding: 48px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Footer */
+.command-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.command-footer-hint {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.command-footer-hint kbd {
+  padding: 2px 6px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 11px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+  .command-palette {
+    background: #1f2937;
+    border: 1px solid #374151;
+  }
+
+  .command-header {
+    border-bottom-color: #374151;
+  }
+
+  .command-input {
+    color: #f9fafb;
+  }
+
+  .command-input::placeholder {
+    color: #6b7280;
+  }
+
+  .command-close:hover {
+    background: #374151;
+    color: #f9fafb;
+  }
+
+  .command-item[aria-selected="true"] {
+    background: #374151;
+  }
+
+  .command-item:hover {
+    background: #2d3748;
+  }
+
+  .command-item-title {
+    color: #f9fafb;
+  }
+
+  .command-footer {
+    background: #111827;
+    border-top-color: #374151;
+  }
+
+  .command-footer-hint kbd {
+    background: #374151;
+    border-color: #4b5563;
+  }
+}
