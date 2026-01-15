@@ -7,12 +7,15 @@ import { DashboardPage } from '@presentation/pages/dashboard/DashboardPage'
 import { AppointmentsPage } from '@presentation/pages/appointments/AppointmentsPage'
 import { CreateAppointmentPage } from '@presentation/pages/appointments/CreateAppointmentPage'
 import { ViewAppointmentPage } from '@presentation/pages/appointments/ViewAppointmentPage'
+import { EditAppointmentPage } from '@presentation/pages/appointments/EditAppointmentPage'
 import { PatientsPage } from '@presentation/pages/patients/PatientsPage'
 import { CreatePatientPage } from '@presentation/pages/patients/CreatePatientPage'
 import { ViewPatientPage } from '@presentation/pages/patients/ViewPatientPage'
+import { EditPatientPage } from '@presentation/pages/patients/EditPatientPage'
 import { OwnersPage } from '@presentation/pages/owners/OwnersPage'
 import { CreateOwnerPage } from '@presentation/pages/owners/CreateOwnerPage'
 import { ViewOwnerPage } from '@presentation/pages/owners/ViewOwnerPage'
+import { EditOwnerPage } from '@presentation/pages/owners/EditOwnerPage'
 
 function App() {
   return (
@@ -29,20 +32,20 @@ function App() {
           <Route path={ROUTES.APPOINTMENTS.LIST} element={<AppointmentsPage />} />
           <Route path={ROUTES.APPOINTMENTS.CREATE} element={<CreateAppointmentPage />} />
           <Route path="/appointments/:id" element={<ViewAppointmentPage />} />
-          <Route path="/appointments/:id/edit" element={<div>Edit Appointment</div>} />
+          <Route path="/appointments/:id/edit" element={<EditAppointmentPage />} />
           <Route path={ROUTES.APPOINTMENTS.CALENDAR} element={<div>Calendar View</div>} />
           
           {/* Patient routes */}
           <Route path={ROUTES.PATIENTS.LIST} element={<PatientsPage />} />
           <Route path={ROUTES.PATIENTS.CREATE} element={<CreatePatientPage />} />
           <Route path="/patients/:id" element={<ViewPatientPage />} />
-          <Route path="/patients/:id/edit" element={<div>Edit Patient</div>} />
+          <Route path="/patients/:id/edit" element={<EditPatientPage />} />
           
           {/* Owner routes */}
           <Route path={ROUTES.OWNERS.LIST} element={<OwnersPage />} />
           <Route path={ROUTES.OWNERS.CREATE} element={<CreateOwnerPage />} />
           <Route path="/owners/:id" element={<ViewOwnerPage />} />
-          <Route path="/owners/:id/edit" element={<div>Edit Owner</div>} />
+          <Route path="/owners/:id/edit" element={<EditOwnerPage />} />
           
           {/* Medical Records routes - TODO */}
           <Route path={ROUTES.MEDICAL_RECORDS.LIST} element={<div>Medical Records</div>} />
