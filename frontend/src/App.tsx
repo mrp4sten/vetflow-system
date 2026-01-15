@@ -5,6 +5,8 @@ import { MainLayout } from '@presentation/components/layout/MainLayout'
 import { LoginPage } from '@presentation/pages/auth/LoginPage'
 import { DashboardPage } from '@presentation/pages/dashboard/DashboardPage'
 import { AppointmentsPage } from '@presentation/pages/appointments/AppointmentsPage'
+import { CreateAppointmentPage } from '@presentation/pages/appointments/CreateAppointmentPage'
+import { ViewAppointmentPage } from '@presentation/pages/appointments/ViewAppointmentPage'
 
 function App() {
   return (
@@ -19,8 +21,8 @@ function App() {
           
           {/* Appointment routes */}
           <Route path={ROUTES.APPOINTMENTS.LIST} element={<AppointmentsPage />} />
-          <Route path={ROUTES.APPOINTMENTS.CREATE} element={<div>Create Appointment</div>} />
-          <Route path="/appointments/:id" element={<div>View Appointment</div>} />
+          <Route path={ROUTES.APPOINTMENTS.CREATE} element={<CreateAppointmentPage />} />
+          <Route path="/appointments/:id" element={<ViewAppointmentPage />} />
           <Route path="/appointments/:id/edit" element={<div>Edit Appointment</div>} />
           <Route path={ROUTES.APPOINTMENTS.CALENDAR} element={<div>Calendar View</div>} />
           
