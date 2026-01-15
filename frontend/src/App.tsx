@@ -9,6 +9,9 @@ import { CreateAppointmentPage } from '@presentation/pages/appointments/CreateAp
 import { ViewAppointmentPage } from '@presentation/pages/appointments/ViewAppointmentPage'
 import { PatientsPage } from '@presentation/pages/patients/PatientsPage'
 import { CreatePatientPage } from '@presentation/pages/patients/CreatePatientPage'
+import { ViewPatientPage } from '@presentation/pages/patients/ViewPatientPage'
+import { OwnersPage } from '@presentation/pages/owners/OwnersPage'
+import { CreateOwnerPage } from '@presentation/pages/owners/CreateOwnerPage'
 
 function App() {
   return (
@@ -31,11 +34,14 @@ function App() {
           {/* Patient routes */}
           <Route path={ROUTES.PATIENTS.LIST} element={<PatientsPage />} />
           <Route path={ROUTES.PATIENTS.CREATE} element={<CreatePatientPage />} />
-          <Route path="/patients/:id" element={<div>View Patient</div>} />
+          <Route path="/patients/:id" element={<ViewPatientPage />} />
           <Route path="/patients/:id/edit" element={<div>Edit Patient</div>} />
           
-          {/* Owner routes - TODO */}
-          <Route path={ROUTES.OWNERS.LIST} element={<div>Owners List</div>} />
+          {/* Owner routes */}
+          <Route path={ROUTES.OWNERS.LIST} element={<OwnersPage />} />
+          <Route path={ROUTES.OWNERS.CREATE} element={<CreateOwnerPage />} />
+          <Route path="/owners/:id" element={<div>View Owner</div>} />
+          <Route path="/owners/:id/edit" element={<div>Edit Owner</div>} />
           
           {/* Medical Records routes - TODO */}
           <Route path={ROUTES.MEDICAL_RECORDS.LIST} element={<div>Medical Records</div>} />
