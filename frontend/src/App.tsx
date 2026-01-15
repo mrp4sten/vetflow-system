@@ -12,6 +12,7 @@ import { CreatePatientPage } from '@presentation/pages/patients/CreatePatientPag
 import { ViewPatientPage } from '@presentation/pages/patients/ViewPatientPage'
 import { OwnersPage } from '@presentation/pages/owners/OwnersPage'
 import { CreateOwnerPage } from '@presentation/pages/owners/CreateOwnerPage'
+import { ViewOwnerPage } from '@presentation/pages/owners/ViewOwnerPage'
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
           {/* Owner routes */}
           <Route path={ROUTES.OWNERS.LIST} element={<OwnersPage />} />
           <Route path={ROUTES.OWNERS.CREATE} element={<CreateOwnerPage />} />
-          <Route path="/owners/:id" element={<div>View Owner</div>} />
+          <Route path="/owners/:id" element={<ViewOwnerPage />} />
           <Route path="/owners/:id/edit" element={<div>Edit Owner</div>} />
           
           {/* Medical Records routes - TODO */}
