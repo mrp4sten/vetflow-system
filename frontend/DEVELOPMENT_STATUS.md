@@ -1,8 +1,18 @@
 # VetFlow Frontend - Development Status
 
-## 📅 Latest Update: v0.5.0 - Global Search Command Palette
+## 📅 Latest Update: v0.6.0 - Delete Functionality with Confirmation Dialogs
 
-### What's New in v0.5.0
+### What's New in v0.6.0
+- 🗑️ **Delete Confirmation Dialogs** - Confirmation required for all delete operations
+- ✅ **Toast Notifications** - Success/error feedback using Sonner
+- ⚠️ **Cascade Warnings** - Special warning for owners with registered pets
+- 🛡️ **Protection Against Accidental Deletions** - Two-step confirmation process
+- 🎨 **Beautiful Confirmation UI** - Danger (red) and Warning (yellow) variants
+- 🔔 **Real-time Feedback** - Toast notifications for all CRUD operations
+- 🎯 **Role-based Delete Actions** - Admin-only delete permissions
+- 📦 **Reusable Components** - ConfirmDialog and AlertDialog components
+
+### What Was New in v0.5.0
 - 🔍 **Global Search (Cmd+K)** - Command palette for quick navigation
 - ⌨️ Keyboard shortcut (Cmd+K / Ctrl+K) to open search
 - 🔎 Search across appointments, patients, owners, and medical records
@@ -74,6 +84,8 @@
 - ✅ React Query for server state management
 - ✅ **Global search with command palette (Cmd+K)**
 - ✅ Keyboard shortcuts and navigation
+- ✅ **Toast notifications with Sonner** - Success/error feedback
+- ✅ **Confirmation dialogs** - Two-step delete protection
 
 ### Appointment Management
 - ✅ Appointment listing with role-based actions
@@ -82,6 +94,7 @@
 - ✅ Appointment detail view with patient/veterinarian info
 - ✅ Appointment editing with pre-populated forms
 - ✅ Status update functionality
+- ✅ Delete with confirmation dialog and toast notifications
 
 ### Patient Management
 - ✅ Patient listing with DataTable (search, filter, sort)
@@ -90,6 +103,7 @@
 - ✅ Patient editing with form pre-population
 - ✅ Age calculation and weight conversion utilities
 - ✅ Species and gender filtering
+- ✅ Deactivate with warning confirmation and toast notifications
 
 ### Owner Management
 - ✅ Owner listing with contact information
@@ -97,6 +111,7 @@
 - ✅ Owner detail view with patient relationships
 - ✅ Owner editing with form pre-population
 - ✅ Owner statistics (total pets, active patients)
+- ✅ Delete with cascade warning (alerts if owner has pets)
 
 ### Medical Records Management
 - ✅ Medical records listing with DataTable
@@ -108,11 +123,15 @@
 - ✅ Prescription management within records
 - ✅ Clinical findings, diagnosis, and treatment documentation
 - ✅ Lab results and follow-up instructions
+- ✅ Delete with confirmation dialog and toast notifications
 - ✅ **Complete CRUD operations (Create, Read, Update, Delete service methods)**
 
 ### UI Components
 - ✅ Button, Input, Label, Card components
 - ✅ Badge, Dialog, DropdownMenu, Select, Table, Textarea components
+- ✅ **AlertDialog** - Radix UI dialog primitive for confirmations
+- ✅ **ConfirmDialog** - Reusable confirmation component with variants
+- ✅ **Toaster** - Sonner toast notifications (integrated in MainLayout)
 - ✅ Loading spinner and overlay
 - ✅ Responsive layout components
 - ✅ Theme support (light/dark ready)
@@ -130,8 +149,8 @@
 - [x] Owner management (CRUD, search)
 - [x] Medical records (Complete CRUD)
 - [x] Global search with command palette (Cmd+K)
+- [x] Delete functionality with confirmation dialogs
 - [ ] Appointment calendar view (weekly/daily)
-- [ ] Delete functionality with confirmation dialogs
 - [ ] Real-time notifications
 
 ### Medium Priority Features
@@ -167,12 +186,14 @@
    - Conflict detection and warnings
    - Color coding by appointment type/status
 
-2. **Delete Functionality (HIGH PRIORITY)**
-   - Confirmation dialogs for all entities
-   - Soft delete vs hard delete options
-   - Cascade delete warnings (e.g., deleting owner with patients)
-   - Undo delete feature with toast notifications
-   - Archive functionality as alternative
+2. **Enhanced Delete Features (COMPLETED - v0.6.0)**
+   - ✅ Confirmation dialogs for all entities
+   - ✅ Cascade delete warnings (e.g., deleting owner with pets)
+   - ✅ Toast notifications for success/error feedback
+   - ✅ Two-step confirmation with visual feedback
+   - [ ] Soft delete vs hard delete options (future enhancement)
+   - [ ] Undo delete feature (future enhancement)
+   - [ ] Archive functionality as alternative (future enhancement)
 
 3. **Enhanced Search & Filtering**
    - Global search across all entities (Cmd+K command palette)
@@ -190,15 +211,15 @@
 
 ## 📊 Current Statistics
 
-- **Total Files:** ~115+
-- **Components:** 40+ (including CommandPalette)
+- **Total Files:** ~120+
+- **Components:** 42+ (including CommandPalette, ConfirmDialog)
 - **Services:** 5 (Appointment, Patient, Owner, Veterinarian, MedicalRecord)
 - **Hooks:** 13+ (appointments, patients, owners, medical-records, auth, veterinarians)
-- **UI Components:** 19+ (ShadCN UI + CommandPalette)
+- **UI Components:** 22+ (ShadCN UI + CommandPalette + AlertDialog + Toaster)
 - **Pages:** 19 (Login, Dashboard, 4 entities with full CRUD - 4 pages each)
-- **CRUD Entities:** 4 complete (Appointments, Patients, Owners, Medical Records)
-- **Lines of Code:** ~11,300+
-- **NPM Dependencies:** 411 packages (including cmdk)
+- **CRUD Entities:** 4 complete with full delete (Appointments, Patients, Owners, Medical Records)
+- **Lines of Code:** ~11,800+
+- **NPM Dependencies:** 415 packages (including sonner, @radix-ui/react-alert-dialog)
 - **Test Coverage:** 0% (tests pending)
 - **Bundle Size:** TBD
 
