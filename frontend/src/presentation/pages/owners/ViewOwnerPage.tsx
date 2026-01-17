@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
 import { ArrowLeft, User, Mail, Phone, MapPin, Edit, Trash, Heart, Plus } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@presentation/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'
 import { Separator } from '@presentation/components/ui/separator'
+import { ConfirmDialog } from '@presentation/components/shared/ConfirmDialog/ConfirmDialog'
 import { useOwner, useDeleteOwner } from '@presentation/hooks/useOwners'
 import { usePatientsByOwner } from '@presentation/hooks/usePatients'
 import { ROUTES } from '@shared/constants/routes'
@@ -15,6 +18,7 @@ export const ViewOwnerPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { hasAnyRole } = useAuth()
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   
   const ownerId = parseInt(id || '0')
   const { data: owner, isLoading: loadingOwner } = useOwner(ownerId)
@@ -23,6 +27,7 @@ export const ViewOwnerPage: React.FC = () => {
 
   const canEdit = hasAnyRole(['admin', 'veterinarian', 'assistant'])
   const canDelete = hasAnyRole(['admin'])
+  const hasPatients = patients.length > 0
 
   if (loadingOwner) {
     return (
@@ -48,14 +53,12 @@ export const ViewOwnerPage: React.FC = () => {
   }
 
   const handleDelete = async () => {
-    if (patients.length > 0) {
-      alert(`Cannot delete owner with ${patients.length} registered patient(s). Please reassign or remove patients first.`)
-      return
-    }
-    
-    if (confirm(`Are you sure you want to delete ${owner.fullName}?`)) {
+    try {
       await deleteOwner.mutateAsync(ownerId)
+      toast.success(`${owner.fullName} has been deleted successfully`)
       navigate(ROUTES.OWNERS.LIST)
+    } catch (error) {
+      toast.error('Failed to delete owner')
     }
   }
 
@@ -95,8 +98,7 @@ export const ViewOwnerPage: React.FC = () => {
             {canDelete && (
               <Button 
                 variant="destructive" 
-                onClick={handleDelete}
-                disabled={patients.length > 0}
+                onClick={() => setDeleteDialogOpen(true)}
               >
                 <Trash className="mr-2 h-4 w-4" />
                 Delete
@@ -340,6 +342,21 @@ export const ViewOwnerPage: React.FC = () => {
           </Card>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Owner"
+        description={
+          hasPatients
+            ? `⚠️ Warning: ${owner.fullName} has ${patients.length} registered pet${patients.length > 1 ? 's' : ''}. Deleting this owner may affect their patient records. Are you sure you want to continue?`
+            : `Are you sure you want to delete ${owner.fullName}? This action cannot be undone.`
+        }
+        confirmText="Delete Owner"
+        variant={hasPatients ? "warning" : "danger"}
+      />
     </div>
   )
 }

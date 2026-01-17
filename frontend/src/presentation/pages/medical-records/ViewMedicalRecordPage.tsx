@@ -1,21 +1,41 @@
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, Calendar, FileText, User, Stethoscope, Pencil } from 'lucide-react'
+import { ArrowLeft, Calendar, FileText, User, Stethoscope, Pencil, Trash } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@presentation/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'
 import { Badge } from '@presentation/components/ui/badge'
 import { Separator } from '@presentation/components/ui/separator'
-import { useMedicalRecord } from '@presentation/hooks/useMedicalRecords'
+import { ConfirmDialog } from '@presentation/components/shared/ConfirmDialog/ConfirmDialog'
+import { useMedicalRecord, useDeleteMedicalRecord } from '@presentation/hooks/useMedicalRecords'
 import { ROUTES } from '@shared/constants/routes'
 import { RECORD_TYPE_DISPLAY, RECORD_TYPE_COLORS } from '@shared/constants/medical-record-types'
 import { formatDate } from '@infrastructure/utils/date-utils'
 import { LoadingSpinner } from '@presentation/components/shared/Loading/LoadingSpinner'
+import { useAuth } from '@presentation/hooks/useAuth'
 
 export const ViewMedicalRecordPage: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
+  const { hasAnyRole } = useAuth()
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  
   const recordId = parseInt(id || '0')
-
   const { data: record, isLoading } = useMedicalRecord(recordId)
+  const deleteMedicalRecord = useDeleteMedicalRecord()
+
+  const canEdit = hasAnyRole(['admin', 'veterinarian'])
+  const canDelete = hasAnyRole(['admin'])
+
+  const handleDelete = async () => {
+    try {
+      await deleteMedicalRecord.mutateAsync(recordId)
+      toast.success('Medical record deleted successfully')
+      navigate(ROUTES.MEDICAL_RECORDS.LIST)
+    } catch (error) {
+      toast.error('Failed to delete medical record')
+    }
+  }
 
   if (isLoading) {
     return (
@@ -59,12 +79,23 @@ export const ViewMedicalRecordPage: React.FC = () => {
           <Badge className={RECORD_TYPE_COLORS[record.type]}>
             {RECORD_TYPE_DISPLAY[record.type]}
           </Badge>
-          <Button
-            onClick={() => navigate(ROUTES.MEDICAL_RECORDS.EDIT(recordId))}
-          >
-            <Pencil className="mr-2 h-4 w-4" />
-            Edit
-          </Button>
+          {canEdit && (
+            <Button
+              onClick={() => navigate(ROUTES.MEDICAL_RECORDS.EDIT(recordId))}
+            >
+              <Pencil className="mr-2 h-4 w-4" />
+              Edit
+            </Button>
+          )}
+          {canDelete && (
+            <Button
+              variant="destructive"
+              onClick={() => setDeleteDialogOpen(true)}
+            >
+              <Trash className="mr-2 h-4 w-4" />
+              Delete
+            </Button>
+          )}
         </div>
       </div>
 
@@ -274,6 +305,17 @@ export const ViewMedicalRecordPage: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Medical Record"
+        description={`Are you sure you want to delete this medical record for ${record.patient?.name}? This action cannot be undone and all associated data will be permanently removed.`}
+        confirmText="Delete Record"
+        variant="danger"
+      />
     </div>
   )
 }
