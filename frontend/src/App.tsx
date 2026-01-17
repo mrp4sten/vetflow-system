@@ -16,6 +16,10 @@ import { OwnersPage } from '@presentation/pages/owners/OwnersPage'
 import { CreateOwnerPage } from '@presentation/pages/owners/CreateOwnerPage'
 import { ViewOwnerPage } from '@presentation/pages/owners/ViewOwnerPage'
 import { EditOwnerPage } from '@presentation/pages/owners/EditOwnerPage'
+import { MedicalRecordsPage } from '@presentation/pages/medical-records/MedicalRecordsPage'
+import { CreateMedicalRecordPage } from '@presentation/pages/medical-records/CreateMedicalRecordPage'
+import { ViewMedicalRecordPage } from '@presentation/pages/medical-records/ViewMedicalRecordPage'
+import { EditMedicalRecordPage } from '@presentation/pages/medical-records/EditMedicalRecordPage'
 
 function App() {
   return (
@@ -47,8 +51,11 @@ function App() {
           <Route path="/owners/:id" element={<ViewOwnerPage />} />
           <Route path="/owners/:id/edit" element={<EditOwnerPage />} />
           
-          {/* Medical Records routes - TODO */}
-          <Route path={ROUTES.MEDICAL_RECORDS.LIST} element={<div>Medical Records</div>} />
+          {/* Medical Records routes */}
+          <Route path={ROUTES.MEDICAL_RECORDS.LIST} element={<MedicalRecordsPage />} />
+          <Route path={ROUTES.MEDICAL_RECORDS.CREATE} element={<CreateMedicalRecordPage />} />
+          <Route path="/medical-records/:id" element={<ViewMedicalRecordPage />} />
+          <Route path="/medical-records/:id/edit" element={<EditMedicalRecordPage />} />
           
           {/* Admin routes */}
           <Route 

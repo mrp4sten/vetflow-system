@@ -1,10 +1,13 @@
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
 import { ArrowLeft, Calendar, Clock, User, Heart, Edit, Trash, FileText } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@presentation/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'
 import { Badge } from '@presentation/components/ui/badge'
 import { Separator } from '@presentation/components/ui/separator'
+import { ConfirmDialog } from '@presentation/components/shared/ConfirmDialog/ConfirmDialog'
 import { useAppointment, useUpdateAppointmentStatus, useDeleteAppointment } from '@presentation/hooks/useAppointments'
 import { ROUTES } from '@shared/constants/routes'
 import {
@@ -30,6 +33,7 @@ export const ViewAppointmentPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { hasAnyRole } = useAuth()
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   
   const appointmentId = parseInt(id || '0')
   const { data: appointment, isLoading } = useAppointment(appointmentId)
@@ -63,13 +67,21 @@ export const ViewAppointmentPage: React.FC = () => {
   }
 
   const handleStatusChange = async (status: AppointmentStatus) => {
-    await updateStatus.mutateAsync({ id: appointmentId, status })
+    try {
+      await updateStatus.mutateAsync({ id: appointmentId, status })
+      toast.success('Appointment status updated successfully')
+    } catch (error) {
+      toast.error('Failed to update appointment status')
+    }
   }
 
   const handleDelete = async () => {
-    if (confirm('Are you sure you want to delete this appointment? This action cannot be undone.')) {
+    try {
       await deleteAppointment.mutateAsync(appointmentId)
+      toast.success('Appointment deleted successfully')
       navigate(ROUTES.APPOINTMENTS.LIST)
+    } catch (error) {
+      toast.error('Failed to delete appointment')
     }
   }
 
@@ -128,7 +140,7 @@ export const ViewAppointmentPage: React.FC = () => {
             </DropdownMenu>
 
             {canDelete && (
-              <Button variant="destructive" onClick={handleDelete}>
+              <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)}>
                 <Trash className="mr-2 h-4 w-4" />
                 Delete
               </Button>
@@ -307,6 +319,17 @@ export const ViewAppointmentPage: React.FC = () => {
           </Card>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Appointment"
+        description={`Are you sure you want to delete this appointment for ${appointment.patient?.name}? This action cannot be undone.`}
+        confirmText="Delete Appointment"
+        variant="danger"
+      />
     </div>
   )
 }

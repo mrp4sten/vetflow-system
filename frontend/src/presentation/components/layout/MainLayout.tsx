@@ -1,16 +1,33 @@
 import { Outlet } from 'react-router-dom'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { CommandPalette } from '@presentation/components/shared/CommandPalette/CommandPalette'
+import { Toaster } from 'sonner'
 
 export const MainLayout: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
+
+  // Keyboard shortcut for command palette (Cmd+K or Ctrl+K)
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setCommandPaletteOpen((open) => !open)
+      }
+    }
+
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
+  }, [])
 
   return (
     <div className="min-h-screen bg-background">
       <Header 
         onMenuToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
         sidebarCollapsed={sidebarCollapsed}
+        onSearchClick={() => setCommandPaletteOpen(true)}
       />
       <div className="flex">
         <Sidebar collapsed={sidebarCollapsed} />
@@ -22,6 +39,15 @@ export const MainLayout: React.FC = () => {
           </div>
         </main>
       </div>
+      
+      {/* Command Palette */}
+      <CommandPalette 
+        open={commandPaletteOpen} 
+        onOpenChange={setCommandPaletteOpen} 
+      />
+      
+      {/* Toast Notifications */}
+      <Toaster position="top-right" richColors />
     </div>
   )
 }
