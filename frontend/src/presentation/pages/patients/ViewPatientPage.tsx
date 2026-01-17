@@ -1,10 +1,13 @@
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
 import { ArrowLeft, Heart, User, Edit, Trash, Calendar, FileText } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@presentation/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'
 import { Badge } from '@presentation/components/ui/badge'
 import { Separator } from '@presentation/components/ui/separator'
+import { ConfirmDialog } from '@presentation/components/shared/ConfirmDialog/ConfirmDialog'
 import { usePatient, useDeactivatePatient } from '@presentation/hooks/usePatients'
 import { ROUTES } from '@shared/constants/routes'
 import { LoadingSpinner } from '@presentation/components/shared/Loading/LoadingSpinner'
@@ -15,6 +18,7 @@ export const ViewPatientPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { hasAnyRole } = useAuth()
+  const [deactivateDialogOpen, setDeactivateDialogOpen] = useState(false)
   
   const patientId = parseInt(id || '0')
   const { data: patient, isLoading } = usePatient(patientId)
@@ -47,9 +51,12 @@ export const ViewPatientPage: React.FC = () => {
   }
 
   const handleDeactivate = async () => {
-    if (confirm(`Are you sure you want to deactivate ${patient.name}?`)) {
+    try {
       await deactivatePatient.mutateAsync(patientId)
+      toast.success(`${patient.name} has been deactivated successfully`)
       navigate(ROUTES.PATIENTS.LIST)
+    } catch (error) {
+      toast.error('Failed to deactivate patient')
     }
   }
 
@@ -87,7 +94,7 @@ export const ViewPatientPage: React.FC = () => {
             </Button>
             
             {canDelete && (
-              <Button variant="destructive" onClick={handleDeactivate}>
+              <Button variant="destructive" onClick={() => setDeactivateDialogOpen(true)}>
                 <Trash className="mr-2 h-4 w-4" />
                 Deactivate
               </Button>
@@ -298,6 +305,17 @@ export const ViewPatientPage: React.FC = () => {
           </Card>
         </div>
       </div>
+
+      {/* Deactivate Confirmation Dialog */}
+      <ConfirmDialog
+        open={deactivateDialogOpen}
+        onOpenChange={setDeactivateDialogOpen}
+        onConfirm={handleDeactivate}
+        title="Deactivate Patient"
+        description={`Are you sure you want to deactivate ${patient.name}? This will mark the patient as inactive but preserve all medical history.`}
+        confirmText="Deactivate Patient"
+        variant="warning"
+      />
     </div>
   )
 }

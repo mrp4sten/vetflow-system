@@ -3,6 +3,7 @@ import { Sidebar } from './Sidebar'
 import { Header } from './Header'
 import { useState, useEffect } from 'react'
 import { CommandPalette } from '@presentation/components/shared/CommandPalette/CommandPalette'
+import { Toaster } from 'sonner'
 
 export const MainLayout: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
@@ -44,6 +45,9 @@ export const MainLayout: React.FC = () => {
         open={commandPaletteOpen} 
         onOpenChange={setCommandPaletteOpen} 
       />
+      
+      {/* Toast Notifications */}
+      <Toaster position="top-right" richColors />
     </div>
   )
 }
