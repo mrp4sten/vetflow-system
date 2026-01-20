@@ -47,6 +47,15 @@ public class AppointmentController {
 
   private final AppointmentApplicationService appointmentApplicationService;
 
+  @GetMapping("/appointments")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
+  @Operation(summary = "List all appointments", description = "Fetches all appointments in the system.")
+  public List<AppointmentResponse> listAllAppointments() {
+    return appointmentApplicationService.listAll().stream()
+        .map(AppointmentController::toResponse)
+        .toList();
+  }
+
   @PostMapping("/appointments")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   @Operation(summary = "Schedule appointment", description = "Creates a new appointment for a patient.")

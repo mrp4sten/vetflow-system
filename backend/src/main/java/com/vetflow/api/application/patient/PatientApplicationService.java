@@ -65,6 +65,12 @@ public class PatientApplicationService {
     return toResult(saved);
   }
 
+  public List<PatientResult> listAll() {
+    return patientRepository.findAll().stream()
+        .map(this::toResult)
+        .collect(Collectors.toList());
+  }
+
   public List<PatientResult> listByOwner(Long ownerId) {
     Owner owner = loadOwner(ownerId);
     return patientRepository.findByOwnerId(owner.getId()).stream()

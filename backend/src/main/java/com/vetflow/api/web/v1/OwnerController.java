@@ -1,6 +1,7 @@
 package com.vetflow.api.web.v1;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,6 +40,15 @@ import lombok.RequiredArgsConstructor;
 public class OwnerController {
 
   private final OwnerApplicationService ownerApplicationService;
+
+  @GetMapping
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
+  @Operation(summary = "List all owners", description = "Fetches all registered pet owners.")
+  public List<OwnerResponse> listAllOwners() {
+    return ownerApplicationService.listAll().stream()
+        .map(OwnerController::toResponse)
+        .toList();
+  }
 
   @PostMapping
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT')")

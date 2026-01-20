@@ -8,6 +8,7 @@ import com.vetflow.api.domain.model.Patient;
 public interface PatientRepository {
     Patient save(Patient patient);
     Optional<Patient> findById(Long id);
+    List<Patient> findAll();
     List<Patient> findByOwnerId(Long ownerId);
     void deleteById(Long id);
 }

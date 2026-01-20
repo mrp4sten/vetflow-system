@@ -41,6 +41,15 @@ public class PatientController {
 
   private final PatientApplicationService patientApplicationService;
 
+  @GetMapping("/patients")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
+  @Operation(summary = "List all patients", description = "Fetches all registered patients.")
+  public List<PatientResponse> listAllPatients() {
+    return patientApplicationService.listAll().stream()
+        .map(PatientController::toResponse)
+        .toList();
+  }
+
   @PostMapping("/patients")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   @Operation(summary = "Register patient", description = "Adds a new patient and links it to an owner.")

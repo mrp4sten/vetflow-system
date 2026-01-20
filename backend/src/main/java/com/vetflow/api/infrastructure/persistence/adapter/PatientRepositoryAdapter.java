@@ -40,6 +40,15 @@ public class PatientRepositoryAdapter implements PatientRepository {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Patient> findAll() {
+        return jpa.findAll()
+                  .stream()
+                  .map(mapper::toDomain)
+                  .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Patient> findByOwnerId(Long ownerId) {
         return jpa.findByOwnerId(ownerId)
                   .stream()

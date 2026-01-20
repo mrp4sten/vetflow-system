@@ -41,6 +41,15 @@ public class AppointmentRepositoryAdapter implements AppointmentRepository {
 
   @Override
   @Transactional(readOnly = true)
+  public List<Appointment> findAll() {
+    return jpa.findAll()
+        .stream()
+        .map(mapper::toDomain)
+        .toList();
+  }
+
+  @Override
+  @Transactional(readOnly = true)
   public List<Appointment> findByDateRange(LocalDateTime from, LocalDateTime to) {
     return jpa.findByAppointmentDateBetween(from, to)
         .stream()

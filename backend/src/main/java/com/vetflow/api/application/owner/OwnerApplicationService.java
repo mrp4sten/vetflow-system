@@ -1,5 +1,6 @@
 package com.vetflow.api.application.owner;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -55,6 +56,12 @@ public class OwnerApplicationService {
     Owner saved = ownerRepository.save(owner);
     auditService.recordUpdate("owners", saved.getId(), before, saved);
     return toResult(saved);
+  }
+
+  public List<OwnerResult> listAll() {
+    return ownerRepository.findAll().stream()
+        .map(this::toResult)
+        .toList();
   }
 
   public OwnerResult getById(Long ownerId) {

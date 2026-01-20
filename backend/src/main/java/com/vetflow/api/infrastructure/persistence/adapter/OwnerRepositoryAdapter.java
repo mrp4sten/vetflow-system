@@ -1,6 +1,7 @@
 // src/main/java/com/vetflow/api/infrastructure/persistence/adapter/OwnerRepositoryAdapter.java
 package com.vetflow.api.infrastructure.persistence.adapter;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -35,6 +36,14 @@ public class OwnerRepositoryAdapter implements OwnerRepository {
     @Transactional(readOnly = true)
     public Optional<Owner> findById(Long id) {
         return jpa.findById(id).map(mapper::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Owner> findAll() {
+        return jpa.findAll().stream()
+                .map(mapper::toDomain)
+                .toList();
     }
 
     @Override

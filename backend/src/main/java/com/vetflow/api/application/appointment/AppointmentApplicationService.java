@@ -79,6 +79,13 @@ public class AppointmentApplicationService {
     return toResult(saved);
   }
 
+  public List<AppointmentResult> listAll() {
+    return appointmentRepository.findAll().stream()
+        .sorted(Comparator.comparing(Appointment::getAppointmentDate).reversed())
+        .map(this::toResult)
+        .toList();
+  }
+
   public List<AppointmentResult> listByPatient(Long patientId) {
     Patient patient = loadPatient(patientId);
     return appointmentRepository.findByPatient(patient.getId()).stream()
