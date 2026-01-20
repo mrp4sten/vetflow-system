@@ -13,6 +13,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    networks:
+      - vetflow-network
 
   api:
     build:
@@ -30,10 +32,36 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: none
       SPRING_FLYWAY_ENABLED: "true"
-      VETFLO_API_CORS_ALLOWED_ORIGINS: ${VETFLO_ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:4200}
+      VETFLO_API_CORS_ALLOWED_ORIGINS: ${VETFLO_ALLOWED_ORIGINS:-http://localhost:5173,http://localhost:3000,http://localhost:80}
       VETFLO_API_SECURITY_JWT_SECRET: ${VETFLO_JWT_SECRET}
     ports:
       - "8080:8080"
+    networks:
+      - vetflow-network
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ${FRONTEND_DOCKERFILE:-Dockerfile.dev}
+    container_name: vetflow_frontend
+    depends_on:
+      - api
+    env_file:
+      - .env
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8080/api/v1}
+    ports:
+      - "${FRONTEND_PORT:-5173}:${FRONTEND_INTERNAL_PORT:-5173}"
+    volumes:
+      # Mount source code for hot reload in development
+      - ../frontend:/app
+      - /app/node_modules
+    networks:
+      - vetflow-network
 
 volumes:
   postgres_data:
+
+networks:
+  vetflow-network:
+    driver: bridge
