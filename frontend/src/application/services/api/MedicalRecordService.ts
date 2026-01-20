@@ -16,10 +16,10 @@ export class MedicalRecordService extends BaseApiService {
 
   async findAll(filter?: MedicalRecordFilterDto): Promise<MedicalRecord[]> {
     const queryString = filter ? this.buildQueryString(filter) : ''
-    const response = await this.get<PaginatedResponse<MedicalRecord>>(
+    const response = await this.get<MedicalRecord[]>(
       `${API_ENDPOINTS.MEDICAL_RECORDS.BASE}${queryString}`
     )
-    return response.content
+    return response
   }
 
   async findByPatientId(patientId: number): Promise<MedicalRecord[]> {

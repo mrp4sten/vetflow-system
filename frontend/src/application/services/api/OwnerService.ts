@@ -16,10 +16,10 @@ export class OwnerService extends BaseApiService {
 
   async findAll(filter?: OwnerFilterDto): Promise<Owner[]> {
     const queryString = filter ? this.buildQueryString(filter) : ''
-    const response = await this.get<PaginatedResponse<Owner>>(
+    const response = await this.get<Owner[]>(
       `${API_ENDPOINTS.OWNERS.BASE}${queryString}`
     )
-    return response.content
+    return response
   }
 
   async save(owner: CreateOwnerDto): Promise<Owner> {

@@ -19,10 +19,10 @@ export class AppointmentService extends BaseApiService implements AppointmentRep
 
   async findAll(filter?: AppointmentFilterDto): Promise<Appointment[]> {
     const queryString = filter ? this.buildQueryString(filter) : ''
-    const response = await this.get<PaginatedResponse<any>>(
+    const response = await this.get<any[]>(
       `${API_ENDPOINTS.APPOINTMENTS.BASE}${queryString}`
     )
-    return AppointmentMapper.toDomainList(response.content)
+    return AppointmentMapper.toDomainList(response)
   }
 
   async findByDateRange(startDate: string, endDate: string): Promise<Appointment[]> {

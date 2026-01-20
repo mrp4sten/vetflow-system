@@ -17,10 +17,10 @@ export class PatientService extends BaseApiService implements PatientRepository 
 
   async findAll(filter?: PatientFilterDto): Promise<Patient[]> {
     const queryString = filter ? this.buildQueryString(filter) : ''
-    const response = await this.get<PaginatedResponse<Patient>>(
+    const response = await this.get<Patient[]>(
       `${API_ENDPOINTS.PATIENTS.BASE}${queryString}`
     )
-    return response.content
+    return response
   }
 
   async findByOwnerId(ownerId: number): Promise<Patient[]> {
