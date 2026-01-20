@@ -38,6 +38,15 @@ public class MedicalRecordController {
 
   private final MedicalRecordApplicationService medicalRecordApplicationService;
 
+  @GetMapping("/medical-records")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
+  @Operation(summary = "List all medical records", description = "Returns all medical records in the system.")
+  public List<MedicalRecordResponse> listAll() {
+    return medicalRecordApplicationService.listAll().stream()
+        .map(MedicalRecordController::toResponse)
+        .toList();
+  }
+
   @PostMapping("/medical-records")
   @PreAuthorize("hasAnyRole('ADMIN','VETERINARIAN')")
   @Operation(summary = "Create medical record", description = "Stores findings, treatment and notes for a visit.")

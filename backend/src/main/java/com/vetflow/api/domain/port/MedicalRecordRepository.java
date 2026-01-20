@@ -9,5 +9,6 @@ public interface MedicalRecordRepository {
     MedicalRecord save(MedicalRecord medicalRecord);
     Optional<MedicalRecord> findById(Long id);
     List<MedicalRecord> findByPatientId(Long patientId);
+    List<MedicalRecord> findAll();
     void deleteById(Long id);
 }

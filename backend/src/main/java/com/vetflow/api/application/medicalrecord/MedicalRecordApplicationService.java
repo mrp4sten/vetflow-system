@@ -55,6 +55,13 @@ public class MedicalRecordApplicationService {
         .toList();
   }
 
+  public List<MedicalRecordResult> listAll() {
+    return medicalRecordRepository.findAll().stream()
+        .sorted(Comparator.comparing(MedicalRecord::getVisitDate).reversed())
+        .map(this::toResult)
+        .toList();
+  }
+
   private Patient loadPatient(Long patientId) {
     if (patientId == null) {
       throw new ValidationException("patientId is required");

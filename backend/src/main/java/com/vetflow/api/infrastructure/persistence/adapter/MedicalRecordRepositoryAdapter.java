@@ -48,6 +48,15 @@ public class MedicalRecordRepositoryAdapter implements MedicalRecordRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<MedicalRecord> findAll() {
+        return jpa.findAll()
+                  .stream()
+                  .map(mapper::toDomain)
+                  .toList();
+    }
+
+    @Override
     public void deleteById(Long id) {
         jpa.deleteById(id);
     }
