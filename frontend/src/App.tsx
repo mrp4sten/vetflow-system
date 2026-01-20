@@ -9,6 +9,7 @@ import { AppointmentsPage } from '@presentation/pages/appointments/AppointmentsP
 import { CreateAppointmentPage } from '@presentation/pages/appointments/CreateAppointmentPage'
 import { ViewAppointmentPage } from '@presentation/pages/appointments/ViewAppointmentPage'
 import { EditAppointmentPage } from '@presentation/pages/appointments/EditAppointmentPage'
+import { AppointmentCalendarPage } from '@presentation/pages/appointments/AppointmentCalendarPage'
 import { PatientsPage } from '@presentation/pages/patients/PatientsPage'
 import { CreatePatientPage } from '@presentation/pages/patients/CreatePatientPage'
 import { ViewPatientPage } from '@presentation/pages/patients/ViewPatientPage'
@@ -40,7 +41,7 @@ function App() {
           <Route path={ROUTES.APPOINTMENTS.CREATE} element={<CreateAppointmentPage />} />
           <Route path="/appointments/:id" element={<ViewAppointmentPage />} />
           <Route path="/appointments/:id/edit" element={<EditAppointmentPage />} />
-          <Route path={ROUTES.APPOINTMENTS.CALENDAR} element={<div>Calendar View</div>} />
+          <Route path={ROUTES.APPOINTMENTS.CALENDAR} element={<AppointmentCalendarPage />} />
           
           {/* Patient routes */}
           <Route path={ROUTES.PATIENTS.LIST} element={<PatientsPage />} />
