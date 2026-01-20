@@ -3,6 +3,7 @@ import { Button } from '@presentation/components/ui/button'
 import { useAuth } from '@presentation/hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@shared/constants/routes'
+import { ThemeToggle } from '@presentation/components/shared/ThemeToggle/ThemeToggle'
 
 interface HeaderProps {
   onMenuToggle: () => void
@@ -58,6 +59,8 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, sidebarCollapsed, 
           >
             <Search className="h-4 w-4" />
           </Button>
+
+          <ThemeToggle />
 
           <div className="flex items-center gap-2">
             <User className="h-4 w-4 text-muted-foreground" />

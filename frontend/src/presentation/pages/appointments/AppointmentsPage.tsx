@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { Calendar, Clock, MoreHorizontal, Plus, Eye, Edit, Trash } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@presentation/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'
 import { DataTable } from '@presentation/components/shared/DataTable/DataTable'
@@ -21,11 +22,28 @@ import { APPOINTMENT_STATUS_COLORS, APPOINTMENT_STATUS_DISPLAY, APPOINTMENT_TYPE
 import { ROUTES } from '@shared/constants/routes'
 import { LoadingSpinner } from '@presentation/components/shared/Loading/LoadingSpinner'
 import { useAuth } from '@presentation/hooks/useAuth'
+import { AdvancedFilter } from '@presentation/components/shared/AdvancedFilter/AdvancedFilter'
+
+interface FilterPreset {
+  id: string
+  name: string
+  filters: Record<string, any>
+}
 
 export const AppointmentsPage: React.FC = () => {
   const navigate = useNavigate()
   const { hasAnyRole } = useAuth()
   const [statusFilter, setStatusFilter] = useState<AppointmentStatus | undefined>()
+  const [activeFilters, setActiveFilters] = useState<Record<string, any>>({})
+  const [filterPresets, setFilterPresets] = useState<FilterPreset[]>([])
+
+  // Load presets from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem('appointment-filter-presets')
+    if (stored) {
+      setFilterPresets(JSON.parse(stored))
+    }
+  }, [])
 
   const { data: appointments = [], isLoading } = useAppointments({ status: statusFilter })
   const deleteAppointment = useDeleteAppointment()
@@ -33,6 +51,55 @@ export const AppointmentsPage: React.FC = () => {
 
   const canEdit = hasAnyRole(['admin', 'veterinarian'])
   const canDelete = hasAnyRole(['admin'])
+
+  const handleApplyFilters = (filters: Record<string, any>) => {
+    setActiveFilters(filters)
+    if (filters.status) {
+      setStatusFilter(filters.status as AppointmentStatus)
+    } else {
+      setStatusFilter(undefined)
+    }
+  }
+
+  const handleSavePreset = (preset: FilterPreset) => {
+    const updated = [...filterPresets, preset]
+    setFilterPresets(updated)
+    localStorage.setItem('appointment-filter-presets', JSON.stringify(updated))
+    toast.success(`Filter preset "${preset.name}" saved`)
+  }
+
+  const handleDeletePreset = (presetId: string) => {
+    const updated = filterPresets.filter((p) => p.id !== presetId)
+    setFilterPresets(updated)
+    localStorage.setItem('appointment-filter-presets', JSON.stringify(updated))
+    toast.success('Filter preset deleted')
+  }
+
+  const filterFields = [
+    {
+      name: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: Object.entries(APPOINTMENT_STATUS_DISPLAY).map(([value, label]) => ({
+        value,
+        label,
+      })),
+    },
+    {
+      name: 'type',
+      label: 'Type',
+      type: 'select' as const,
+      options: Object.entries(APPOINTMENT_TYPE_DISPLAY).map(([value, label]) => ({
+        value,
+        label,
+      })),
+    },
+    {
+      name: 'date',
+      label: 'Date',
+      type: 'date' as const,
+    },
+  ]
 
   const columns: ColumnDef<Appointment>[] = [
     {
@@ -190,6 +257,14 @@ export const AppointmentsPage: React.FC = () => {
           </p>
         </div>
         <div className="flex gap-2">
+          <AdvancedFilter
+            fields={filterFields}
+            onApplyFilters={handleApplyFilters}
+            activeFilters={activeFilters}
+            presets={filterPresets}
+            onSavePreset={handleSavePreset}
+            onDeletePreset={handleDeletePreset}
+          />
           <Button
             variant="outline"
             onClick={() => navigate(ROUTES.APPOINTMENTS.CALENDAR)}
