@@ -1,8 +1,20 @@
 # VetFlow Frontend - Development Status
 
-## 📅 Latest Update: v0.10.0 - Calendar View & Notifications
+## 📅 Latest Update: v0.11.0 - PDF Export & Bulk Operations
 
-### What's New in v0.10.0
+### What's New in v0.11.0
+- 📄 **PDF Export** - Export data to PDF with professional formatting
+- 🖨️ **Medical Record PDF** - Generate PDF versions of medical records
+- 📊 **Table PDF Export** - Export patient lists to PDF with auto-formatted tables
+- ☑️ **Bulk Selection** - Select multiple rows in data tables with checkboxes
+- 🗑️ **Bulk Delete** - Delete multiple patients at once with confirmation
+- 📦 **Bulk Export** - Export selected rows to CSV or PDF
+- 🎨 **Bulk Actions Toolbar** - Clean UI for managing bulk operations
+- 🔒 **Role-based Bulk Actions** - Admin-only bulk delete permissions
+- ✅ **Smart Selection** - Select all/individual rows with checkbox controls
+- 📋 **jsPDF Integration** - Professional PDF generation with custom headers/footers
+
+### What Was New in v0.10.0
 - 📅 **Calendar View** - Full-featured calendar for appointments with FullCalendar
 - 🖱️ **Drag & Drop** - Reschedule appointments by dragging them on the calendar
 - 📆 **Multiple Views** - Month, week, and day views with easy switching
@@ -138,7 +150,11 @@
 - ✅ **Toast notifications with Sonner** - Success/error feedback
 - ✅ **Confirmation dialogs** - Two-step delete protection
 - ✅ **CSV Export functionality** - Export data tables to CSV files
+- ✅ **PDF Export functionality** - Export data tables and records to PDF
 - ✅ **Print functionality** - Print-optimized medical records
+- ✅ **Bulk Operations** - Select and manage multiple rows at once
+- ✅ **Bulk Delete** - Delete multiple items with confirmation
+- ✅ **Bulk Export** - Export selected items to CSV/PDF
 
 ### Appointment Management
 - ✅ Appointment listing with role-based actions
@@ -165,6 +181,10 @@
 - ✅ Species and gender filtering
 - ✅ Deactivate with warning confirmation and toast notifications
 - ✅ **CSV Export** - Export all patient data to CSV file
+- ✅ **PDF Export** - Export patient data to professionally formatted PDF
+- ✅ **Bulk Selection** - Select multiple patients with checkboxes
+- ✅ **Bulk Delete** - Deactivate multiple patients at once
+- ✅ **Bulk Export** - Export selected patients to CSV/PDF
 
 ### Owner Management
 - ✅ Owner listing with contact information
@@ -186,6 +206,7 @@
 - ✅ Lab results and follow-up instructions
 - ✅ Delete with confirmation dialog and toast notifications
 - ✅ **Print Functionality** - Print medical records with optimized layout
+- ✅ **PDF Export** - Export medical records to PDF with professional formatting
 - ✅ **Complete CRUD operations (Create, Read, Update, Delete service methods)**
 
 ### UI Components
@@ -201,10 +222,12 @@
 - ✅ **NotificationCenter** - Dropdown notification panel with actions
 - ✅ **Toaster** - Sonner toast notifications (integrated in MainLayout)
 - ✅ **FullCalendar** - Interactive calendar with drag & drop
+- ✅ **Checkbox** - Radix UI checkbox for bulk selection
+- ✅ **BulkActionsToolbar** - Toolbar for bulk operations with action buttons
 - ✅ Loading spinner and overlay
 - ✅ Responsive layout components
 - ✅ **Dark mode support** - Full theme switching capability
-- ✅ DataTable with sorting, filtering, and pagination
+- ✅ DataTable with sorting, filtering, pagination, and bulk selection
 - ✅ FormField component for React Hook Form integration
 - ✅ **CommandPalette with keyboard navigation**
 
@@ -230,8 +253,8 @@
 - [x] Settings page
 - [x] Print functionality for records
 - [x] Export data (CSV)
-- [ ] Export data (PDF)
-- [ ] Bulk operations (export multiple, bulk delete)
+- [x] Export data (PDF)
+- [x] Bulk operations (export multiple, bulk delete)
 
 ### Low Priority Features
 - [ ] Audit log viewer (admin)
@@ -285,21 +308,23 @@
 
 ## 📊 Current Statistics
 
-- **Total Files:** ~140+
-- **Components:** 50+ (Calendar, NotificationCenter, ConfirmDialog, ErrorBoundary, ThemeToggle, AdvancedFilter)
+- **Total Files:** ~145+
+- **Components:** 52+ (BulkActionsToolbar, Checkbox, Calendar, NotificationCenter, ConfirmDialog, ErrorBoundary, ThemeToggle, AdvancedFilter)
 - **Services:** 5 (Appointment, Patient, Owner, Veterinarian, MedicalRecord)
 - **Hooks:** 14+ (appointments, patients, owners, medical-records, auth, veterinarians, useTheme)
 - **Stores:** 2 (Auth Store, Notification Store)
-- **UI Components:** 29+ (ShadCN UI + FullCalendar + Sheet + ScrollArea + ThemeToggle + NotificationCenter + more)
-- **Utilities:** Export utils, Theme management
+- **UI Components:** 31+ (ShadCN UI + FullCalendar + Sheet + ScrollArea + Checkbox + ThemeToggle + NotificationCenter + BulkActionsToolbar)
+- **Utilities:** Export utils (CSV, PDF), Theme management, Date utils
 - **Charts:** 2 (Bar chart for appointments, Pie chart for species distribution)
 - **Pages:** 21 (Login, Dashboard, Settings, Calendar, 4 entities with full CRUD - 4 pages each)
 - **CRUD Entities:** 4 complete with full delete (Appointments, Patients, Owners, Medical Records)
-- **Features:** Calendar View, Notifications, Dark Mode, CSV Export, Print, Error Boundaries, Advanced Filtering
-- **Lines of Code:** ~13,800+
-- **NPM Dependencies:** 427 packages (including @fullcalendar, recharts, sonner, @radix-ui/react-scroll-area)
+- **Features:** Calendar View, Notifications, Dark Mode, CSV Export, PDF Export, Bulk Operations, Print, Error Boundaries, Advanced Filtering
+- **Lines of Code:** ~14,200+
+- **NPM Dependencies:** 450 packages (including @fullcalendar, jspdf, jspdf-autotable, recharts, sonner, @radix-ui/react-checkbox, @radix-ui/react-scroll-area)
 - **Theme Support:** ✅ Light, Dark, System
 - **Calendar Support:** ✅ Month, Week, Day views with drag & drop
+- **Bulk Operations:** ✅ Select, Delete, Export (CSV/PDF)
+- **Export Formats:** ✅ CSV, PDF
 - **Test Coverage:** 0% (tests pending)
 - **Bundle Size:** TBD
 
@@ -307,7 +332,7 @@
 
 - [ ] TypeScript type-only import errors (verbatimModuleSyntax enabled)
 - [ ] Token refresh edge cases not fully tested
-- [ ] PDF export not yet implemented (only CSV available)
+- [ ] Bulk delete uses sequential API calls (no backend bulk endpoint yet)
 
 ## 💡 Improvement Ideas
 
@@ -365,5 +390,5 @@ v0.3.0:
 - ⏳ **Reports & Analytics**
 - ⏳ **Notifications System**
 
-Last Updated: January 15, 2026 (v0.5.0)
-Next Review: After implementing Calendar View or Delete Functionality
+Last Updated: January 19, 2026 (v0.11.0)
+Next Review: After implementing User Management or Audit Logs

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, Calendar, FileText, User, Stethoscope, Pencil, Trash, Printer } from 'lucide-react'
+import { ArrowLeft, Calendar, FileText, User, Stethoscope, Pencil, Trash, Printer, Download } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@presentation/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'
@@ -13,6 +13,7 @@ import { RECORD_TYPE_DISPLAY, RECORD_TYPE_COLORS } from '@shared/constants/medic
 import { formatDate } from '@infrastructure/utils/date-utils'
 import { LoadingSpinner } from '@presentation/components/shared/Loading/LoadingSpinner'
 import { useAuth } from '@presentation/hooks/useAuth'
+import { exportMedicalRecordToPDF } from '@infrastructure/utils/pdf-utils'
 
 export const ViewMedicalRecordPage: React.FC = () => {
   const navigate = useNavigate()
@@ -40,6 +41,15 @@ export const ViewMedicalRecordPage: React.FC = () => {
   const handlePrint = () => {
     window.print()
     toast.success('Opening print dialog...')
+  }
+
+  const handleExportPDF = () => {
+    if (!record) return
+    exportMedicalRecordToPDF(
+      record,
+      `medical-record-${record.id}-${new Date().toISOString().split('T')[0]}.pdf`
+    )
+    toast.success('Medical record exported to PDF')
   }
 
   if (isLoading) {
@@ -91,6 +101,14 @@ export const ViewMedicalRecordPage: React.FC = () => {
           >
             <Printer className="mr-2 h-4 w-4" />
             Print
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleExportPDF}
+            className="print:hidden"
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Export PDF
           </Button>
           {canEdit && (
             <Button
