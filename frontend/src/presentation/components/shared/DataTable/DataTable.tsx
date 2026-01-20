@@ -32,6 +32,7 @@ interface DataTableProps<TData, TValue> {
   searchPlaceholder?: string
   onRowClick?: (row: TData) => void
   enableRowSelection?: boolean
+  onSelectionChange?: (selectedRows: TData[]) => void
   enableSorting?: boolean
   enableFiltering?: boolean
   pageSize?: number
@@ -44,6 +45,7 @@ export function DataTable<TData, TValue>({
   searchPlaceholder = 'Search...',
   onRowClick,
   enableRowSelection = false,
+  onSelectionChange,
   enableSorting = true,
   enableFiltering = true,
   pageSize = 10,
@@ -64,8 +66,19 @@ export function DataTable<TData, TValue>({
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: (updater) => {
+      setRowSelection(updater)
+      // Notify parent of selection changes
+      if (onSelectionChange) {
+        const newSelection = typeof updater === 'function' ? updater(rowSelection) : updater
+        const selectedRows = Object.keys(newSelection)
+          .filter(key => newSelection[key])
+          .map(key => data[parseInt(key)])
+        onSelectionChange(selectedRows)
+      }
+    },
     onGlobalFilterChange: setGlobalFilter,
+    enableRowSelection: enableRowSelection,
     state: {
       sorting,
       columnFilters,
@@ -143,7 +156,13 @@ export function DataTable<TData, TValue>({
                   className={cn(
                     onRowClick && 'cursor-pointer hover:bg-muted/50'
                   )}
-                  onClick={() => onRowClick?.(row.original)}
+                  onClick={(e) => {
+                    // Don't trigger row click if clicking on checkbox or actions
+                    if ((e.target as HTMLElement).closest('[data-no-row-click]')) {
+                      return
+                    }
+                    onRowClick?.(row.original)
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
