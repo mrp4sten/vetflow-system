@@ -1,22 +1,31 @@
 # Development Dockerfile
 FROM node:18-alpine
 
-WORKDIR /app
-
-# Install dependencies for better watching
+# Install git for better file watching
 RUN apk add --no-cache git
 
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm ci
-
-# Copy source code
-COPY . .
+WORKDIR /app
 
 # Expose development port (Vite default is 5173)
 EXPOSE 5173
 
-# Start development server with host flag for Docker
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+# Create startup script that fixes permissions, installs deps, and starts dev server
+RUN printf '#!/bin/sh\n\
+set -e\n\
+cd /app\n\
+\n\
+echo "Fixing permissions..."\n\
+chmod -R 755 /app 2>/dev/null || true\n\
+\n\
+# Install dependencies if node_modules doesn not exist\n\
+if [ ! -d "node_modules" ]; then\n\
+  echo "Installing dependencies..."\n\
+  npm install --no-audit --legacy-peer-deps 2>&1 || npm install --force\n\
+fi\n\
+\n\
+echo "Starting Vite development server..."\n\
+exec npm run dev -- --host 0.0.0.0\n' > /start.sh && \
+    chmod +x /start.sh
+
+# Run as root to handle permission fixes (dev environment only)
+CMD ["/start.sh"]
