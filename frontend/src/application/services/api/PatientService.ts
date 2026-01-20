@@ -2,7 +2,7 @@ import { BaseApiService, PaginatedResponse } from './BaseApiService'
 import type { Patient } from '@domain/models/Patient'
 import type { CreatePatientDto, UpdatePatientDto, PatientFilterDto } from '@application/dtos/patient.dto'
 import { API_ENDPOINTS } from '@infrastructure/api/endpoints'
-import { PatientRepository } from '@domain/ports/repositories/PatientRepository'
+import type { PatientRepository } from '@domain/ports/repositories/PatientRepository'
 
 export class PatientService extends BaseApiService implements PatientRepository {
   async findById(id: number): Promise<Patient | null> {
