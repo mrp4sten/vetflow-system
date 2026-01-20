@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { Calendar, Clock, MoreHorizontal, Plus, Eye, Edit, Trash } from 'lucide-react'
 import { toast } from 'sonner'

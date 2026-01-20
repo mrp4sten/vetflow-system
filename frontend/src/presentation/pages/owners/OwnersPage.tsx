@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 import { User, MoreHorizontal, Plus, Eye, Edit, Trash, Mail, Phone } from 'lucide-react'
 import { Button } from '@presentation/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'

@@ -142,6 +142,25 @@ else
     echo -e "   ${GREEN}✓ No issues found${NC}"
 fi
 
+# 9. Check for TanStack React Table type imports
+echo ""
+echo "9. Checking for TanStack React Table type imports..."
+COUNT=$(grep -r "from '@tanstack/react-table'" "$FRONTEND_DIR" --include="*.ts" --include="*.tsx" 2>/dev/null | \
+        grep -E "(ColumnDef|SortingState|ColumnFiltersState|VisibilityState|RowSelectionState)" | \
+        grep -v "import type" | wc -l)
+if [ "$COUNT" -gt 0 ]; then
+    echo -e "   ${RED}✗ Found $COUNT issues${NC}"
+    grep -r "from '@tanstack/react-table'" "$FRONTEND_DIR" --include="*.ts" --include="*.tsx" 2>/dev/null | \
+        grep -E "(ColumnDef|SortingState|ColumnFiltersState|VisibilityState|RowSelectionState)" | \
+        grep -v "import type" | head -5
+    echo -e "   ${YELLOW}Hint: Separate runtime imports from types:${NC}"
+    echo -e "   ${GREEN}import { useReactTable, flexRender } from '@tanstack/react-table'${NC}"
+    echo -e "   ${GREEN}import type { ColumnDef, SortingState } from '@tanstack/react-table'${NC}"
+    TOTAL_ISSUES=$((TOTAL_ISSUES + COUNT))
+else
+    echo -e "   ${GREEN}✓ No issues found${NC}"
+fi
+
 # Summary
 echo ""
 echo "================================================="
