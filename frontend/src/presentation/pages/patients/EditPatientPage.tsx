@@ -14,7 +14,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@presentation/components/ui/select'
-import { patientSchema, PatientFormData } from '@shared/schemas/patient.schema'
+import { patientSchema } from '@shared/schemas/patient.schema'
+import type { PatientFormData } from '@shared/schemas/patient.schema'
 import { usePatient, useUpdatePatient } from '@presentation/hooks/usePatients'
 import { useOwners } from '@presentation/hooks/useOwners'
 import { ROUTES } from '@shared/constants/routes'

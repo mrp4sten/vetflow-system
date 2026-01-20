@@ -125,6 +125,23 @@ else
     echo -e "   ${GREEN}✓ No issues found${NC}"
 fi
 
+# 8. Check for mixed schema/type imports (Zod inferred types)
+echo ""
+echo "8. Checking for mixed schema/FormData imports..."
+COUNT=$(grep -r "Schema,.*FormData\|Schema,.*Data }" "$FRONTEND_DIR" --include="*.ts" --include="*.tsx" 2>/dev/null | \
+        grep "from '@shared/schemas/" | grep -v "import type" | wc -l)
+if [ "$COUNT" -gt 0 ]; then
+    echo -e "   ${RED}✗ Found $COUNT issues${NC}"
+    grep -r "Schema,.*FormData\|Schema,.*Data }" "$FRONTEND_DIR" --include="*.ts" --include="*.tsx" 2>/dev/null | \
+        grep "from '@shared/schemas/" | grep -v "import type" | head -5
+    echo -e "   ${YELLOW}Hint: Separate schema (value) from FormData (type):${NC}"
+    echo -e "   ${GREEN}import { loginSchema } from '@shared/schemas/auth.schema'${NC}"
+    echo -e "   ${GREEN}import type { LoginFormData } from '@shared/schemas/auth.schema'${NC}"
+    TOTAL_ISSUES=$((TOTAL_ISSUES + COUNT))
+else
+    echo -e "   ${GREEN}✓ No issues found${NC}"
+fi
+
 # Summary
 echo ""
 echo "================================================="

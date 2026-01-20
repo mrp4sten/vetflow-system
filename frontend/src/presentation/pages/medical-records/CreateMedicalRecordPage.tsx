@@ -15,7 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@presentation/components/ui/select'
-import { medicalRecordSchema, type MedicalRecordFormData } from '@shared/schemas/medical-record.schema'
+import { medicalRecordSchema } from '@shared/schemas/medical-record.schema'
+import type { MedicalRecordFormData } from '@shared/schemas/medical-record.schema'
 import { useCreateMedicalRecord } from '@presentation/hooks/useMedicalRecords'
 import { usePatients } from '@presentation/hooks/usePatients'
 import { useAppointments } from '@presentation/hooks/useAppointments'

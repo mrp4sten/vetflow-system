@@ -22,8 +22,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@presentation/components/ui/dialog'
-import { patientSchema, PatientFormData } from '@shared/schemas/patient.schema'
-import { ownerSchema, OwnerFormData } from '@shared/schemas/owner.schema'
+import { patientSchema } from '@shared/schemas/patient.schema'
+import type { PatientFormData } from '@shared/schemas/patient.schema'
+import { ownerSchema } from '@shared/schemas/owner.schema'
+import type { OwnerFormData } from '@shared/schemas/owner.schema'
 import { useCreatePatient } from '@presentation/hooks/usePatients'
 import { useOwners, useCreateOwner } from '@presentation/hooks/useOwners'
 import { ROUTES } from '@shared/constants/routes'
