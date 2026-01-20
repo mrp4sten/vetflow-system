@@ -1,8 +1,20 @@
 # VetFlow Frontend - Development Status
 
-## 📅 Latest Update: v0.9.0 - Theme Switcher & Advanced Filtering
+## 📅 Latest Update: v0.10.0 - Calendar View & Notifications
 
-### What's New in v0.9.0
+### What's New in v0.10.0
+- 📅 **Calendar View** - Full-featured calendar for appointments with FullCalendar
+- 🖱️ **Drag & Drop** - Reschedule appointments by dragging them on the calendar
+- 📆 **Multiple Views** - Month, week, and day views with easy switching
+- 🔔 **Notification Center** - Real-time notification system with badge counter
+- 🔴 **Unread Badges** - Visual indicators for unread notifications
+- 🗑️ **Notification Management** - Mark as read, clear all, or delete individual notifications
+- 🎨 **Status Color Coding** - Appointments color-coded by status on calendar
+- ⏰ **Time Slots** - Customizable working hours (8 AM - 8 PM)
+- 🎯 **Quick Create** - Click any date on calendar to create new appointment
+- 📊 **Event Details** - Rich event cards with patient, type, and veterinarian info
+
+### What Was New in v0.9.0
 - 🌓 **Dark Mode** - Full theme switcher with light, dark, and system preferences
 - 🎨 **Theme Toggle** - Beautiful dropdown in header with sun/moon icons
 - 🔍 **Advanced Filtering** - Filter appointments by status, type, and date
@@ -116,6 +128,8 @@
 - ✅ **Dark Mode** - Theme switcher with light, dark, and system preferences
 - ✅ **Theme Toggle** - Accessible theme switcher in header
 - ✅ **Advanced Filtering** - Reusable filter component with presets
+- ✅ **Notification Center** - Real-time notifications with badge counter
+- ✅ **Notification Store** - Zustand store for notification management
 - ✅ Zustand store for auth state
 - ✅ Axios interceptors for API calls
 - ✅ React Query for server state management
@@ -136,6 +150,11 @@
 - ✅ Delete with confirmation dialog and toast notifications
 - ✅ **Advanced Filtering** - Filter by status, type, and date
 - ✅ **Filter Presets** - Save and reuse common filter combinations
+- ✅ **Calendar View** - Full-featured calendar with FullCalendar integration
+- ✅ **Drag & Drop Rescheduling** - Drag appointments to new times/dates
+- ✅ **Multiple Calendar Views** - Month, week, and day views
+- ✅ **Color-coded Status** - Appointments color-coded by status
+- ✅ **Quick Create from Calendar** - Click any date to create appointment
 
 ### Patient Management
 - ✅ Patient listing with DataTable (search, filter, sort)
@@ -176,9 +195,12 @@
 - ✅ **ConfirmDialog** - Reusable confirmation component with variants
 - ✅ **ErrorBoundary** - Graceful error handling with recovery options
 - ✅ **Sheet** - Slide-over panel for filters and forms
+- ✅ **ScrollArea** - Custom scrollable areas with styled scrollbars
 - ✅ **AdvancedFilter** - Reusable filtering component with presets
 - ✅ **ThemeToggle** - Theme switcher with icon animations
+- ✅ **NotificationCenter** - Dropdown notification panel with actions
 - ✅ **Toaster** - Sonner toast notifications (integrated in MainLayout)
+- ✅ **FullCalendar** - Interactive calendar with drag & drop
 - ✅ Loading spinner and overlay
 - ✅ Responsive layout components
 - ✅ **Dark mode support** - Full theme switching capability
@@ -200,8 +222,8 @@
 - [x] Dashboard charts with Recharts
 - [x] Advanced filtering with saved presets
 - [x] Theme switcher (dark mode)
-- [ ] Appointment calendar view (weekly/daily)
-- [ ] Real-time notifications
+- [x] Appointment calendar view (monthly/weekly/daily)
+- [x] Real-time notifications system
 
 ### Medium Priority Features
 - [x] User profile management
@@ -263,19 +285,21 @@
 
 ## 📊 Current Statistics
 
-- **Total Files:** ~132+
-- **Components:** 47+ (CommandPalette, ConfirmDialog, ErrorBoundary, ThemeToggle, AdvancedFilter)
+- **Total Files:** ~140+
+- **Components:** 50+ (Calendar, NotificationCenter, ConfirmDialog, ErrorBoundary, ThemeToggle, AdvancedFilter)
 - **Services:** 5 (Appointment, Patient, Owner, Veterinarian, MedicalRecord)
 - **Hooks:** 14+ (appointments, patients, owners, medical-records, auth, veterinarians, useTheme)
-- **UI Components:** 26+ (ShadCN UI + Sheet + ThemeToggle + AdvancedFilter + more)
+- **Stores:** 2 (Auth Store, Notification Store)
+- **UI Components:** 29+ (ShadCN UI + FullCalendar + Sheet + ScrollArea + ThemeToggle + NotificationCenter + more)
 - **Utilities:** Export utils, Theme management
 - **Charts:** 2 (Bar chart for appointments, Pie chart for species distribution)
-- **Pages:** 20 (Login, Dashboard, Settings, 4 entities with full CRUD - 4 pages each)
+- **Pages:** 21 (Login, Dashboard, Settings, Calendar, 4 entities with full CRUD - 4 pages each)
 - **CRUD Entities:** 4 complete with full delete (Appointments, Patients, Owners, Medical Records)
-- **Features:** Dark Mode, CSV Export, Print, Error Boundaries, Advanced Filtering
-- **Lines of Code:** ~13,000+
-- **NPM Dependencies:** 415 packages (including recharts, sonner, @radix-ui/react-dialog)
+- **Features:** Calendar View, Notifications, Dark Mode, CSV Export, Print, Error Boundaries, Advanced Filtering
+- **Lines of Code:** ~13,800+
+- **NPM Dependencies:** 427 packages (including @fullcalendar, recharts, sonner, @radix-ui/react-scroll-area)
 - **Theme Support:** ✅ Light, Dark, System
+- **Calendar Support:** ✅ Month, Week, Day views with drag & drop
 - **Test Coverage:** 0% (tests pending)
 - **Bundle Size:** TBD
 

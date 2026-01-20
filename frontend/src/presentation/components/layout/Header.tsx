@@ -4,6 +4,7 @@ import { useAuth } from '@presentation/hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@shared/constants/routes'
 import { ThemeToggle } from '@presentation/components/shared/ThemeToggle/ThemeToggle'
+import { NotificationCenter } from '@presentation/components/shared/NotificationCenter/NotificationCenter'
 
 interface HeaderProps {
   onMenuToggle: () => void
@@ -61,6 +62,8 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, sidebarCollapsed, 
           </Button>
 
           <ThemeToggle />
+
+          <NotificationCenter />
 
           <div className="flex items-center gap-2">
             <User className="h-4 w-4 text-muted-foreground" />
