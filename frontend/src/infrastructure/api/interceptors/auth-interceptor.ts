@@ -1,4 +1,5 @@
-import { AxiosRequestConfig, AxiosResponse, AxiosError, AxiosInstance } from 'axios'
+import axios from 'axios'
+import type { AxiosRequestConfig, AxiosResponse, AxiosError, AxiosInstance } from 'axios'
 import { TokenStorage } from '../../storage/TokenStorage'
 import { API_ENDPOINTS } from '../endpoints'
 

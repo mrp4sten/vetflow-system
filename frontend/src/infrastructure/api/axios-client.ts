@@ -1,4 +1,5 @@
-import axios, { AxiosInstance } from 'axios'
+import axios from 'axios'
+import type { AxiosInstance } from 'axios'
 import { env } from '../config/environment'
 import { TokenStorage } from '../storage/TokenStorage'
 import { authInterceptor, refreshInterceptor } from './interceptors/auth-interceptor'

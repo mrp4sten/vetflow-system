@@ -1,5 +1,5 @@
 import { api } from '@infrastructure/api/axios-client'
-import { AxiosRequestConfig } from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 
 export interface PaginatedResponse<T> {
   content: T[]
