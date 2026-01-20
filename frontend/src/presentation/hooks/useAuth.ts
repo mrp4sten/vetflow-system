@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useAuthStore } from '@infrastructure/auth/AuthStore'
-import { UserRole } from '@domain/models/SystemUser'
+import type { UserRole } from '@domain/models/SystemUser'
 
 export const useAuth = () => {
   const store = useAuthStore()

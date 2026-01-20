@@ -1,4 +1,4 @@
-import { Patient, Species, Gender } from '@domain/models/Patient'
+import type { Patient, Species, Gender } from '@domain/models/Patient'
 
 export interface RegisterPatientCommand {
   name: string

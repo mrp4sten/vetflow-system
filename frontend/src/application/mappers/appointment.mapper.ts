@@ -1,4 +1,4 @@
-import { Appointment } from '@domain/models/Appointment'
+import type { Appointment } from '@domain/models/Appointment'
 import { addDurationToDate, formatDate, isAfter } from '@infrastructure/utils/date-utils'
 import { DATE_FORMATS } from '@infrastructure/utils/date-utils'
 import { PatientMapper } from './patient.mapper'

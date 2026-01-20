@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '@presentation/hooks/useAuth'
-import { UserRole } from '@domain/models/SystemUser'
+import type { UserRole } from '@domain/models/SystemUser'
 import { ROUTES } from '@shared/constants/routes'
 import { LoadingOverlay } from '@presentation/components/shared/Loading/LoadingOverlay'
 

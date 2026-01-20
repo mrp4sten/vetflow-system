@@ -1,4 +1,4 @@
-import { SystemUser } from '@domain/models/SystemUser'
+import type { SystemUser } from '@domain/models/SystemUser'
 
 export interface LoginCredentials {
   username: string

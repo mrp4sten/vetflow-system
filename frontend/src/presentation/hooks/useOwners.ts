@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { ownerService } from '@application/services/api/OwnerService'
-import { Owner } from '@domain/models/Owner'
+import type { Owner } from '@domain/models/Owner'
 import { CreateOwnerDto, UpdateOwnerDto, OwnerFilterDto } from '@application/dtos/owner.dto'
 
 const OWNER_QUERY_KEY = 'owners'

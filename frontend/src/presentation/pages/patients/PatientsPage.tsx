@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from '@presentation/components/ui/dropdown-menu'
 import { usePatients, useDeactivatePatient } from '@presentation/hooks/usePatients'
-import { Patient } from '@domain/models/Patient'
+import type { Patient } from '@domain/models/Patient'
 import { ROUTES } from '@shared/constants/routes'
 import { LoadingSpinner } from '@presentation/components/shared/Loading/LoadingSpinner'
 import { useAuth } from '@presentation/hooks/useAuth'

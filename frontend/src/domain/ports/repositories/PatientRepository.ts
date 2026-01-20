@@ -1,4 +1,4 @@
-import { Patient } from '@domain/models/Patient'
+import type { Patient } from '@domain/models/Patient'
 
 export interface PatientFilter {
   ownerId?: number

@@ -1,4 +1,4 @@
-import { Appointment, AppointmentType, AppointmentPriority } from '@domain/models/Appointment'
+import type { Appointment, AppointmentType, AppointmentPriority } from '@domain/models/Appointment'
 
 export interface ScheduleAppointmentCommand {
   patientId: number

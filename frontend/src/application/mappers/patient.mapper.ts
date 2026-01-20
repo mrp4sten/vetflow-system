@@ -1,4 +1,4 @@
-import { Patient } from '@domain/models/Patient'
+import type { Patient } from '@domain/models/Patient'
 import { calculateAge } from '@infrastructure/utils/date-utils'
 import { convertKgToLbs } from '@infrastructure/utils/validation-utils'
 import { OwnerMapper } from './owner.mapper'

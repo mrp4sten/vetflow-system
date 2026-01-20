@@ -1,4 +1,4 @@
-import { Species, Gender } from '@domain/models/Patient'
+import type { Species, Gender } from '@domain/models/Patient'
 
 export interface CreatePatientDto {
   name: string

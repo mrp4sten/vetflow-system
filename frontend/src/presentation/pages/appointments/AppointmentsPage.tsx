@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from '@presentation/components/ui/dropdown-menu'
 import { useAppointments, useDeleteAppointment, useUpdateAppointmentStatus } from '@presentation/hooks/useAppointments'
-import { Appointment, AppointmentStatus } from '@domain/models/Appointment'
+import type { Appointment, AppointmentStatus } from '@domain/models/Appointment'
 import { APPOINTMENT_STATUS_COLORS, APPOINTMENT_STATUS_DISPLAY, APPOINTMENT_TYPE_DISPLAY, APPOINTMENT_PRIORITY_COLORS } from '@shared/constants/appointment-status'
 import { ROUTES } from '@shared/constants/routes'
 import { LoadingSpinner } from '@presentation/components/shared/Loading/LoadingSpinner'

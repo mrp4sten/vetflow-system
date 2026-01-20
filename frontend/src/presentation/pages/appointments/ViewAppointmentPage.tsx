@@ -27,7 +27,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@presentation/components/ui/dropdown-menu'
-import { AppointmentStatus } from '@domain/models/Appointment'
+import type { AppointmentStatus } from '@domain/models/Appointment'
 
 export const ViewAppointmentPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()

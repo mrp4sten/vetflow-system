@@ -1,5 +1,5 @@
 import { BaseApiService, PaginatedResponse } from './BaseApiService'
-import { Appointment } from '@domain/models/Appointment'
+import type { Appointment } from '@domain/models/Appointment'
 import { CreateAppointmentDto, UpdateAppointmentDto, AppointmentFilterDto } from '@application/dtos/appointment.dto'
 import { API_ENDPOINTS } from '@infrastructure/api/endpoints'
 import { AppointmentRepository } from '@domain/ports/repositories/AppointmentRepository'

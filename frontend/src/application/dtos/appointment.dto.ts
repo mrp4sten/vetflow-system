@@ -1,4 +1,4 @@
-import { AppointmentStatus, AppointmentType, AppointmentPriority } from '@domain/models/Appointment'
+import type { AppointmentStatus, AppointmentType, AppointmentPriority } from '@domain/models/Appointment'
 
 export interface CreateAppointmentDto {
   patientId: number

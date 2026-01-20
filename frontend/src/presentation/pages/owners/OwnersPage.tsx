@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@presentation/components/ui/dropdown-menu'
 import { useOwners, useDeleteOwner } from '@presentation/hooks/useOwners'
-import { Owner } from '@domain/models/Owner'
+import type { Owner } from '@domain/models/Owner'
 import { ROUTES } from '@shared/constants/routes'
 import { LoadingSpinner } from '@presentation/components/shared/Loading/LoadingSpinner'
 import { useAuth } from '@presentation/hooks/useAuth'

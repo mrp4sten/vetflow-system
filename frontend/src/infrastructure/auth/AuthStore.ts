@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { AuthState, AuthActions } from '@shared/types/auth'
-import { SystemUser, UserRole } from '@domain/models/SystemUser'
+import type { AuthState, AuthActions } from '@shared/types/auth'
+import type { SystemUser, UserRole } from '@domain/models/SystemUser'
 import { api } from '@infrastructure/api/axios-client'
 import { API_ENDPOINTS } from '@infrastructure/api/endpoints'
 import { TokenStorage } from '@infrastructure/storage/TokenStorage'

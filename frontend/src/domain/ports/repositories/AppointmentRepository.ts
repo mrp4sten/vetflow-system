@@ -1,4 +1,4 @@
-import { Appointment, AppointmentStatus } from '@domain/models/Appointment'
+import type { Appointment, AppointmentStatus } from '@domain/models/Appointment'
 
 export interface AppointmentFilter {
   patientId?: number

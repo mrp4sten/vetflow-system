@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { AppointmentType, AppointmentPriority } from '@domain/models/Appointment'
+import type { AppointmentType, AppointmentPriority } from '@domain/models/Appointment'
 
 export const appointmentSchema = z.object({
   patientId: z.number().min(1, 'Patient is required'),

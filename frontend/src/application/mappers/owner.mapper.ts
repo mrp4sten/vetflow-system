@@ -1,4 +1,4 @@
-import { Owner } from '@domain/models/Owner'
+import type { Owner } from '@domain/models/Owner'
 
 export class OwnerMapper {
   static toDomain(dto: any): Owner {

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '@infrastructure/api/axios-client'
 import { API_ENDPOINTS } from '@infrastructure/api/endpoints'
-import { SystemUser } from '@domain/models/SystemUser'
+import type { SystemUser } from '@domain/models/SystemUser'
 
 const VETERINARIAN_QUERY_KEY = 'veterinarians'
 

@@ -1,4 +1,4 @@
-import { AppointmentStatus, AppointmentType, AppointmentPriority } from '@domain/models/Appointment'
+import type { AppointmentStatus, AppointmentType, AppointmentPriority } from '@domain/models/Appointment'
 
 export const APPOINTMENT_STATUS_DISPLAY: Record<AppointmentStatus, string> = {
   scheduled: 'Scheduled',

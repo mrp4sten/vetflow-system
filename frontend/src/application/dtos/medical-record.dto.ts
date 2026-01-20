@@ -1,4 +1,4 @@
-import { RecordType, Prescription } from '@domain/models/MedicalRecord'
+import type { RecordType, Prescription } from '@domain/models/MedicalRecord'
 
 export interface CreateMedicalRecordDto {
   patientId: number

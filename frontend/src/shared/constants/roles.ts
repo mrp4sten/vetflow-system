@@ -1,4 +1,4 @@
-import { UserRole } from '@domain/models/SystemUser'
+import type { UserRole } from '@domain/models/SystemUser'
 
 export const ROLE_DISPLAY_NAMES: Record<UserRole, string> = {
   admin: 'Administrator',

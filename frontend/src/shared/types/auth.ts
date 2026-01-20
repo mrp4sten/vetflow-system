@@ -1,4 +1,4 @@
-import { SystemUser, UserRole } from '@domain/models/SystemUser'
+import type { SystemUser, UserRole } from '@domain/models/SystemUser'
 
 export interface AuthState {
   user: SystemUser | null

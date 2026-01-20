@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { patientService } from '@application/services/api/PatientService'
-import { Patient } from '@domain/models/Patient'
+import type { Patient } from '@domain/models/Patient'
 import { CreatePatientDto, UpdatePatientDto, PatientFilterDto } from '@application/dtos/patient.dto'
 
 const PATIENT_QUERY_KEY = 'patients'

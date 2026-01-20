@@ -1,5 +1,5 @@
 # Development Dockerfile
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Install git for better file watching
 RUN apk add --no-cache git
@@ -9,23 +9,6 @@ WORKDIR /app
 # Expose development port (Vite default is 5173)
 EXPOSE 5173
 
-# Create startup script that fixes permissions, installs deps, and starts dev server
-RUN printf '#!/bin/sh\n\
-set -e\n\
-cd /app\n\
-\n\
-echo "Fixing permissions..."\n\
-chmod -R 755 /app 2>/dev/null || true\n\
-\n\
-# Install dependencies if node_modules doesn not exist\n\
-if [ ! -d "node_modules" ]; then\n\
-  echo "Installing dependencies..."\n\
-  npm install --no-audit --legacy-peer-deps 2>&1 || npm install --force\n\
-fi\n\
-\n\
-echo "Starting Vite development server..."\n\
-exec npm run dev -- --host 0.0.0.0\n' > /start.sh && \
-    chmod +x /start.sh
-
-# Run as root to handle permission fixes (dev environment only)
-CMD ["/start.sh"]
+# Simple startup: install deps and run dev server
+# Running as root in dev mode avoids SELinux permission issues
+CMD ["sh", "-c", "npm install && npm run dev -- --host 0.0.0.0"]
