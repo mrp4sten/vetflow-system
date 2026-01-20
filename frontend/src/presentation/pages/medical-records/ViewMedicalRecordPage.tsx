@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, Calendar, FileText, User, Stethoscope, Pencil, Trash } from 'lucide-react'
+import { ArrowLeft, Calendar, FileText, User, Stethoscope, Pencil, Trash, Printer } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@presentation/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'
@@ -35,6 +35,11 @@ export const ViewMedicalRecordPage: React.FC = () => {
     } catch (error) {
       toast.error('Failed to delete medical record')
     }
+  }
+
+  const handlePrint = () => {
+    window.print()
+    toast.success('Opening print dialog...')
   }
 
   if (isLoading) {
@@ -79,9 +84,18 @@ export const ViewMedicalRecordPage: React.FC = () => {
           <Badge className={RECORD_TYPE_COLORS[record.type]}>
             {RECORD_TYPE_DISPLAY[record.type]}
           </Badge>
+          <Button
+            variant="outline"
+            onClick={handlePrint}
+            className="print:hidden"
+          >
+            <Printer className="mr-2 h-4 w-4" />
+            Print
+          </Button>
           {canEdit && (
             <Button
               onClick={() => navigate(ROUTES.MEDICAL_RECORDS.EDIT(recordId))}
+              className="print:hidden"
             >
               <Pencil className="mr-2 h-4 w-4" />
               Edit
@@ -91,6 +105,7 @@ export const ViewMedicalRecordPage: React.FC = () => {
             <Button
               variant="destructive"
               onClick={() => setDeleteDialogOpen(true)}
+              className="print:hidden"
             >
               <Trash className="mr-2 h-4 w-4" />
               Delete

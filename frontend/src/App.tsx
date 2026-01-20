@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { ROUTES } from '@shared/constants/routes'
 import { ProtectedRoute } from '@presentation/routes/ProtectedRoute'
 import { MainLayout } from '@presentation/components/layout/MainLayout'
+import { ErrorBoundary } from '@presentation/components/shared/ErrorBoundary/ErrorBoundary'
 import { LoginPage } from '@presentation/pages/auth/LoginPage'
 import { DashboardPage } from '@presentation/pages/dashboard/DashboardPage'
 import { AppointmentsPage } from '@presentation/pages/appointments/AppointmentsPage'
@@ -20,10 +21,12 @@ import { MedicalRecordsPage } from '@presentation/pages/medical-records/MedicalR
 import { CreateMedicalRecordPage } from '@presentation/pages/medical-records/CreateMedicalRecordPage'
 import { ViewMedicalRecordPage } from '@presentation/pages/medical-records/ViewMedicalRecordPage'
 import { EditMedicalRecordPage } from '@presentation/pages/medical-records/EditMedicalRecordPage'
+import { SettingsPage } from '@presentation/pages/settings/SettingsPage'
 
 function App() {
   return (
-    <Routes>
+    <ErrorBoundary>
+      <Routes>
       {/* Public routes */}
       <Route path={ROUTES.AUTH.LOGIN} element={<LoginPage />} />
       
@@ -65,14 +68,15 @@ function App() {
             <Route path={ROUTES.ADMIN.AUDIT_LOGS} element={<div>Audit Logs</div>} />
           </Route>
           
-          {/* User routes - TODO */}
-          <Route path={ROUTES.SETTINGS} element={<div>Settings</div>} />
+          {/* User routes */}
+          <Route path={ROUTES.SETTINGS} element={<SettingsPage />} />
         </Route>
       </Route>
       
       {/* Fallback route */}
       <Route path="*" element={<Navigate to={ROUTES.DASHBOARD} replace />} />
     </Routes>
+    </ErrorBoundary>
   )
 }
 
