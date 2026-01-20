@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ColumnDef } from '@tanstack/react-table'
-import { Heart, MoreHorizontal, Plus, Eye, Edit, Trash, User } from 'lucide-react'
+import { Heart, MoreHorizontal, Plus, Eye, Edit, Trash, User, Download } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@presentation/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'
 import { DataTable } from '@presentation/components/shared/DataTable/DataTable'
@@ -20,6 +21,7 @@ import { ROUTES } from '@shared/constants/routes'
 import { LoadingSpinner } from '@presentation/components/shared/Loading/LoadingSpinner'
 import { useAuth } from '@presentation/hooks/useAuth'
 import { formatAge } from '@infrastructure/utils/date-utils'
+import { exportToCSV } from '@infrastructure/utils/export-utils'
 
 export const PatientsPage: React.FC = () => {
   const navigate = useNavigate()
@@ -31,6 +33,34 @@ export const PatientsPage: React.FC = () => {
 
   const canEdit = hasAnyRole(['admin', 'veterinarian', 'assistant'])
   const canDelete = hasAnyRole(['admin'])
+
+  const handleExportCSV = () => {
+    const exportData = patients.map(patient => ({
+      id: patient.id,
+      name: patient.name,
+      species: patient.species,
+      breed: patient.breed || '',
+      gender: patient.gender,
+      birthDate: patient.birthDate,
+      age: formatAge(patient.birthDate),
+      weight: `${patient.weight} kg`,
+      color: patient.color || '',
+      microchipId: patient.microchipId || '',
+      owner: patient.owner?.fullName || '',
+      ownerEmail: patient.owner?.email || '',
+      ownerPhone: patient.owner?.phoneNumber || '',
+      isActive: patient.isActive ? 'Active' : 'Inactive',
+      medicalHistory: patient.medicalHistory || '',
+      allergies: patient.allergies || '',
+      createdAt: new Date(patient.createdAt).toLocaleDateString(),
+    }))
+
+    exportToCSV(
+      exportData,
+      `patients-export-${new Date().toISOString().split('T')[0]}.csv`
+    )
+    toast.success('Patients data exported successfully')
+  }
 
   const columns: ColumnDef<Patient>[] = [
     {
@@ -172,12 +202,18 @@ export const PatientsPage: React.FC = () => {
             Manage patient records and medical history
           </p>
         </div>
-        {canEdit && (
-          <Button onClick={() => navigate(ROUTES.PATIENTS.CREATE)}>
-            <Plus className="mr-2 h-4 w-4" />
-            Register Patient
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={handleExportCSV}>
+            <Download className="mr-2 h-4 w-4" />
+            Export CSV
           </Button>
-        )}
+          {canEdit && (
+            <Button onClick={() => navigate(ROUTES.PATIENTS.CREATE)}>
+              <Plus className="mr-2 h-4 w-4" />
+              Register Patient
+            </Button>
+          )}
+        </div>
       </div>
 
       <Card>
