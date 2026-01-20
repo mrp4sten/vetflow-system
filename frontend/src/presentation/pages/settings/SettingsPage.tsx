@@ -1,15 +1,17 @@
 import { useAuth } from '@presentation/hooks/useAuth'
+import { useTheme } from '@presentation/hooks/useTheme'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@presentation/components/ui/card'
 import { Button } from '@presentation/components/ui/button'
 import { Badge } from '@presentation/components/ui/badge'
 import { Separator } from '@presentation/components/ui/separator'
-import { User, Mail, Shield, Calendar, LogOut } from 'lucide-react'
+import { User, Mail, Shield, Calendar, LogOut, Sun, Moon, Monitor } from 'lucide-react'
 import { format } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@shared/constants/routes'
 
 export const SettingsPage: React.FC = () => {
   const { user, logout } = useAuth()
+  const { theme, setTheme } = useTheme()
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -164,7 +166,32 @@ export const SettingsPage: React.FC = () => {
                   Choose your preferred color scheme
                 </p>
               </div>
-              <Badge variant="outline">Light (Default)</Badge>
+              <div className="flex gap-2">
+                <Button
+                  variant={theme === 'light' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTheme('light')}
+                >
+                  <Sun className="mr-2 h-4 w-4" />
+                  Light
+                </Button>
+                <Button
+                  variant={theme === 'dark' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTheme('dark')}
+                >
+                  <Moon className="mr-2 h-4 w-4" />
+                  Dark
+                </Button>
+                <Button
+                  variant={theme === 'system' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTheme('system')}
+                >
+                  <Monitor className="mr-2 h-4 w-4" />
+                  System
+                </Button>
+              </div>
             </div>
 
             <Separator />

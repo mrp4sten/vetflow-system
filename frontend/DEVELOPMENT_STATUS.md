@@ -1,8 +1,18 @@
 # VetFlow Frontend - Development Status
 
-## 📅 Latest Update: v0.8.0 - Error Handling, Export & User Settings
+## 📅 Latest Update: v0.9.0 - Theme Switcher & Advanced Filtering
 
-### What's New in v0.8.0
+### What's New in v0.9.0
+- 🌓 **Dark Mode** - Full theme switcher with light, dark, and system preferences
+- 🎨 **Theme Toggle** - Beautiful dropdown in header with sun/moon icons
+- 🔍 **Advanced Filtering** - Filter appointments by status, type, and date
+- 💾 **Saved Filter Presets** - Save and reuse common filter combinations
+- ⚙️ **Theme Settings** - Theme selector integrated in Settings page
+- 🎯 **Smart Filtering** - Apply multiple filters simultaneously
+- 📱 **System Theme Support** - Automatically follows OS theme preference
+- 🗂️ **Filter Management** - Create, load, and delete filter presets
+
+### What Was New in v0.8.0
 - 🛡️ **Error Boundaries** - Graceful error handling with user-friendly error pages
 - 🖨️ **Print Functionality** - Print medical records directly from the browser
 - 📥 **CSV Export** - Export patient data to CSV files for external use
@@ -103,6 +113,9 @@
 - ✅ **Recent Activity Feed** - Today's appointments and recent patients
 - ✅ **User Settings Page** - Profile information and account management
 - ✅ **Error Boundaries** - Graceful error handling throughout the app
+- ✅ **Dark Mode** - Theme switcher with light, dark, and system preferences
+- ✅ **Theme Toggle** - Accessible theme switcher in header
+- ✅ **Advanced Filtering** - Reusable filter component with presets
 - ✅ Zustand store for auth state
 - ✅ Axios interceptors for API calls
 - ✅ React Query for server state management
@@ -121,6 +134,8 @@
 - ✅ Appointment editing with pre-populated forms
 - ✅ Status update functionality
 - ✅ Delete with confirmation dialog and toast notifications
+- ✅ **Advanced Filtering** - Filter by status, type, and date
+- ✅ **Filter Presets** - Save and reuse common filter combinations
 
 ### Patient Management
 - ✅ Patient listing with DataTable (search, filter, sort)
@@ -160,10 +175,13 @@
 - ✅ **AlertDialog** - Radix UI dialog primitive for confirmations
 - ✅ **ConfirmDialog** - Reusable confirmation component with variants
 - ✅ **ErrorBoundary** - Graceful error handling with recovery options
+- ✅ **Sheet** - Slide-over panel for filters and forms
+- ✅ **AdvancedFilter** - Reusable filtering component with presets
+- ✅ **ThemeToggle** - Theme switcher with icon animations
 - ✅ **Toaster** - Sonner toast notifications (integrated in MainLayout)
 - ✅ Loading spinner and overlay
 - ✅ Responsive layout components
-- ✅ Theme support (light/dark ready)
+- ✅ **Dark mode support** - Full theme switching capability
 - ✅ DataTable with sorting, filtering, and pagination
 - ✅ FormField component for React Hook Form integration
 - ✅ **CommandPalette with keyboard navigation**
@@ -180,6 +198,8 @@
 - [x] Global search with command palette (Cmd+K)
 - [x] Delete functionality with confirmation dialogs
 - [x] Dashboard charts with Recharts
+- [x] Advanced filtering with saved presets
+- [x] Theme switcher (dark mode)
 - [ ] Appointment calendar view (weekly/daily)
 - [ ] Real-time notifications
 
@@ -188,9 +208,8 @@
 - [x] Settings page
 - [x] Print functionality for records
 - [x] Export data (CSV)
-- [ ] Advanced filtering and saved presets
 - [ ] Export data (PDF)
-- [ ] Theme switcher implementation
+- [ ] Bulk operations (export multiple, bulk delete)
 
 ### Low Priority Features
 - [ ] Audit log viewer (admin)
@@ -244,18 +263,19 @@
 
 ## 📊 Current Statistics
 
-- **Total Files:** ~125+
-- **Components:** 44+ (CommandPalette, ConfirmDialog, ErrorBoundary)
+- **Total Files:** ~132+
+- **Components:** 47+ (CommandPalette, ConfirmDialog, ErrorBoundary, ThemeToggle, AdvancedFilter)
 - **Services:** 5 (Appointment, Patient, Owner, Veterinarian, MedicalRecord)
-- **Hooks:** 13+ (appointments, patients, owners, medical-records, auth, veterinarians)
-- **UI Components:** 23+ (ShadCN UI + CommandPalette + AlertDialog + ErrorBoundary + Toaster)
-- **Utilities:** Export utils (CSV conversion and download)
+- **Hooks:** 14+ (appointments, patients, owners, medical-records, auth, veterinarians, useTheme)
+- **UI Components:** 26+ (ShadCN UI + Sheet + ThemeToggle + AdvancedFilter + more)
+- **Utilities:** Export utils, Theme management
 - **Charts:** 2 (Bar chart for appointments, Pie chart for species distribution)
 - **Pages:** 20 (Login, Dashboard, Settings, 4 entities with full CRUD - 4 pages each)
 - **CRUD Entities:** 4 complete with full delete (Appointments, Patients, Owners, Medical Records)
-- **Features:** CSV Export, Print functionality, Error boundaries
-- **Lines of Code:** ~12,500+
-- **NPM Dependencies:** 415 packages (including recharts, sonner, @radix-ui/react-alert-dialog)
+- **Features:** Dark Mode, CSV Export, Print, Error Boundaries, Advanced Filtering
+- **Lines of Code:** ~13,000+
+- **NPM Dependencies:** 415 packages (including recharts, sonner, @radix-ui/react-dialog)
+- **Theme Support:** ✅ Light, Dark, System
 - **Test Coverage:** 0% (tests pending)
 - **Bundle Size:** TBD
 
