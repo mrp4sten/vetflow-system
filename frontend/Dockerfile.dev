@@ -15,8 +15,8 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Expose development port
-EXPOSE 3000
+# Expose development port (Vite default is 5173)
+EXPOSE 5173
 
-# Start development server
-CMD ["npm", "run", "dev", "--", "--host"]
+# Start development server with host flag for Docker
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
