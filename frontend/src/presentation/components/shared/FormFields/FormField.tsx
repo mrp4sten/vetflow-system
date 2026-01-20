@@ -1,5 +1,6 @@
 import React from 'react'
-import { useFormContext, Controller, FieldPath, FieldValues } from 'react-hook-form'
+import { useFormContext, Controller } from 'react-hook-form'
+import type { FieldPath, FieldValues } from 'react-hook-form'
 import { Label } from '@presentation/components/ui/label'
 import { Input } from '@presentation/components/ui/input'
 import { cn } from '@shared/utils/cn'

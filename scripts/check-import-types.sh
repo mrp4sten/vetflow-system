@@ -161,6 +161,25 @@ else
     echo -e "   ${GREEN}✓ No issues found${NC}"
 fi
 
+# 10. Check for React Hook Form type imports
+echo ""
+echo "10. Checking for React Hook Form type imports..."
+COUNT=$(grep -r "from 'react-hook-form'" "$FRONTEND_DIR" --include="*.ts" --include="*.tsx" 2>/dev/null | \
+        grep -E "\<(FieldPath|FieldValues|UseFormReturn|Control|FieldError|RegisterOptions)\>" | \
+        grep -v "import type" | wc -l)
+if [ "$COUNT" -gt 0 ]; then
+    echo -e "   ${RED}✗ Found $COUNT issues${NC}"
+    grep -r "from 'react-hook-form'" "$FRONTEND_DIR" --include="*.ts" --include="*.tsx" 2>/dev/null | \
+        grep -E "\<(FieldPath|FieldValues|UseFormReturn|Control|FieldError|RegisterOptions)\>" | \
+        grep -v "import type" | head -5
+    echo -e "   ${YELLOW}Hint: Separate runtime imports from types:${NC}"
+    echo -e "   ${GREEN}import { useForm, Controller } from 'react-hook-form'${NC}"
+    echo -e "   ${GREEN}import type { FieldPath, FieldValues } from 'react-hook-form'${NC}"
+    TOTAL_ISSUES=$((TOTAL_ISSUES + COUNT))
+else
+    echo -e "   ${GREEN}✓ No issues found${NC}"
+fi
+
 # Summary
 echo ""
 echo "================================================="
