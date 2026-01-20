@@ -110,6 +110,21 @@ else
     echo -e "   ${GREEN}✓ No issues found${NC}"
 fi
 
+# 7. Check for mixed class/interface imports (PaginatedResponse)
+echo ""
+echo "7. Checking for mixed BaseApiService/PaginatedResponse imports..."
+COUNT=$(grep -r "BaseApiService, PaginatedResponse" "$FRONTEND_DIR" --include="*.ts" --include="*.tsx" 2>/dev/null | wc -l)
+if [ "$COUNT" -gt 0 ]; then
+    echo -e "   ${RED}✗ Found $COUNT issues${NC}"
+    grep -r "BaseApiService, PaginatedResponse" "$FRONTEND_DIR" --include="*.ts" --include="*.tsx" 2>/dev/null | head -5
+    echo -e "   ${YELLOW}Hint: Separate into two imports:${NC}"
+    echo -e "   ${GREEN}import { BaseApiService } from './BaseApiService'${NC}"
+    echo -e "   ${GREEN}import type { PaginatedResponse } from './BaseApiService'${NC}"
+    TOTAL_ISSUES=$((TOTAL_ISSUES + COUNT))
+else
+    echo -e "   ${GREEN}✓ No issues found${NC}"
+fi
+
 # Summary
 echo ""
 echo "================================================="
