@@ -1,10 +1,10 @@
-import type { BaseApiService, PaginatedResponse } from './BaseApiService'
-import { BaseApiService as BaseApiServiceClass } from './BaseApiService'
+import { BaseApiService } from './BaseApiService'
+import type { PaginatedResponse } from './BaseApiService'
 import type { MedicalRecord } from '@domain/models/MedicalRecord'
 import type { CreateMedicalRecordDto, UpdateMedicalRecordDto, MedicalRecordFilterDto } from '@application/dtos/medical-record.dto'
 import { API_ENDPOINTS } from '@infrastructure/api/endpoints'
 
-export class MedicalRecordService extends BaseApiServiceClass {
+export class MedicalRecordService extends BaseApiService {
   async findById(id: number): Promise<MedicalRecord | null> {
     try {
       return await this.get<MedicalRecord>(API_ENDPOINTS.MEDICAL_RECORDS.BY_ID(id))
