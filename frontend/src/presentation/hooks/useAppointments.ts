@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { appointmentService } from '@application/services/api/AppointmentService'
 import type { Appointment, AppointmentStatus } from '@domain/models/Appointment'
-import { CreateAppointmentDto, UpdateAppointmentDto, AppointmentFilterDto } from '@application/dtos/appointment.dto'
+import type { CreateAppointmentDto, UpdateAppointmentDto, AppointmentFilterDto } from '@application/dtos/appointment.dto'
 
 const APPOINTMENT_QUERY_KEY = 'appointments'
 

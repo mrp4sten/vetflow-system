@@ -1,6 +1,6 @@
 import { BaseApiService, PaginatedResponse } from './BaseApiService'
 import type { Owner } from '@domain/models/Owner'
-import { CreateOwnerDto, UpdateOwnerDto, OwnerFilterDto } from '@application/dtos/owner.dto'
+import type { CreateOwnerDto, UpdateOwnerDto, OwnerFilterDto } from '@application/dtos/owner.dto'
 import { API_ENDPOINTS } from '@infrastructure/api/endpoints'
 
 export class OwnerService extends BaseApiService {

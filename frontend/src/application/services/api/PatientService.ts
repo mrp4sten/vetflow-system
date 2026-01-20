@@ -1,6 +1,6 @@
 import { BaseApiService, PaginatedResponse } from './BaseApiService'
 import type { Patient } from '@domain/models/Patient'
-import { CreatePatientDto, UpdatePatientDto, PatientFilterDto } from '@application/dtos/patient.dto'
+import type { CreatePatientDto, UpdatePatientDto, PatientFilterDto } from '@application/dtos/patient.dto'
 import { API_ENDPOINTS } from '@infrastructure/api/endpoints'
 import { PatientRepository } from '@domain/ports/repositories/PatientRepository'
 
