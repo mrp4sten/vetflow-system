@@ -71,6 +71,15 @@ public class PatientApplicationService {
         .collect(Collectors.toList());
   }
 
+  public PatientResult findById(Long patientId) {
+    if (patientId == null) {
+      throw new ValidationException("patientId is required");
+    }
+    Patient patient = patientRepository.findById(patientId)
+        .orElseThrow(() -> new ResourceNotFoundException("Patient %d not found".formatted(patientId)));
+    return toResult(patient);
+  }
+
   public List<PatientResult> listByOwner(Long ownerId) {
     Owner owner = loadOwner(ownerId);
     return patientRepository.findByOwnerId(owner.getId()).stream()

@@ -7,6 +7,8 @@ export class AppointmentMapper {
   static toDomain(dto: any): Appointment {
     return {
       ...dto,
+      scheduledAt: dto.appointmentDate || dto.scheduledAt, // Map backend field to frontend field
+      duration: dto.duration || 60, // Default duration if not provided
       patient: dto.patient ? PatientMapper.toDomain(dto.patient) : undefined,
       get endTime() {
         const startDate = new Date(this.scheduledAt)

@@ -37,7 +37,7 @@ export const CreateMedicalRecordPage: React.FC = () => {
   const methods = useForm<MedicalRecordFormData>({
     resolver: zodResolver(medicalRecordSchema),
     defaultValues: {
-      recordDate: format(new Date(), "yyyy-MM-dd'T'HH:mm"),
+      recordDate: new Date().toISOString().slice(0, 16), // Format: YYYY-MM-DDTHH:mm
       type: 'examination',
       patientId: patientIdParam ? parseInt(patientIdParam) : undefined,
       appointmentId: appointmentIdParam ? parseInt(appointmentIdParam) : undefined,

@@ -50,6 +50,13 @@ public class PatientController {
         .toList();
   }
 
+  @GetMapping("/patients/{patientId}")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
+  @Operation(summary = "Get patient by ID", description = "Fetches a single patient by ID.")
+  public PatientResponse getPatientById(@PathVariable Long patientId) {
+    return toResponse(patientApplicationService.findById(patientId));
+  }
+
   @PostMapping("/patients")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   @Operation(summary = "Register patient", description = "Adds a new patient and links it to an owner.")

@@ -260,7 +260,7 @@ export const CreatePatientPage: React.FC = () => {
                       <SelectContent>
                         {owners.map((owner) => (
                           <SelectItem key={owner.id} value={owner.id.toString()}>
-                            {owner.fullName} - {owner.phoneNumber}
+                            {owner.name} ({owner.email})
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -320,28 +320,16 @@ export const CreatePatientPage: React.FC = () => {
           <FormProvider {...ownerMethods}>
             <form onSubmit={ownerMethods.handleSubmit(onCreateOwner)}>
               <div className="grid gap-4 py-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
+                <div className="space-y-2 md:col-span-2">
+                  <Label htmlFor="name">Full Name</Label>
                   <Input
-                    id="firstName"
-                    {...ownerMethods.register('firstName')}
+                    id="name"
+                    {...ownerMethods.register('name')}
+                    placeholder="e.g., John Doe"
                   />
-                  {ownerMethods.formState.errors.firstName && (
+                  {ownerMethods.formState.errors.name && (
                     <p className="text-sm text-red-600">
-                      {ownerMethods.formState.errors.firstName.message}
-                    </p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input
-                    id="lastName"
-                    {...ownerMethods.register('lastName')}
-                  />
-                  {ownerMethods.formState.errors.lastName && (
-                    <p className="text-sm text-red-600">
-                      {ownerMethods.formState.errors.lastName.message}
+                      {ownerMethods.formState.errors.name.message}
                     </p>
                   )}
                 </div>
@@ -352,6 +340,7 @@ export const CreatePatientPage: React.FC = () => {
                     id="email"
                     type="email"
                     {...ownerMethods.register('email')}
+                    placeholder="john@example.com"
                   />
                   {ownerMethods.formState.errors.email && (
                     <p className="text-sm text-red-600">
@@ -361,52 +350,29 @@ export const CreatePatientPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phoneNumber">Phone Number</Label>
+                  <Label htmlFor="phone">Phone Number</Label>
                   <Input
-                    id="phoneNumber"
-                    {...ownerMethods.register('phoneNumber')}
-                    placeholder="10 digits"
+                    id="phone"
+                    {...ownerMethods.register('phone')}
+                    placeholder="5551234567"
                   />
-                  {ownerMethods.formState.errors.phoneNumber && (
+                  {ownerMethods.formState.errors.phone && (
                     <p className="text-sm text-red-600">
-                      {ownerMethods.formState.errors.phoneNumber.message}
+                      {ownerMethods.formState.errors.phone.message}
                     </p>
                   )}
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <Label htmlFor="address">Address</Label>
+                  <Label htmlFor="address">Full Address</Label>
                   <Input
                     id="address"
                     {...ownerMethods.register('address')}
+                    placeholder="123 Main St, City, State ZIP"
                   />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="city">City</Label>
-                  <Input
-                    id="city"
-                    {...ownerMethods.register('city')}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="state">State</Label>
-                  <Input
-                    id="state"
-                    {...ownerMethods.register('state')}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="zipCode">ZIP Code</Label>
-                  <Input
-                    id="zipCode"
-                    {...ownerMethods.register('zipCode')}
-                  />
-                  {ownerMethods.formState.errors.zipCode && (
+                  {ownerMethods.formState.errors.address && (
                     <p className="text-sm text-red-600">
-                      {ownerMethods.formState.errors.zipCode.message}
+                      {ownerMethods.formState.errors.address.message}
                     </p>
                   )}
                 </div>
