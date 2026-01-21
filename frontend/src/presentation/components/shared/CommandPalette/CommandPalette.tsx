@@ -43,17 +43,16 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onOpenChan
 
   const filteredPatients = patients
     .filter(patient =>
-      patient.name.toLowerCase().includes(search.toLowerCase()) ||
-      patient.owner?.fullName.toLowerCase().includes(search.toLowerCase()) ||
-      patient.species.toLowerCase().includes(search.toLowerCase())
+      patient.name?.toLowerCase().includes(search.toLowerCase()) ||
+      patient.species?.toLowerCase().includes(search.toLowerCase())
     )
     .slice(0, 5)
 
   const filteredOwners = owners
     .filter(owner =>
-      owner.fullName.toLowerCase().includes(search.toLowerCase()) ||
-      owner.email.toLowerCase().includes(search.toLowerCase()) ||
-      owner.phoneNumber.includes(search)
+      owner.name?.toLowerCase().includes(search.toLowerCase()) ||
+      owner.email?.toLowerCase().includes(search.toLowerCase()) ||
+      owner.phone?.includes(search)
     )
     .slice(0, 5)
 
