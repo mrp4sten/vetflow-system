@@ -52,13 +52,9 @@ export const EditPatientPage: React.FC = () => {
     if (patient) {
       reset({
         name: patient.name,
-        species: patient.species,
+        species: patient.species.toLowerCase() as 'dog' | 'cat',
         breed: patient.breed || '',
-        gender: patient.gender,
         birthDate: patient.birthDate || '',
-        weight: patient.weight || undefined,
-        color: patient.color || '',
-        microchipNumber: patient.microchipNumber || '',
         ownerId: patient.ownerId,
       })
     }
@@ -153,41 +149,18 @@ export const EditPatientPage: React.FC = () => {
                     <SelectContent>
                       <SelectItem value="dog">Dog</SelectItem>
                       <SelectItem value="cat">Cat</SelectItem>
-                      <SelectItem value="bird">Bird</SelectItem>
-                      <SelectItem value="rabbit">Rabbit</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 {/* Breed */}
                 <div className="space-y-2">
-                  <Label htmlFor="breed">Breed</Label>
+                  <Label htmlFor="breed">Breed (Optional)</Label>
                   <Input
                     id="breed"
                     {...register('breed')}
                     placeholder="e.g., Golden Retriever, Persian"
                   />
-                </div>
-
-                {/* Gender */}
-                <div className="space-y-2">
-                  <Label htmlFor="gender" className="required">
-                    Gender
-                  </Label>
-                  <Select
-                    value={watch('gender')}
-                    onValueChange={(value: any) => setValue('gender', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="unknown">Unknown</SelectItem>
-                    </SelectContent>
-                  </Select>
                 </div>
 
                 {/* Birth Date */}
@@ -198,45 +171,6 @@ export const EditPatientPage: React.FC = () => {
                     type="date"
                     {...register('birthDate')}
                   />
-                </div>
-
-                {/* Weight */}
-                <div className="space-y-2">
-                  <Label htmlFor="weight">Weight (kg)</Label>
-                  <Input
-                    id="weight"
-                    type="number"
-                    step="0.1"
-                    {...register('weight', { valueAsNumber: true })}
-                    placeholder="e.g., 25.5"
-                  />
-                  {errors.weight && (
-                    <p className="text-sm text-red-600">{errors.weight.message}</p>
-                  )}
-                </div>
-
-                {/* Color */}
-                <div className="space-y-2">
-                  <Label htmlFor="color">Color/Markings</Label>
-                  <Input
-                    id="color"
-                    {...register('color')}
-                    placeholder="e.g., Brown, White with black spots"
-                  />
-                </div>
-
-                {/* Microchip */}
-                <div className="space-y-2">
-                  <Label htmlFor="microchipNumber">Microchip Number</Label>
-                  <Input
-                    id="microchipNumber"
-                    {...register('microchipNumber')}
-                    placeholder="15-digit microchip number"
-                    maxLength={15}
-                  />
-                  {errors.microchipNumber && (
-                    <p className="text-sm text-red-600">{errors.microchipNumber.message}</p>
-                  )}
                 </div>
               </CardContent>
             </Card>
@@ -264,7 +198,7 @@ export const EditPatientPage: React.FC = () => {
                     <SelectContent>
                       {owners.map((owner) => (
                         <SelectItem key={owner.id} value={owner.id.toString()}>
-                          {owner.fullName} - {owner.phoneNumber}
+                          {owner.name} ({owner.email})
                         </SelectItem>
                       ))}
                     </SelectContent>

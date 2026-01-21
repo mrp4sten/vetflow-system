@@ -277,11 +277,12 @@ export const PatientsPage: React.FC = () => {
       cell: ({ row }) => {
         const patient = row.original
 
-        const handleDeactivate = async () => {
-          if (confirm(`Are you sure you want to deactivate ${patient.name}?`)) {
-            await deactivatePatient.mutateAsync(patient.id)
-          }
-        }
+        // Note: Deactivate functionality commented out - backend doesn't support isActive field yet
+        // const handleDeactivate = async () => {
+        //   if (confirm(`Are you sure you want to deactivate ${patient.name}? This will mark the patient as inactive but preserve all medical history.`)) {
+        //     await deactivatePatient.mutateAsync(patient.id)
+        //   }
+        // }
 
         return (
           <div data-no-row-click>
@@ -308,12 +309,7 @@ export const PatientsPage: React.FC = () => {
                       <Edit className="mr-2 h-4 w-4" />
                       Edit
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    {patient.isActive && (
-                      <DropdownMenuItem onClick={handleDeactivate}>
-                        Deactivate Patient
-                      </DropdownMenuItem>
-                    )}
+                    {/* Deactivate option removed - backend doesn't support isActive field */}
                   </>
                 )}
                 {canDelete && (
