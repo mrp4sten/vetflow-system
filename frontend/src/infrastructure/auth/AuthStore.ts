@@ -8,19 +8,14 @@ import { jwtDecode } from 'jwt-decode'
 
 interface JwtPayload {
   sub: string
-  userId: number
-  username: string
-  role: UserRole
+  roles: string[]
   exp: number
   iat: number
 }
 
 interface LoginResponse {
   accessToken: string
-  refreshToken?: string
-  expiresIn: number
-  tokenType: string
-  user: SystemUser
+  expiresInSeconds: number
 }
 
 type AuthStore = AuthState & AuthActions
@@ -42,10 +37,34 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         password,
       })
       
-      const { accessToken, refreshToken, expiresIn, user } = response.data
+      const { accessToken, expiresInSeconds } = response.data
       
       // Store tokens
-      TokenStorage.setTokens(accessToken, refreshToken, expiresIn)
+      TokenStorage.setTokens(accessToken, undefined, expiresInSeconds)
+      
+      // Decode token to get user info
+      const decoded = jwtDecode<JwtPayload>(accessToken)
+      
+      // Map backend roles to frontend role format
+      const roleMapping: Record<string, UserRole> = {
+        'ADMIN': 'admin',
+        'VETERINARIAN': 'veterinarian',
+        'ASSISTANT': 'assistant',
+      }
+      
+      const backendRole = decoded.roles[0] || 'ASSISTANT'
+      const userRole = roleMapping[backendRole] || 'assistant'
+      
+      // Create user object from token
+      const user: SystemUser = {
+        id: 0, // Backend doesn't provide user ID in token
+        username: decoded.sub,
+        email: `${decoded.sub}@vetflow.local`,
+        role: userRole,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }
       
       // If remember me is not checked, clear tokens on browser close
       if (!rememberMe) {
@@ -65,7 +84,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         user: null,
         isAuthenticated: false,
         isLoading: false,
-        error: error.message || 'Login failed',
+        error: error.response?.data?.message || error.message || 'Login failed',
       })
       throw error
     }
@@ -104,14 +123,32 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     set({ isLoading: true })
     
     try {
-      // Try to decode the token to get user info
+      // Decode the token to get user info
       const decoded = jwtDecode<JwtPayload>(token)
       
-      // Fetch current user details
-      const response = await api.get<SystemUser>(API_ENDPOINTS.AUTH.CURRENT_USER)
+      // Map backend roles to frontend role format
+      const roleMapping: Record<string, UserRole> = {
+        'ADMIN': 'admin',
+        'VETERINARIAN': 'veterinarian',
+        'ASSISTANT': 'assistant',
+      }
+      
+      const backendRole = decoded.roles[0] || 'ASSISTANT'
+      const userRole = roleMapping[backendRole] || 'assistant'
+      
+      // Create user object from token
+      const user: SystemUser = {
+        id: 0,
+        username: decoded.sub,
+        email: `${decoded.sub}@vetflow.local`,
+        role: userRole,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }
       
       set({
-        user: response.data,
+        user,
         isAuthenticated: true,
         isLoading: false,
         error: null,
