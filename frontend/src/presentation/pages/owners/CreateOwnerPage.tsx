@@ -27,12 +27,18 @@ export const CreateOwnerPage: React.FC = () => {
   } = methods
 
   const onSubmit = async (data: OwnerFormData) => {
+    console.log('Form submitted with data:', data)
     try {
       await createOwner.mutateAsync(data)
       navigate(ROUTES.OWNERS.LIST)
     } catch (error) {
+      console.error('Error creating owner:', error)
       // Error is handled by mutation
     }
+  }
+
+  const onError = (errors: any) => {
+    console.log('Form validation errors:', errors)
   }
 
   return (
@@ -54,7 +60,17 @@ export const CreateOwnerPage: React.FC = () => {
       </div>
 
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
+          {Object.keys(errors).length > 0 && (
+            <div className="p-4 mb-4 text-sm text-red-800 bg-red-50 rounded-lg max-w-2xl" role="alert">
+              <span className="font-medium">Please fix the following errors:</span>
+              <ul className="mt-2 ml-4 list-disc">
+                {Object.entries(errors).map(([field, error]: [string, any]) => (
+                  <li key={field}>{field}: {error.message}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="grid gap-6 max-w-2xl">
             {/* Personal Information */}
             <Card>
