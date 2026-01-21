@@ -2,6 +2,9 @@ package com.vetflow.api.infrastructure.persistence.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,9 +34,11 @@ public class AuditLogEntity {
   private String action;
 
   @Column(name = "old_values", columnDefinition = "jsonb")
+  @JdbcTypeCode(SqlTypes.JSON)
   private String oldValues;
 
   @Column(name = "new_values", columnDefinition = "jsonb")
+  @JdbcTypeCode(SqlTypes.JSON)
   private String newValues;
 
   @Column(name = "changed_by", length = 100)
