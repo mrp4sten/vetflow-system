@@ -160,7 +160,7 @@ export const OwnersPage: React.FC = () => {
             <DataTable
               columns={columns}
               data={owners}
-              searchKey="fullName"
+              searchKey="name"
               searchPlaceholder="Search by owner name..."
               onRowClick={(owner) => navigate(ROUTES.OWNERS.VIEW(owner.id))}
             />

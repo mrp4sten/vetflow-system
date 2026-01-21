@@ -55,7 +55,7 @@ export const ViewOwnerPage: React.FC = () => {
   const handleDelete = async () => {
     try {
       await deleteOwner.mutateAsync(ownerId)
-      toast.success(`${owner.fullName} has been deleted successfully`)
+      toast.success(`${owner.name} has been deleted successfully`)
       navigate(ROUTES.OWNERS.LIST)
     } catch (error) {
       toast.error('Failed to delete owner')
@@ -77,7 +77,7 @@ export const ViewOwnerPage: React.FC = () => {
           <div>
             <h2 className="text-3xl font-bold tracking-tight flex items-center gap-2">
               <User className="h-8 w-8 text-blue-500" />
-              {owner.fullName}
+              {owner.name}
             </h2>
             <p className="text-muted-foreground">
               Pet Owner • {patients.length} {patients.length === 1 ? 'Pet' : 'Pets'}
@@ -123,7 +123,7 @@ export const ViewOwnerPage: React.FC = () => {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Full Name</p>
-                  <p className="font-medium">{owner.fullName}</p>
+                  <p className="font-medium">{owner.name}</p>
                 </div>
 
                 <div className="space-y-1">
@@ -145,15 +145,15 @@ export const ViewOwnerPage: React.FC = () => {
                     <p className="text-sm text-muted-foreground">Phone Number</p>
                   </div>
                   <a 
-                    href={`tel:${owner.phoneNumber}`}
+                    href={`tel:${owner.phone}`}
                     className="font-medium text-blue-600 hover:underline"
                   >
-                    {owner.phoneNumber}
+                    {owner.phone}
                   </a>
                 </div>
               </div>
 
-              {(owner.address || owner.city || owner.state || owner.zipCode) && (
+              {owner.address && (
                 <>
                   <Separator />
                   
@@ -163,15 +163,7 @@ export const ViewOwnerPage: React.FC = () => {
                       <p className="text-sm text-muted-foreground">Address</p>
                     </div>
                     <div className="font-medium">
-                      {owner.address && <p>{owner.address}</p>}
-                      {(owner.city || owner.state || owner.zipCode) && (
-                        <p>
-                          {owner.city && owner.state
-                            ? `${owner.city}, ${owner.state}`
-                            : owner.city || owner.state}
-                          {owner.zipCode && ` ${owner.zipCode}`}
-                        </p>
-                      )}
+                      <p>{owner.address}</p>
                     </div>
                   </div>
                 </>
@@ -306,7 +298,7 @@ export const ViewOwnerPage: React.FC = () => {
               <Button
                 variant="outline"
                 className="w-full justify-start"
-                onClick={() => window.open(`tel:${owner.phoneNumber}`)}
+                onClick={() => window.open(`tel:${owner.phone}`)}
               >
                 <Phone className="mr-2 h-4 w-4" />
                 Call Owner
@@ -351,8 +343,8 @@ export const ViewOwnerPage: React.FC = () => {
         title="Delete Owner"
         description={
           hasPatients
-            ? `⚠️ Warning: ${owner.fullName} has ${patients.length} registered pet${patients.length > 1 ? 's' : ''}. Deleting this owner may affect their patient records. Are you sure you want to continue?`
-            : `Are you sure you want to delete ${owner.fullName}? This action cannot be undone.`
+            ? `⚠️ Warning: ${owner.name} has ${patients.length} registered pet${patients.length > 1 ? 's' : ''}. Deleting this owner may affect their patient records. Are you sure you want to continue?`
+            : `Are you sure you want to delete ${owner.name}? This action cannot be undone.`
         }
         confirmText="Delete Owner"
         variant={hasPatients ? "warning" : "danger"}
