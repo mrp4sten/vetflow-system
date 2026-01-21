@@ -114,7 +114,7 @@ export const CreateMedicalRecordPage: React.FC = () => {
                     <SelectContent>
                       {patients.map((patient) => (
                         <SelectItem key={patient.id} value={patient.id.toString()}>
-                          {patient.name} - {patient.owner?.fullName}
+                          {patient.name} {patient.breed ? `(${patient.breed})` : ''}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -128,14 +128,14 @@ export const CreateMedicalRecordPage: React.FC = () => {
                 <div className="space-y-2">
                   <Label htmlFor="appointmentId">Related Appointment (Optional)</Label>
                   <Select
-                    value={watch('appointmentId')?.toString() || ''}
-                    onValueChange={(value) => setValue('appointmentId', value ? parseInt(value) : undefined)}
+                    value={watch('appointmentId')?.toString() || 'none'}
+                    onValueChange={(value) => setValue('appointmentId', value === 'none' ? undefined : parseInt(value))}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select appointment" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">None</SelectItem>
+                      <SelectItem value="none">None</SelectItem>
                       {appointments.map((apt) => (
                         <SelectItem key={apt.id} value={apt.id.toString()}>
                           {format(new Date(apt.scheduledAt), 'MMM dd, yyyy')} - {apt.patient?.name}

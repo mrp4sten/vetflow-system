@@ -244,7 +244,7 @@ export const ViewPatientPage: React.FC = () => {
               {patient.owner ? (
                 <>
                   <div>
-                    <p className="font-medium text-lg">{patient.owner.fullName}</p>
+                    <p className="font-medium text-lg">{patient.owner.name}</p>
                   </div>
                   
                   <Separator />
@@ -257,21 +257,13 @@ export const ViewPatientPage: React.FC = () => {
                     
                     <div>
                       <p className="text-muted-foreground">Phone</p>
-                      <p>{patient.owner.phoneNumber}</p>
+                      <p>{patient.owner.phone}</p>
                     </div>
 
                     {patient.owner.address && (
                       <div>
                         <p className="text-muted-foreground">Address</p>
                         <p>{patient.owner.address}</p>
-                        {(patient.owner.city || patient.owner.state) && (
-                          <p>
-                            {patient.owner.city && patient.owner.state
-                              ? `${patient.owner.city}, ${patient.owner.state}`
-                              : patient.owner.city || patient.owner.state}
-                            {patient.owner.zipCode && ` ${patient.owner.zipCode}`}
-                          </p>
-                        )}
                       </div>
                     )}
                   </div>

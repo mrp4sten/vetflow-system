@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { patientService } from '@application/services/api/PatientService'
+import { ownerService } from '@application/services/api/OwnerService'
 import type { Patient } from '@domain/models/Patient'
 import type { CreatePatientDto, UpdatePatientDto, PatientFilterDto } from '@application/dtos/patient.dto'
 
@@ -8,14 +9,42 @@ const PATIENT_QUERY_KEY = 'patients'
 export const usePatients = (filter?: PatientFilterDto) => {
   return useQuery({
     queryKey: [PATIENT_QUERY_KEY, filter],
-    queryFn: () => patientService.findAll(filter),
+    queryFn: async () => {
+      const [patients, owners] = await Promise.all([
+        patientService.findAll(filter),
+        ownerService.findAll()
+      ])
+      
+      // Enrich patients with owner data
+      return patients.map(patient => ({
+        ...patient,
+        owner: owners.find(owner => owner.id === patient.ownerId),
+        isActive: true, // Default since backend doesn't provide this
+        gender: 'unknown' as const, // Default since backend doesn't provide this
+        weight: 0 // Default since backend doesn't provide this yet
+      }))
+    },
   })
 }
 
 export const usePatient = (id: number) => {
   return useQuery({
     queryKey: [PATIENT_QUERY_KEY, id],
-    queryFn: () => patientService.findById(id),
+    queryFn: async () => {
+      const patient = await patientService.findById(id)
+      if (!patient) return null
+      
+      // Fetch owner data
+      const owner = await ownerService.findById(patient.ownerId)
+      
+      return {
+        ...patient,
+        owner,
+        isActive: true,
+        gender: 'unknown' as const,
+        weight: 0
+      }
+    },
     enabled: !!id,
   })
 }

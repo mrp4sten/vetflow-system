@@ -52,9 +52,9 @@ export const PatientsPage: React.FC = () => {
       weight: `${patient.weight} kg`,
       color: patient.color || '',
       microchipId: patient.microchipId || '',
-      owner: patient.owner?.fullName || '',
+      owner: patient.owner?.name || '',
       ownerEmail: patient.owner?.email || '',
-      ownerPhone: patient.owner?.phoneNumber || '',
+      ownerPhone: patient.owner?.phone || '',
       isActive: patient.isActive ? 'Active' : 'Inactive',
       medicalHistory: patient.medicalHistory || '',
       allergies: patient.allergies || '',
@@ -223,9 +223,9 @@ export const PatientsPage: React.FC = () => {
         <div className="flex items-center gap-2">
           <User className="h-4 w-4 text-muted-foreground" />
           <div>
-            <div className="font-medium">{row.original.owner?.fullName}</div>
+            <div className="font-medium">{row.original.owner?.name}</div>
             <div className="text-sm text-muted-foreground">
-              {row.original.owner?.phoneNumber}
+              {row.original.owner?.phone}
             </div>
           </div>
         </div>
