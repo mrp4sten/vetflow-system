@@ -1,14 +1,10 @@
 import { z } from 'zod'
 
 export const ownerSchema = z.object({
-  firstName: z.string().min(2, 'First name must be at least 2 characters').max(50),
-  lastName: z.string().min(2, 'Last name must be at least 2 characters').max(50),
-  email: z.string().email('Invalid email address'),
-  phoneNumber: z.string().regex(/^\d{10}$/, 'Phone number must be 10 digits'),
-  address: z.string().max(200).optional(),
-  city: z.string().max(100).optional(),
-  state: z.string().max(50).optional(),
-  zipCode: z.string().regex(/^\d{5}(-\d{4})?$/, 'Invalid ZIP code').optional().or(z.literal('')),
+  name: z.string().min(2, 'Name must be at least 2 characters').max(120, 'Name must be at most 120 characters'),
+  phone: z.string().min(10, 'Phone must be at least 10 digits').max(30, 'Phone must be at most 30 characters'),
+  email: z.string().email('Invalid email address').max(120, 'Email must be at most 120 characters'),
+  address: z.string().min(1, 'Address is required').max(255, 'Address must be at most 255 characters'),
 })
 
 export type OwnerFormData = z.infer<typeof ownerSchema>

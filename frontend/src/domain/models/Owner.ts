@@ -1,16 +1,9 @@
 export interface Owner {
   id: number
-  firstName: string
-  lastName: string
+  name: string
+  phone: string
   email: string
-  phoneNumber: string
-  address?: string
-  city?: string
-  state?: string
-  zipCode?: string
+  address: string
   createdAt: string
   updatedAt: string
-  
-  // Computed property
-  get fullName(): string
 }

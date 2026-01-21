@@ -1,23 +1,15 @@
 export interface CreateOwnerDto {
-  firstName: string
-  lastName: string
+  name: string
+  phone: string
   email: string
-  phoneNumber: string
-  address?: string
-  city?: string
-  state?: string
-  zipCode?: string
+  address: string
 }
 
 export interface UpdateOwnerDto {
-  firstName?: string
-  lastName?: string
+  name?: string
+  phone?: string
   email?: string
-  phoneNumber?: string
   address?: string
-  city?: string
-  state?: string
-  zipCode?: string
 }
 
 export interface OwnerFilterDto {

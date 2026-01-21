@@ -64,36 +64,20 @@ export const CreateOwnerPage: React.FC = () => {
                   Enter the owner's basic details
                 </CardDescription>
               </CardHeader>
-              <CardContent className="grid gap-6 md:grid-cols-2">
-                {/* First Name */}
+              <CardContent className="grid gap-6">
+                {/* Full Name */}
                 <div className="space-y-2">
-                  <Label htmlFor="firstName" className="required">
-                    First Name
+                  <Label htmlFor="name" className="required">
+                    Full Name
                   </Label>
                   <Input
-                    id="firstName"
-                    {...register('firstName')}
-                    placeholder="John"
-                    className={errors.firstName ? 'border-red-500' : ''}
+                    id="name"
+                    {...register('name')}
+                    placeholder="John Doe"
+                    className={errors.name ? 'border-red-500' : ''}
                   />
-                  {errors.firstName && (
-                    <p className="text-sm text-red-600">{errors.firstName.message}</p>
-                  )}
-                </div>
-
-                {/* Last Name */}
-                <div className="space-y-2">
-                  <Label htmlFor="lastName" className="required">
-                    Last Name
-                  </Label>
-                  <Input
-                    id="lastName"
-                    {...register('lastName')}
-                    placeholder="Doe"
-                    className={errors.lastName ? 'border-red-500' : ''}
-                  />
-                  {errors.lastName && (
-                    <p className="text-sm text-red-600">{errors.lastName.message}</p>
+                  {errors.name && (
+                    <p className="text-sm text-red-600">{errors.name.message}</p>
                   )}
                 </div>
               </CardContent>
@@ -127,22 +111,21 @@ export const CreateOwnerPage: React.FC = () => {
 
                 {/* Phone Number */}
                 <div className="space-y-2 md:col-span-2">
-                  <Label htmlFor="phoneNumber" className="required">
+                  <Label htmlFor="phone" className="required">
                     Phone Number
                   </Label>
                   <Input
-                    id="phoneNumber"
+                    id="phone"
                     type="tel"
-                    {...register('phoneNumber')}
-                    placeholder="1234567890 (10 digits)"
-                    maxLength={10}
-                    className={errors.phoneNumber ? 'border-red-500' : ''}
+                    {...register('phone')}
+                    placeholder="+1 (555) 123-4567"
+                    className={errors.phone ? 'border-red-500' : ''}
                   />
-                  {errors.phoneNumber && (
-                    <p className="text-sm text-red-600">{errors.phoneNumber.message}</p>
+                  {errors.phone && (
+                    <p className="text-sm text-red-600">{errors.phone.message}</p>
                   )}
                   <p className="text-sm text-muted-foreground">
-                    Enter 10 digits without dashes or spaces
+                    Enter phone number with area code (10-20 digits)
                   </p>
                 </div>
               </CardContent>
@@ -151,7 +134,7 @@ export const CreateOwnerPage: React.FC = () => {
             {/* Address Information */}
             <Card>
               <CardHeader>
-                <CardTitle>Address (Optional)</CardTitle>
+                <CardTitle>Address</CardTitle>
                 <CardDescription>
                   Owner's residential address
                 </CardDescription>
@@ -159,49 +142,16 @@ export const CreateOwnerPage: React.FC = () => {
               <CardContent className="grid gap-6">
                 {/* Street Address */}
                 <div className="space-y-2">
-                  <Label htmlFor="address">Street Address</Label>
+                  <Label htmlFor="address" className="required">Complete Address</Label>
                   <Input
                     id="address"
                     {...register('address')}
-                    placeholder="123 Main Street"
+                    placeholder="123 Main Street, City, State, ZIP"
+                    className={errors.address ? 'border-red-500' : ''}
                   />
-                </div>
-
-                <div className="grid gap-6 md:grid-cols-3">
-                  {/* City */}
-                  <div className="space-y-2">
-                    <Label htmlFor="city">City</Label>
-                    <Input
-                      id="city"
-                      {...register('city')}
-                      placeholder="New York"
-                    />
-                  </div>
-
-                  {/* State */}
-                  <div className="space-y-2">
-                    <Label htmlFor="state">State</Label>
-                    <Input
-                      id="state"
-                      {...register('state')}
-                      placeholder="NY"
-                      maxLength={2}
-                    />
-                  </div>
-
-                  {/* ZIP Code */}
-                  <div className="space-y-2">
-                    <Label htmlFor="zipCode">ZIP Code</Label>
-                    <Input
-                      id="zipCode"
-                      {...register('zipCode')}
-                      placeholder="12345"
-                      className={errors.zipCode ? 'border-red-500' : ''}
-                    />
-                    {errors.zipCode && (
-                      <p className="text-sm text-red-600">{errors.zipCode.message}</p>
-                    )}
-                  </div>
+                  {errors.address && (
+                    <p className="text-sm text-red-600">{errors.address.message}</p>
+                  )}
                 </div>
               </CardContent>
             </Card>

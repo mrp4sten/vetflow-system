@@ -30,13 +30,13 @@ export const OwnersPage: React.FC = () => {
 
   const columns: ColumnDef<Owner>[] = [
     {
-      accessorKey: 'fullName',
+      accessorKey: 'name',
       header: 'Name',
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
           <User className="h-4 w-4 text-muted-foreground" />
           <div>
-            <div className="font-medium">{row.original.fullName}</div>
+            <div className="font-medium">{row.original.name}</div>
             <div className="text-sm text-muted-foreground">
               ID: {row.original.id}
             </div>
@@ -55,27 +55,21 @@ export const OwnersPage: React.FC = () => {
       ),
     },
     {
-      accessorKey: 'phoneNumber',
+      accessorKey: 'phone',
       header: 'Phone',
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
           <Phone className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm">{row.original.phoneNumber}</span>
+          <span className="text-sm">{row.original.phone}</span>
         </div>
       ),
     },
     {
       accessorKey: 'address',
-      header: 'Location',
-      cell: ({ row }) => {
-        const { city, state } = row.original
-        if (!city && !state) return <span className="text-muted-foreground">-</span>
-        return (
-          <span className="text-sm">
-            {city && state ? `${city}, ${state}` : city || state}
-          </span>
-        )
-      },
+      header: 'Address',
+      cell: ({ row }) => (
+        <span className="text-sm">{row.original.address || '-'}</span>
+      ),
     },
     {
       id: 'actions',
@@ -83,7 +77,7 @@ export const OwnersPage: React.FC = () => {
         const owner = row.original
 
         const handleDelete = async () => {
-          if (confirm(`Are you sure you want to delete ${owner.fullName}? This will also affect their patients.`)) {
+          if (confirm(`Are you sure you want to delete ${owner.name}? This will also affect their patients.`)) {
             await deleteOwner.mutateAsync(owner.id)
           }
         }
