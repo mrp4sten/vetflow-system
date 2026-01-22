@@ -103,6 +103,22 @@ public class PatientApplicationService {
     return toResult(saved);
   }
 
+  public PatientResult activatePatient(ActivatePatientCommand command) {
+    Objects.requireNonNull(command, "command must not be null");
+    if (command.patientId() == null) {
+      throw new ValidationException("patientId is required");
+    }
+
+    Patient patient = patientRepository.findById(command.patientId())
+        .orElseThrow(() -> new ResourceNotFoundException("Patient %d not found".formatted(command.patientId())));
+
+    Map<String, Object> before = auditService.snapshot(patient);
+    patient.activate();
+    Patient saved = patientRepository.save(patient);
+    auditService.recordUpdate("patients", saved.getId(), before, saved);
+    return toResult(saved);
+  }
+
   private Owner loadOwner(Long ownerId) {
     if (ownerId == null) {
       throw new ValidationException("ownerId is required");

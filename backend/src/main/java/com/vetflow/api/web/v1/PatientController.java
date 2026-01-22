@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vetflow.api.config.OpenApiConfig;
 
+import com.vetflow.api.application.patient.ActivatePatientCommand;
 import com.vetflow.api.application.patient.DeactivatePatientCommand;
 import com.vetflow.api.application.patient.PatientApplicationService;
 import com.vetflow.api.application.patient.PatientResult;
@@ -25,6 +26,7 @@ import com.vetflow.api.application.patient.UpdatePatientCommand;
 import com.vetflow.api.web.v1.patient.PatientResponse;
 import com.vetflow.api.web.v1.patient.RegisterPatientRequest;
 import com.vetflow.api.web.v1.patient.UpdatePatientRequest;
+import com.vetflow.api.web.v1.patient.UpdatePatientStatusRequest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -98,10 +100,15 @@ public class PatientController {
 
   @PatchMapping("/patients/{patientId}")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT')")
-  @Operation(summary = "Deactivate patient", description = "Soft deletes a patient by marking as inactive.")
-  public PatientResponse deactivatePatient(@PathVariable Long patientId) {
-    PatientResult result = patientApplicationService.deactivatePatient(
-        new DeactivatePatientCommand(patientId));
+  @Operation(summary = "Update patient status", description = "Activates or deactivates a patient (soft delete).")
+  public PatientResponse updatePatientStatus(@PathVariable Long patientId,
+      @Valid @RequestBody UpdatePatientStatusRequest request) {
+    PatientResult result;
+    if (request.isActive()) {
+      result = patientApplicationService.activatePatient(new ActivatePatientCommand(patientId));
+    } else {
+      result = patientApplicationService.deactivatePatient(new DeactivatePatientCommand(patientId));
+    }
     return toResponse(result);
   }
 
