@@ -73,6 +73,7 @@ public class Patient {
   private String breed; // optional
   private LocalDate birthDate;
   private BigDecimal weight; // optional, in kg
+  private boolean isActive; // soft delete flag
   private Owner owner;
 
   private LocalDateTime createdAt;
@@ -100,6 +101,7 @@ public class Patient {
         .species(Species.from(species))
         .breed(validateBreed(breed))
         .birthDate(validateBirthDate(birthDate, clock))
+        .isActive(true)
         .owner(validateOwner(owner))
         .createdAt(now)
         .updatedAt(now)
@@ -135,6 +137,22 @@ public class Patient {
     if (today.getDayOfYear() < birthDate.getDayOfYear())
       years--;
     return years;
+  }
+
+  public void deactivate() {
+    if (!this.isActive) {
+      throw new IllegalStateException("Patient is already deactivated");
+    }
+    this.isActive = false;
+    touch();
+  }
+
+  public void activate() {
+    if (this.isActive) {
+      throw new IllegalStateException("Patient is already active");
+    }
+    this.isActive = true;
+    touch();
   }
 
   void setId(Long id) {

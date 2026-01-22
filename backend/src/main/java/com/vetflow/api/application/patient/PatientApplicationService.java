@@ -87,6 +87,22 @@ public class PatientApplicationService {
         .collect(Collectors.toList());
   }
 
+  public PatientResult deactivatePatient(DeactivatePatientCommand command) {
+    Objects.requireNonNull(command, "command must not be null");
+    if (command.patientId() == null) {
+      throw new ValidationException("patientId is required");
+    }
+
+    Patient patient = patientRepository.findById(command.patientId())
+        .orElseThrow(() -> new ResourceNotFoundException("Patient %d not found".formatted(command.patientId())));
+
+    Map<String, Object> before = auditService.snapshot(patient);
+    patient.deactivate();
+    Patient saved = patientRepository.save(patient);
+    auditService.recordUpdate("patients", saved.getId(), before, saved);
+    return toResult(saved);
+  }
+
   private Owner loadOwner(Long ownerId) {
     if (ownerId == null) {
       throw new ValidationException("ownerId is required");
@@ -102,6 +118,7 @@ public class PatientApplicationService {
         patient.getBreed(),
         patient.getBirthDate(),
         patient.getWeight(),
+        patient.isActive(),
         patient.getOwner().getId(),
         patient.getCreatedAt(),
         patient.getUpdatedAt());
