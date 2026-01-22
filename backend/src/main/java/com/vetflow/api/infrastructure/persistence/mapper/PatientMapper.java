@@ -23,6 +23,7 @@ public interface PatientMapper {
   @InheritInverseConfiguration
   // ojo: aquí vamos a convertir al enum, no solo a string
   @Mapping(target = "species", source = "species", qualifiedByName = "toDomainSpeciesEnum")
+  @Mapping(target = "isActive", source = "active")
   Patient toDomain(PatientEntity entity);
 
   // ===== helpers =====
