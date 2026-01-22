@@ -52,7 +52,7 @@ class PatientControllerTest {
   @Test
   void registerPatientReturnsCreated() throws Exception {
     RegisterPatientRequest request = new RegisterPatientRequest("Firulais", "DOG", "Beagle", LocalDate.now(), 1L);
-    PatientResult result = new PatientResult(10L, "Firulais", "DOG", "Beagle", LocalDate.now(), null, 1L,
+    PatientResult result = new PatientResult(10L, "Firulais", "DOG", "Beagle", LocalDate.now(), null, true, 1L,
         LocalDateTime.now(), LocalDateTime.now());
     given(patientApplicationService.registerPatient(any(RegisterPatientCommand.class))).willReturn(result);
 
@@ -78,7 +78,7 @@ class PatientControllerTest {
   void updatePatientReturnsOk() throws Exception {
     LocalDate birthDate = LocalDate.now();
     UpdatePatientRequest request = new UpdatePatientRequest("Firulais", "DOG", "Beagle", birthDate, 2L);
-    PatientResult result = new PatientResult(10L, "Firulais", "DOG", "Beagle", birthDate, null, 2L,
+    PatientResult result = new PatientResult(10L, "Firulais", "DOG", "Beagle", birthDate, null, true, 2L,
         LocalDateTime.now(), LocalDateTime.now());
     given(patientApplicationService
         .updatePatient(new UpdatePatientCommand(10L, "Firulais", "DOG", "Beagle", birthDate, 2L)))
@@ -94,9 +94,9 @@ class PatientControllerTest {
   @Test
   void listPatientsByOwnerReturnsList() throws Exception {
     List<PatientResult> results = List.of(
-        new PatientResult(1L, "Firulais", "DOG", "Beagle", LocalDate.now(), null, 5L, LocalDateTime.now(),
+        new PatientResult(1L, "Firulais", "DOG", "Beagle", LocalDate.now(), null, true, 5L, LocalDateTime.now(),
             LocalDateTime.now()),
-        new PatientResult(2L, "Mishi", "CAT", "Siames", LocalDate.now(), null, 5L, LocalDateTime.now(), LocalDateTime.now()));
+        new PatientResult(2L, "Mishi", "CAT", "Siames", LocalDate.now(), null, true, 5L, LocalDateTime.now(), LocalDateTime.now()));
     given(patientApplicationService.listByOwner(5L)).willReturn(results);
 
     mockMvc.perform(get("/api/v1/owners/5/patients"))
