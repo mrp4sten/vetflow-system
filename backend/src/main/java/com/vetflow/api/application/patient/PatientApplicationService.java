@@ -101,6 +101,7 @@ public class PatientApplicationService {
         patient.getSpecies().name(),
         patient.getBreed(),
         patient.getBirthDate(),
+        patient.getWeight(),
         patient.getOwner().getId(),
         patient.getCreatedAt(),
         patient.getUpdatedAt());

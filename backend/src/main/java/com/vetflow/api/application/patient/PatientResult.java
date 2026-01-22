@@ -1,5 +1,6 @@
 package com.vetflow.api.application.patient;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -9,6 +10,7 @@ public record PatientResult(Long id,
                             String species,
                             String breed,
                             LocalDate birthDate,
+                            BigDecimal weight,
                             Long ownerId,
                             LocalDateTime createdAt,
                             LocalDateTime updatedAt) {}
