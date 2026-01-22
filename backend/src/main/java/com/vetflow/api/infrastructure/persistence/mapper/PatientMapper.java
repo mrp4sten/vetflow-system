@@ -16,6 +16,7 @@ public interface PatientMapper {
   // domain -> entity
   @Mapping(target = "owner", source = "owner")
   @Mapping(target = "species", source = "species", qualifiedByName = "toDbSpecies")
+  @Mapping(target = "allergies", ignore = true)
   PatientEntity toEntity(Patient domain);
 
   // entity -> domain

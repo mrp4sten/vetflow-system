@@ -52,6 +52,9 @@ public class PatientEntity {
     @Column(name = "weight", precision = 5, scale = 2)
     private BigDecimal weight;
 
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
+
     @Column(name = "allergies")
     private String allergies;
 
@@ -135,6 +138,14 @@ public class PatientEntity {
 
     public void setWeight(BigDecimal weight) {
         this.weight = weight;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public String getAllergies() {

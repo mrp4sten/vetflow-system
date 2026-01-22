@@ -11,6 +11,7 @@ public record PatientResponse(Long id,
                               String breed,
                               LocalDate birthDate,
                               BigDecimal weight,
+                              boolean isActive,
                               Long ownerId,
                               LocalDateTime createdAt,
                               LocalDateTime updatedAt) {

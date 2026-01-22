@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vetflow.api.config.OpenApiConfig;
 
+import com.vetflow.api.application.patient.DeactivatePatientCommand;
 import com.vetflow.api.application.patient.PatientApplicationService;
 import com.vetflow.api.application.patient.PatientResult;
 import com.vetflow.api.application.patient.RegisterPatientCommand;
@@ -94,6 +96,15 @@ public class PatientController {
         .toList();
   }
 
+  @PatchMapping("/patients/{patientId}")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT')")
+  @Operation(summary = "Deactivate patient", description = "Soft deletes a patient by marking as inactive.")
+  public PatientResponse deactivatePatient(@PathVariable Long patientId) {
+    PatientResult result = patientApplicationService.deactivatePatient(
+        new DeactivatePatientCommand(patientId));
+    return toResponse(result);
+  }
+
   private static PatientResponse toResponse(PatientResult result) {
     return new PatientResponse(result.id(),
         result.name(),
@@ -101,6 +112,7 @@ public class PatientController {
         result.breed(),
         result.birthDate(),
         result.weight(),
+        result.isActive(),
         result.ownerId(),
         result.createdAt(),
         result.updatedAt());
