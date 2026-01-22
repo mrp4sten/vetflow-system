@@ -100,6 +100,7 @@ public class PatientController {
         result.species(),
         result.breed(),
         result.birthDate(),
+        result.weight(),
         result.ownerId(),
         result.createdAt(),
         result.updatedAt());

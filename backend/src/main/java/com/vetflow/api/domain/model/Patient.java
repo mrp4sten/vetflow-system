@@ -1,5 +1,6 @@
 package com.vetflow.api.domain.model;
 
+import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -71,6 +72,7 @@ public class Patient {
   private Species species;
   private String breed; // optional
   private LocalDate birthDate;
+  private BigDecimal weight; // optional, in kg
   private Owner owner;
 
   private LocalDateTime createdAt;
