@@ -55,6 +55,8 @@ export const EditPatientPage: React.FC = () => {
         species: patient.species.toLowerCase() as 'dog' | 'cat',
         breed: patient.breed || '',
         birthDate: patient.birthDate || '',
+        weight: patient.weight,
+        gender: 'unknown',
         ownerId: patient.ownerId,
       })
     }
@@ -171,6 +173,23 @@ export const EditPatientPage: React.FC = () => {
                     type="date"
                     {...register('birthDate')}
                   />
+                </div>
+
+                {/* Weight */}
+                <div className="space-y-2">
+                  <Label htmlFor="weight">Weight (kg)</Label>
+                  <Input
+                    id="weight"
+                    type="number"
+                    step="0.1"
+                    min="0.1"
+                    max="500"
+                    placeholder="e.g., 25.5"
+                    {...register('weight', { valueAsNumber: true })}
+                  />
+                  {errors.weight && (
+                    <p className="text-sm text-red-600">{errors.weight.message}</p>
+                  )}
                 </div>
               </CardContent>
             </Card>

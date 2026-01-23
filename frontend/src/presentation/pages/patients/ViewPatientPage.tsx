@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@pres
 import { Badge } from '@presentation/components/ui/badge'
 import { Separator } from '@presentation/components/ui/separator'
 import { ConfirmDialog } from '@presentation/components/shared/ConfirmDialog/ConfirmDialog'
-import { usePatient, useDeactivatePatient } from '@presentation/hooks/usePatients'
+import { usePatient, useDeactivatePatient, useActivatePatient } from '@presentation/hooks/usePatients'
 import { ROUTES } from '@shared/constants/routes'
 import { LoadingSpinner } from '@presentation/components/shared/Loading/LoadingSpinner'
 import { useAuth } from '@presentation/hooks/useAuth'
@@ -19,10 +19,12 @@ export const ViewPatientPage: React.FC = () => {
   const navigate = useNavigate()
   const { hasAnyRole } = useAuth()
   const [deactivateDialogOpen, setDeactivateDialogOpen] = useState(false)
+  const [activateDialogOpen, setActivateDialogOpen] = useState(false)
   
   const patientId = parseInt(id || '0')
   const { data: patient, isLoading } = usePatient(patientId)
   const deactivatePatient = useDeactivatePatient()
+  const activatePatient = useActivatePatient()
 
   const canEdit = hasAnyRole(['admin', 'veterinarian', 'assistant'])
   const canDelete = hasAnyRole(['admin'])
@@ -60,6 +62,16 @@ export const ViewPatientPage: React.FC = () => {
     }
   }
 
+  const handleActivate = async () => {
+    try {
+      await activatePatient.mutateAsync(patientId)
+      toast.success(`${patient.name} has been reactivated successfully`)
+      setActivateDialogOpen(false)
+    } catch (error) {
+      toast.error('Failed to activate patient')
+    }
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -83,21 +95,32 @@ export const ViewPatientPage: React.FC = () => {
           </div>
         </div>
 
-        {canEdit && patient.isActive && (
+        {canEdit && (
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={() => navigate(ROUTES.PATIENTS.EDIT(patientId))}
-            >
-              <Edit className="mr-2 h-4 w-4" />
-              Edit
-            </Button>
-            
-            {canDelete && (
-              <Button variant="destructive" onClick={() => setDeactivateDialogOpen(true)}>
-                <Trash className="mr-2 h-4 w-4" />
-                Deactivate
-              </Button>
+            {patient.isActive ? (
+              <>
+                <Button
+                  variant="outline"
+                  onClick={() => navigate(ROUTES.PATIENTS.EDIT(patientId))}
+                >
+                  <Edit className="mr-2 h-4 w-4" />
+                  Edit
+                </Button>
+                
+                {canDelete && (
+                  <Button variant="destructive" onClick={() => setDeactivateDialogOpen(true)}>
+                    <Trash className="mr-2 h-4 w-4" />
+                    Deactivate
+                  </Button>
+                )}
+              </>
+            ) : (
+              canDelete && (
+                <Button variant="default" onClick={() => setActivateDialogOpen(true)}>
+                  <Heart className="mr-2 h-4 w-4" />
+                  Activate
+                </Button>
+              )
             )}
           </div>
         )}
@@ -138,11 +161,6 @@ export const ViewPatientPage: React.FC = () => {
                   <p className="font-medium">{patient.breed || 'Mixed / Unknown'}</p>
                 </div>
 
-                <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Gender</p>
-                  <p className="font-medium capitalize">{patient.gender}</p>
-                </div>
-
                 {patient.birthDate && (
                   <>
                     <div className="space-y-1">
@@ -163,22 +181,8 @@ export const ViewPatientPage: React.FC = () => {
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">Weight</p>
                     <p className="font-medium">
-                      {patient.weight} kg ({patient.weightInLbs?.toFixed(1)} lbs)
+                      {patient.weight} kg ({(patient.weight * 2.20462).toFixed(1)} lbs)
                     </p>
-                  </div>
-                )}
-
-                {patient.color && (
-                  <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Color/Markings</p>
-                    <p className="font-medium">{patient.color}</p>
-                  </div>
-                )}
-
-                {patient.microchipNumber && (
-                  <div className="space-y-1 md:col-span-2">
-                    <p className="text-sm text-muted-foreground">Microchip Number</p>
-                    <p className="font-mono font-medium">{patient.microchipNumber}</p>
                   </div>
                 )}
               </div>
@@ -307,6 +311,17 @@ export const ViewPatientPage: React.FC = () => {
         description={`Are you sure you want to deactivate ${patient.name}? This will mark the patient as inactive but preserve all medical history.`}
         confirmText="Deactivate Patient"
         variant="warning"
+      />
+
+      {/* Activate Confirmation Dialog */}
+      <ConfirmDialog
+        open={activateDialogOpen}
+        onOpenChange={setActivateDialogOpen}
+        onConfirm={handleActivate}
+        title="Activate Patient"
+        description={`Are you sure you want to reactivate ${patient.name}? This will make the patient active again.`}
+        confirmText="Activate Patient"
+        variant="default"
       />
     </div>
   )
