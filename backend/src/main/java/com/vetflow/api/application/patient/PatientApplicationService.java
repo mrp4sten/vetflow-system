@@ -54,6 +54,10 @@ public class PatientApplicationService {
       patient.rename(command.name());
     }
 
+    if (command.weight() != null) {
+      patient.updateWeight(command.weight());
+    }
+
     Owner owner = command.ownerId() != null ? loadOwner(command.ownerId()) : patient.getOwner();
     patient.updateProfile(command.species() != null ? command.species() : patient.getSpecies().name(),
         command.breed() != null ? command.breed() : patient.getBreed(),

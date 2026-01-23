@@ -85,6 +85,7 @@ public class PatientController {
             request.species(),
             request.breed(),
             request.birthDate(),
+            request.weight(),
             request.ownerId()));
     return toResponse(result);
   }

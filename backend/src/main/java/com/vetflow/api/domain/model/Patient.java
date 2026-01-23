@@ -155,6 +155,11 @@ public class Patient {
     touch();
   }
 
+  public void updateWeight(BigDecimal weight) {
+    this.weight = validateWeight(weight);
+    touch();
+  }
+
   void setId(Long id) {
     this.id = id;
   }
@@ -199,6 +204,16 @@ public class Patient {
     if (birthDate.isAfter(LocalDate.now(clock)))
       throw new IllegalArgumentException("Patient birth date cannot be in the future");
     return birthDate;
+  }
+
+  private static BigDecimal validateWeight(BigDecimal weight) {
+    if (weight == null)
+      return null;
+    if (weight.compareTo(BigDecimal.ZERO) <= 0)
+      throw new IllegalArgumentException("Patient weight must be positive");
+    if (weight.compareTo(new BigDecimal("500")) > 0)
+      throw new IllegalArgumentException("Patient weight cannot exceed 500 kg");
+    return weight;
   }
 
   @PrePersist

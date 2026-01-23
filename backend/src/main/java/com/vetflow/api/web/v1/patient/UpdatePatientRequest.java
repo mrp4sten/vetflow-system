@@ -1,8 +1,10 @@
 package com.vetflow.api.web.v1.patient;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -21,6 +23,9 @@ public record UpdatePatientRequest(
     @PastOrPresent(message = "birthDate cannot be in the future")
     LocalDate birthDate,
 
+    @DecimalMin(value = "0.1", message = "weight must be at least 0.1 kg")
+    BigDecimal weight,
+
     Long ownerId) {
 
   @AssertTrue(message = "At least one field must be provided to update a patient")
@@ -29,6 +34,7 @@ public record UpdatePatientRequest(
         || (species != null && !species.isBlank())
         || (breed != null && !breed.isBlank())
         || birthDate != null
+        || weight != null
         || ownerId != null;
   }
 }
