@@ -142,11 +142,11 @@ export const EditPatientPage: React.FC = () => {
                     Species
                   </Label>
                   <Select
-                    value={watch('species')}
+                    value={watch('species') || 'dog'}
                     onValueChange={(value: any) => setValue('species', value)}
                   >
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue placeholder="Select species" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="dog">Dog</SelectItem>
@@ -208,7 +208,7 @@ export const EditPatientPage: React.FC = () => {
                     Owner
                   </Label>
                   <Select
-                    value={watch('ownerId')?.toString()}
+                    value={watch('ownerId')?.toString() || ''}
                     onValueChange={(value) => setValue('ownerId', parseInt(value))}
                   >
                     <SelectTrigger className={errors.ownerId ? 'border-red-500' : ''}>
