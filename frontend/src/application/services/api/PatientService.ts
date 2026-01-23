@@ -64,6 +64,13 @@ export class PatientService extends BaseApiService implements PatientRepository 
     )
   }
 
+  async activate(id: number): Promise<void> {
+    return await this.patch<void, { isActive: boolean }>(
+      API_ENDPOINTS.PATIENTS.BY_ID(id),
+      { isActive: true }
+    )
+  }
+
   async searchByName(name: string): Promise<Patient[]> {
     const filter: PatientFilterDto = { searchTerm: name }
     return await this.findAll(filter)

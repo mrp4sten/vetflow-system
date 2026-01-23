@@ -18,10 +18,7 @@ export const usePatients = (filter?: PatientFilterDto) => {
       // Enrich patients with owner data
       return patients.map(patient => ({
         ...patient,
-        owner: owners.find(owner => owner.id === patient.ownerId),
-        isActive: true, // Default since backend doesn't provide this
-        gender: 'unknown' as const, // Default since backend doesn't provide this
-        weight: 0 // Default since backend doesn't provide this yet
+        owner: owners.find(owner => owner.id === patient.ownerId)
       }))
     },
   })
@@ -39,10 +36,7 @@ export const usePatient = (id: number) => {
       
       return {
         ...patient,
-        owner,
-        isActive: true,
-        gender: 'unknown' as const,
-        weight: 0
+        owner
       }
     },
     enabled: !!id,
@@ -86,6 +80,17 @@ export const useDeactivatePatient = () => {
 
   return useMutation({
     mutationFn: (id: number) => patientService.deactivate(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [PATIENT_QUERY_KEY] })
+    },
+  })
+}
+
+export const useActivatePatient = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: number) => patientService.activate(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [PATIENT_QUERY_KEY] })
     },
