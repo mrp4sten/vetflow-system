@@ -5,7 +5,7 @@ import { Button } from '@presentation/components/ui/button'
 import { Badge } from '@presentation/components/ui/badge'
 import { useVeterinarian } from '@presentation/hooks/useVeterinarians'
 import { ROUTES } from '@shared/constants/routes'
-import { formatDateTime } from '@shared/utils/dateFormatter'
+import { formatDate, DATE_FORMATS } from '@/infrastructure/utils/date-utils'
 
 export const ViewVeterinarianPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -121,12 +121,12 @@ export const ViewVeterinarianPage = () => {
           <CardContent className="space-y-4">
             <div>
               <label className="text-sm font-medium text-muted-foreground">Account Created</label>
-              <p className="text-lg">{formatDateTime(veterinarian.createdAt)}</p>
+              <p className="text-lg">{formatDate(veterinarian.createdAt, DATE_FORMATS.DISPLAY_DATETIME)}</p>
             </div>
             <div>
               <label className="text-sm font-medium text-muted-foreground">Last Login</label>
               <p className="text-lg">
-                {veterinarian.lastLogin ? formatDateTime(veterinarian.lastLogin) : 'Never'}
+                {veterinarian.lastLogin ? formatDate(veterinarian.lastLogin, DATE_FORMATS.DISPLAY_DATETIME) : 'Never'}
               </p>
             </div>
             <div>

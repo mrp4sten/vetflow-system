@@ -9,7 +9,7 @@ import { Switch } from '@presentation/components/ui/switch'
 import { Label } from '@presentation/components/ui/label'
 import { useVeterinarians } from '@presentation/hooks/useVeterinarians'
 import { ROUTES } from '@shared/constants/routes'
-import { formatDateTime } from '@shared/utils/dateFormatter'
+import { formatDate, DATE_FORMATS } from '@/infrastructure/utils/date-utils'
 import type { Veterinarian } from '@/domain/models/Veterinarian'
 
 export const VeterinariansPage = () => {
@@ -194,12 +194,12 @@ const VeterinarianCard: React.FC<VeterinarianCardProps> = ({ veterinarian, onVie
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Calendar className="h-4 w-4" />
-            <span>Joined {formatDateTime(veterinarian.createdAt)}</span>
+            <span>Joined {formatDate(veterinarian.createdAt, DATE_FORMATS.DISPLAY_DATETIME)}</span>
           </div>
           {veterinarian.lastLogin && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <CheckCircle className="h-4 w-4" />
-              <span>Last login: {formatDateTime(veterinarian.lastLogin)}</span>
+              <span>Last login: {formatDate(veterinarian.lastLogin, DATE_FORMATS.DISPLAY_DATETIME)}</span>
             </div>
           )}
         </div>
