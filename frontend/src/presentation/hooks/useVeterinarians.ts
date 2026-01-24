@@ -1,16 +1,37 @@
 import { useQuery } from '@tanstack/react-query'
-import { api } from '@infrastructure/api/axios-client'
-import { API_ENDPOINTS } from '@infrastructure/api/endpoints'
-import type { SystemUser } from '@domain/models/SystemUser'
+import { VeterinarianService } from '@/application/services/api/VeterinarianService'
+import type { Veterinarian } from '@/domain/models/Veterinarian'
 
-const VETERINARIAN_QUERY_KEY = 'veterinarians'
+/**
+ * Hook to fetch all veterinarians
+ */
+export const useVeterinarians = (includeInactive = false) => {
+  return useQuery<Veterinarian[], Error>({
+    queryKey: ['veterinarians', includeInactive],
+    queryFn: () => VeterinarianService.getAll(includeInactive),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  })
+}
 
-export const useVeterinarians = () => {
-  return useQuery({
-    queryKey: [VETERINARIAN_QUERY_KEY],
-    queryFn: async () => {
-      const response = await api.get<SystemUser[]>(API_ENDPOINTS.USERS.VETERINARIANS)
-      return response.data
-    },
+/**
+ * Hook to fetch a single veterinarian by ID
+ */
+export const useVeterinarian = (id: number) => {
+  return useQuery<Veterinarian, Error>({
+    queryKey: ['veterinarian', id],
+    queryFn: () => VeterinarianService.getById(id),
+    enabled: !!id,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  })
+}
+
+/**
+ * Hook to fetch only active veterinarians
+ */
+export const useActiveVeterinarians = () => {
+  return useQuery<Veterinarian[], Error>({
+    queryKey: ['veterinarians', 'active'],
+    queryFn: () => VeterinarianService.getActive(),
+    staleTime: 1000 * 60 * 5, // 5 minutes
   })
 }

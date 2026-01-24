@@ -22,6 +22,8 @@ import { MedicalRecordsPage } from '@presentation/pages/medical-records/MedicalR
 import { CreateMedicalRecordPage } from '@presentation/pages/medical-records/CreateMedicalRecordPage'
 import { ViewMedicalRecordPage } from '@presentation/pages/medical-records/ViewMedicalRecordPage'
 import { EditMedicalRecordPage } from '@presentation/pages/medical-records/EditMedicalRecordPage'
+import { VeterinariansPage } from '@presentation/pages/veterinarians/VeterinariansPage'
+import { ViewVeterinarianPage } from '@presentation/pages/veterinarians/ViewVeterinarianPage'
 import { SettingsPage } from '@presentation/pages/settings/SettingsPage'
 
 function App() {
@@ -60,6 +62,10 @@ function App() {
           <Route path={ROUTES.MEDICAL_RECORDS.CREATE} element={<CreateMedicalRecordPage />} />
           <Route path="/medical-records/:id" element={<ViewMedicalRecordPage />} />
           <Route path="/medical-records/:id/edit" element={<EditMedicalRecordPage />} />
+          
+          {/* Veterinarian routes */}
+          <Route path={ROUTES.VETERINARIANS.LIST} element={<VeterinariansPage />} />
+          <Route path="/veterinarians/:id" element={<ViewVeterinarianPage />} />
           
           {/* Admin routes */}
           <Route 

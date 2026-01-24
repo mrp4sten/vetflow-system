@@ -39,6 +39,11 @@ export const ROUTES = {
     VIEW: (id: number) => `/medical-records/${id}`,
   },
   
+  VETERINARIANS: {
+    LIST: '/veterinarians',
+    VIEW: (id: number) => `/veterinarians/${id}`,
+  },
+  
   // Admin routes
   ADMIN: {
     USERS: '/admin/users',

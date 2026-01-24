@@ -7,7 +7,8 @@ import {
   Home,
   UserCog,
   ClipboardList,
-  Settings
+  Settings,
+  Stethoscope
 } from 'lucide-react'
 import { cn } from '@shared/utils/cn'
 import { ROUTES } from '@shared/constants/routes'
@@ -44,6 +45,11 @@ const navItems: NavItem[] = [
     title: 'Owners',
     href: ROUTES.OWNERS.LIST,
     icon: Users,
+  },
+  {
+    title: 'Veterinarians',
+    href: ROUTES.VETERINARIANS.LIST,
+    icon: Stethoscope,
   },
   {
     title: 'Medical Records',
