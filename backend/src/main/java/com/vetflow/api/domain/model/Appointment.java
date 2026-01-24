@@ -26,6 +26,7 @@ import lombok.ToString;
  * <p><strong>Invariants</strong>:
  * <ul>
  *   <li><code>patient</code>: required.</li>
+ *   <li><code>veterinarianId</code>: optional, can be assigned later.</li>
  *   <li><code>appointmentDate</code>: required.</li>
  *   <li><code>type</code>: required, one of {@link Type}.</li>
  *   <li><code>status</code>: one of {@link Status}, defaults to SCHEDULED.</li>
@@ -48,6 +49,7 @@ public class Appointment {
   private Long id;
 
   private Patient patient;
+  private Long veterinarianId; // nullable - can be assigned later
   private LocalDateTime appointmentDate;
   private Type type;
   private Status status;
@@ -65,13 +67,25 @@ public class Appointment {
                                      LocalDateTime appointmentDate,
                                      Type type,
                                      String notes) {
-    return schedule(patient, appointmentDate, type, Priority.NORMAL, notes, Clock.systemDefaultZone());
+    return schedule(patient, null, appointmentDate, type, Priority.NORMAL, notes, Clock.systemDefaultZone());
+  }
+
+  /**
+   * Creates a new Appointment with veterinarian assignment.
+   */
+  public static Appointment schedule(Patient patient,
+                                     Long veterinarianId,
+                                     LocalDateTime appointmentDate,
+                                     Type type,
+                                     String notes) {
+    return schedule(patient, veterinarianId, appointmentDate, type, Priority.NORMAL, notes, Clock.systemDefaultZone());
   }
 
   /**
    * Creates a new Appointment with explicit priority and a test-friendly clock.
    */
   static Appointment schedule(Patient patient,
+                              Long veterinarianId,
                               LocalDateTime appointmentDate,
                               Type type,
                               Priority priority,
@@ -85,6 +99,7 @@ public class Appointment {
     LocalDateTime now = LocalDateTime.now(clock);
     return Appointment.builder()
         .patient(patient)
+        .veterinarianId(veterinarianId)
         .appointmentDate(appointmentDate)
         .type(type)
         .status(Status.SCHEDULED)
@@ -138,6 +153,23 @@ public class Appointment {
   public void changePriority(Priority newPriority) {
     if (newPriority == null) throw new IllegalArgumentException("Priority cannot be null");
     this.priority = newPriority;
+  }
+
+  /**
+   * Assigns a veterinarian to this appointment. Allowed only while SCHEDULED.
+   */
+  public void assignVeterinarian(Long veterinarianId) {
+    ensureStatus(Status.SCHEDULED, "Can only assign veterinarian to scheduled appointments");
+    if (veterinarianId == null) throw new IllegalArgumentException("Veterinarian ID cannot be null");
+    this.veterinarianId = veterinarianId;
+  }
+
+  /**
+   * Removes the veterinarian assignment. Allowed only while SCHEDULED.
+   */
+  public void unassignVeterinarian() {
+    ensureStatus(Status.SCHEDULED, "Can only unassign veterinarian from scheduled appointments");
+    this.veterinarianId = null;
   }
 
   /**

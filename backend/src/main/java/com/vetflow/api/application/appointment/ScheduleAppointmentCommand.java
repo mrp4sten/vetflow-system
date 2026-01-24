@@ -7,6 +7,7 @@ import com.vetflow.api.domain.model.Appointment.Type;
 
 /** Command to schedule a new appointment for a patient. */
 public record ScheduleAppointmentCommand(Long patientId,
+                                         Long veterinarianId,
                                          LocalDateTime appointmentDate,
                                          Type type,
                                          Priority priority,

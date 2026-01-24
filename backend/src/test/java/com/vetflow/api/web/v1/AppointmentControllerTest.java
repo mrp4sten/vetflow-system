@@ -54,10 +54,10 @@ class AppointmentControllerTest {
 
     @Test
     void scheduleAppointmentReturnsCreated() throws Exception {
-        ScheduleAppointmentRequest request = new ScheduleAppointmentRequest(1L, LocalDateTime.now(),
+        ScheduleAppointmentRequest request = new ScheduleAppointmentRequest(1L, null, LocalDateTime.now(),
                 AppointmentType.CHECKUP,
                 AppointmentPriority.HIGH, "Notes");
-        AppointmentResult result = new AppointmentResult(5L, 1L, LocalDateTime.now(),
+        AppointmentResult result = new AppointmentResult(5L, 1L, null, LocalDateTime.now(),
                 com.vetflow.api.domain.model.Appointment.Type.CHECKUP,
                 com.vetflow.api.domain.model.Appointment.Status.SCHEDULED,
                 com.vetflow.api.domain.model.Appointment.Priority.HIGH,
@@ -75,7 +75,7 @@ class AppointmentControllerTest {
 
     @Test
     void scheduleAppointmentValidationError() throws Exception {
-        ScheduleAppointmentRequest request = new ScheduleAppointmentRequest(null, null, null, null, "Notes");
+        ScheduleAppointmentRequest request = new ScheduleAppointmentRequest(null, null, null, null, null, "Notes");
 
         mockMvc.perform(post("/api/v1/appointments")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +86,7 @@ class AppointmentControllerTest {
     @Test
     void rescheduleAppointmentReturnsOk() throws Exception {
         RescheduleAppointmentRequest request = new RescheduleAppointmentRequest(LocalDateTime.now().plusDays(1));
-        AppointmentResult result = new AppointmentResult(7L, 2L, LocalDateTime.now(),
+        AppointmentResult result = new AppointmentResult(7L, 2L, null, LocalDateTime.now(),
                 com.vetflow.api.domain.model.Appointment.Type.CHECKUP,
                 com.vetflow.api.domain.model.Appointment.Status.SCHEDULED,
                 com.vetflow.api.domain.model.Appointment.Priority.NORMAL,
@@ -105,7 +105,7 @@ class AppointmentControllerTest {
     @Test
     void cancelAppointmentReturnsOk() throws Exception {
         CancelAppointmentRequest request = new CancelAppointmentRequest("reason");
-        AppointmentResult result = new AppointmentResult(8L, 3L, LocalDateTime.now(),
+        AppointmentResult result = new AppointmentResult(8L, 3L, null, LocalDateTime.now(),
                 com.vetflow.api.domain.model.Appointment.Type.CHECKUP,
                 com.vetflow.api.domain.model.Appointment.Status.CANCELLED,
                 com.vetflow.api.domain.model.Appointment.Priority.NORMAL,
@@ -123,12 +123,12 @@ class AppointmentControllerTest {
     @Test
     void listAppointmentsByPatientReturnsResults() throws Exception {
         List<AppointmentResult> results = List.of(
-                new AppointmentResult(1L, 1L, LocalDateTime.now(),
+                new AppointmentResult(1L, 1L, null, LocalDateTime.now(),
                         com.vetflow.api.domain.model.Appointment.Type.CHECKUP,
                         com.vetflow.api.domain.model.Appointment.Status.SCHEDULED,
                         com.vetflow.api.domain.model.Appointment.Priority.NORMAL,
                         null, LocalDateTime.now()),
-                new AppointmentResult(2L, 1L, LocalDateTime.now(),
+                new AppointmentResult(2L, 1L, null, LocalDateTime.now(),
                         com.vetflow.api.domain.model.Appointment.Type.SURGERY,
                         com.vetflow.api.domain.model.Appointment.Status.SCHEDULED,
                         com.vetflow.api.domain.model.Appointment.Priority.HIGH,

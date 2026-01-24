@@ -26,10 +26,12 @@ import lombok.Setter;
 @Entity
 @Table(name = "appointments", indexes = {
     @Index(name = "idx_appointments_patient_id", columnList = "patient_id"),
+    @Index(name = "idx_appointments_veterinarian_id", columnList = "veterinarian_id"),
     @Index(name = "idx_appointments_date", columnList = "appointment_date"),
     @Index(name = "idx_appointments_status", columnList = "status"),
     @Index(name = "idx_appointments_priority", columnList = "priority"),
-    @Index(name = "idx_appointments_date_status", columnList = "appointment_date,status")
+    @Index(name = "idx_appointments_date_status", columnList = "appointment_date,status"),
+    @Index(name = "idx_appointments_veterinarian_date", columnList = "veterinarian_id,appointment_date")
 })
 public class AppointmentEntity {
 
@@ -52,6 +54,9 @@ public class AppointmentEntity {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "patient_id", nullable = false)
   private PatientEntity patient;
+
+  @Column(name = "veterinarian_id")
+  private Long veterinarianId;
 
   @Column(name = "appointment_date", nullable = false)
   private LocalDateTime appointmentDate;

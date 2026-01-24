@@ -63,6 +63,7 @@ public class AppointmentController {
       @Valid @RequestBody ScheduleAppointmentRequest request) {
     ScheduleAppointmentCommand command = new ScheduleAppointmentCommand(
         request.patientId(),
+        request.veterinarianId(),
         request.appointmentDate(),
         mapType(request.type()),
         mapPriority(request.priority()),
@@ -111,6 +112,7 @@ public class AppointmentController {
   private static AppointmentResponse toResponse(AppointmentResult result) {
     return new AppointmentResponse(result.id(),
         result.patientId(),
+        result.veterinarianId(),
         result.appointmentDate(),
         result.type().name(),
         result.status().name(),

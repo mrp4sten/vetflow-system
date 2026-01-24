@@ -9,6 +9,7 @@ import com.vetflow.api.domain.model.Appointment.Type;
 /** DTO summarising appointment state. */
 public record AppointmentResult(Long id,
                                 Long patientId,
+                                Long veterinarianId,
                                 LocalDateTime appointmentDate,
                                 Type type,
                                 Status status,

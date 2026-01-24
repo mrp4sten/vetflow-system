@@ -10,6 +10,8 @@ public record ScheduleAppointmentRequest(
     @NotNull(message = "patientId is required")
     Long patientId,
 
+    Long veterinarianId,
+
     @NotNull(message = "appointmentDate is required")
     LocalDateTime appointmentDate,
 

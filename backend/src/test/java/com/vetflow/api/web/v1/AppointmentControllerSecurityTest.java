@@ -61,6 +61,7 @@ class AppointmentControllerSecurityTest {
   void scheduleAppointmentAllowedForAssistantRole() throws Exception {
     AppointmentResult result = new AppointmentResult(1L,
         2L,
+        null,
         LocalDateTime.parse("2024-01-01T10:00:00"),
         Type.CHECKUP,
         Status.SCHEDULED,

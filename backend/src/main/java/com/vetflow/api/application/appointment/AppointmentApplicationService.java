@@ -45,6 +45,7 @@ public class AppointmentApplicationService {
     }
 
     Appointment appointment = Appointment.schedule(patient,
+        command.veterinarianId(),
         command.appointmentDate(),
         command.type(),
         command.notes());
@@ -116,6 +117,7 @@ public class AppointmentApplicationService {
   private AppointmentResult toResult(Appointment appointment) {
     return new AppointmentResult(appointment.getId(),
         appointment.getPatient().getId(),
+        appointment.getVeterinarianId(),
         appointment.getAppointmentDate(),
         appointment.getType(),
         appointment.getStatus(),

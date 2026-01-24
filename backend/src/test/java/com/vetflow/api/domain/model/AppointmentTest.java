@@ -51,7 +51,7 @@ class AppointmentTest {
     LocalDateTime when = LocalDateTime.of(2024, 7, 1, 10, 0);
 
     Appointment appt = Appointment.schedule(
-        p, when, Appointment.Type.EMERGENCY, Appointment.Priority.CRITICAL, "ER case", FIXED_CLOCK);
+        p, null, when, Appointment.Type.EMERGENCY, Appointment.Priority.CRITICAL, "ER case", FIXED_CLOCK);
 
     assertThat(appt.getPriority()).isEqualTo(Appointment.Priority.CRITICAL);
     assertThat(appt.getCreatedAt()).isEqualTo(LocalDateTime.ofInstant(FIXED, ZoneOffset.UTC));

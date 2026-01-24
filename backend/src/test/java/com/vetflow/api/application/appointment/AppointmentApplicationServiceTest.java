@@ -60,6 +60,7 @@ class AppointmentApplicationServiceTest {
         .breed("Labrador")
         .birthDate(LocalDate.now().minusYears(3))
         .owner(owner)
+        .isActive(true)
         .createdAt(LocalDateTime.now().minusDays(3))
         .updatedAt(LocalDateTime.now().minusDays(2))
         .build();
@@ -75,6 +76,7 @@ class AppointmentApplicationServiceTest {
     when(appointmentRepository.save(any())).thenAnswer(inv -> inv.<Appointment>getArgument(0).toBuilder().id(10L).build());
 
     ScheduleAppointmentCommand command = new ScheduleAppointmentCommand(patient.getId(),
+        null, // veterinarianId
         LocalDateTime.now().plusDays(2),
         Appointment.Type.SURGERY,
         Appointment.Priority.HIGH,
