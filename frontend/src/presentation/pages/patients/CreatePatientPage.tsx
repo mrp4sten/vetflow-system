@@ -42,7 +42,6 @@ export const CreatePatientPage: React.FC = () => {
   const methods = useForm<PatientFormData>({
     resolver: zodResolver(patientSchema),
     defaultValues: {
-      gender: 'unknown',
       species: 'dog',
     },
   })
@@ -163,26 +162,6 @@ export const CreatePatientPage: React.FC = () => {
                     {...register('breed')}
                     placeholder="e.g., Golden Retriever, Persian"
                   />
-                </div>
-
-                {/* Gender */}
-                <div className="space-y-2">
-                  <Label htmlFor="gender" className="required">
-                    Gender
-                  </Label>
-                  <Select
-                    value={watch('gender')}
-                    onValueChange={(value: any) => setValue('gender', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="unknown">Unknown</SelectItem>
-                    </SelectContent>
-                  </Select>
                 </div>
 
                 {/* Birth Date */}

@@ -31,6 +31,12 @@ public class AppointmentApplicationService {
   public AppointmentResult scheduleAppointment(ScheduleAppointmentCommand command) {
     Objects.requireNonNull(command, COMMAND_MUST_NOT_BE_NULL_MESSAGE);
     Patient patient = loadPatient(command.patientId());
+    
+    // Prevent scheduling appointments for inactive patients
+    if (!patient.isActive()) {
+      throw new ValidationException("Cannot schedule appointments for inactive patients");
+    }
+    
     if (command.appointmentDate() == null) {
       throw new ValidationException("appointmentDate is required");
     }

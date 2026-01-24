@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vetflow.api.config.OpenApiConfig;
@@ -47,9 +48,10 @@ public class PatientController {
 
   @GetMapping("/patients")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
-  @Operation(summary = "List all patients", description = "Fetches all registered patients.")
-  public List<PatientResponse> listAllPatients() {
-    return patientApplicationService.listAll().stream()
+  @Operation(summary = "List all patients", description = "Fetches all registered patients. By default, only active patients are returned.")
+  public List<PatientResponse> listAllPatients(
+      @RequestParam(name = "includeInactive", defaultValue = "false") boolean includeInactive) {
+    return patientApplicationService.listAll(includeInactive).stream()
         .map(PatientController::toResponse)
         .toList();
   }
@@ -70,6 +72,7 @@ public class PatientController {
             request.species(),
             request.breed(),
             request.birthDate(),
+            request.weight(),
             request.ownerId()));
     return ResponseEntity.created(URI.create("/api/v1/patients/" + result.id())).body(toResponse(result));
   }
@@ -92,9 +95,11 @@ public class PatientController {
 
   @GetMapping("/owners/{ownerId}/patients")
   @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
-  @Operation(summary = "List patients by owner", description = "Returns every patient belonging to the given owner.")
-  public List<PatientResponse> listByOwner(@PathVariable Long ownerId) {
-    return patientApplicationService.listByOwner(ownerId).stream()
+  @Operation(summary = "List patients by owner", description = "Returns every patient belonging to the given owner. By default, only active patients are returned.")
+  public List<PatientResponse> listByOwner(
+      @PathVariable Long ownerId,
+      @RequestParam(name = "includeInactive", defaultValue = "false") boolean includeInactive) {
+    return patientApplicationService.listByOwner(ownerId, includeInactive).stream()
         .map(PatientController::toResponse)
         .toList();
   }

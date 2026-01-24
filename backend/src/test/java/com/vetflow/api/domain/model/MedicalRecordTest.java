@@ -23,7 +23,7 @@ class MedicalRecordTest {
   private Patient samplePatient() {
     Owner owner = Owner.create("John Doe", "+52 55 1234 5678", "john@e.com", "Addr");
     return Patient.create("Fido", "dog", "labrador",
-        LocalDate.of(2020, 1, 1), owner, FIXED_CLOCK);
+        LocalDate.of(2020, 1, 1), null, owner, FIXED_CLOCK);
   }
 
   @Test

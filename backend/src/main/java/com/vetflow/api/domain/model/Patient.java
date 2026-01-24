@@ -86,13 +86,23 @@ public class Patient {
       String breed,
       LocalDate birthDate,
       Owner owner) {
-    return create(name, species, breed, birthDate, owner, Clock.systemDefaultZone());
+    return create(name, species, breed, birthDate, null, owner, Clock.systemDefaultZone());
+  }
+
+  public static Patient create(String name,
+      String species,
+      String breed,
+      LocalDate birthDate,
+      BigDecimal weight,
+      Owner owner) {
+    return create(name, species, breed, birthDate, weight, owner, Clock.systemDefaultZone());
   }
 
   static Patient create(String name,
       String species,
       String breed,
       LocalDate birthDate,
+      BigDecimal weight,
       Owner owner,
       Clock clock) {
     LocalDateTime now = LocalDateTime.now(clock);
@@ -101,6 +111,7 @@ public class Patient {
         .species(Species.from(species))
         .breed(validateBreed(breed))
         .birthDate(validateBirthDate(birthDate, clock))
+        .weight(weight != null ? validateWeight(weight) : null)
         .isActive(true)
         .owner(validateOwner(owner))
         .createdAt(now)

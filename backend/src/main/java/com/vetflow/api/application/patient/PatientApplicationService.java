@@ -33,6 +33,7 @@ public class PatientApplicationService {
         command.species(),
         command.breed(),
         command.birthDate(),
+        command.weight(),
         owner);
     Patient saved = patientRepository.save(patient);
     auditService.recordCreation("patients", saved.getId(), saved);
@@ -70,7 +71,14 @@ public class PatientApplicationService {
   }
 
   public List<PatientResult> listAll() {
-    return patientRepository.findAll().stream()
+    return listAll(false);
+  }
+
+  public List<PatientResult> listAll(boolean includeInactive) {
+    List<Patient> patients = includeInactive 
+        ? patientRepository.findAll() 
+        : patientRepository.findByActive(true);
+    return patients.stream()
         .map(this::toResult)
         .collect(Collectors.toList());
   }
@@ -85,8 +93,15 @@ public class PatientApplicationService {
   }
 
   public List<PatientResult> listByOwner(Long ownerId) {
+    return listByOwner(ownerId, false);
+  }
+
+  public List<PatientResult> listByOwner(Long ownerId, boolean includeInactive) {
     Owner owner = loadOwner(ownerId);
-    return patientRepository.findByOwnerId(owner.getId()).stream()
+    List<Patient> patients = includeInactive
+        ? patientRepository.findByOwnerId(owner.getId())
+        : patientRepository.findByOwnerIdAndActive(owner.getId(), true);
+    return patients.stream()
         .map(this::toResult)
         .collect(Collectors.toList());
   }

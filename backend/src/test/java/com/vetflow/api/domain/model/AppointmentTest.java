@@ -23,7 +23,7 @@ class AppointmentTest {
   private Patient samplePatient() {
     Owner owner = Owner.create("John Doe", "+52 55 1234 5678", "john@e.com", "Addr");
     return Patient.create("Fido", "dog", "labrador",
-        java.time.LocalDate.of(2020, 1, 1), owner, FIXED_CLOCK);
+        java.time.LocalDate.of(2020, 1, 1), null, owner, FIXED_CLOCK);
   }
 
   @Test

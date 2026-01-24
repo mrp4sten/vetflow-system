@@ -57,6 +57,24 @@ public class PatientRepositoryAdapter implements PatientRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Patient> findByActive(boolean active) {
+        return jpa.findByIsActive(active)
+                  .stream()
+                  .map(mapper::toDomain)
+                  .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Patient> findByOwnerIdAndActive(Long ownerId, boolean active) {
+        return jpa.findByOwnerIdAndIsActive(ownerId, active)
+                  .stream()
+                  .map(mapper::toDomain)
+                  .toList();
+    }
+
+    @Override
     public void deleteById(Long id) {
         jpa.deleteById(id);
     }

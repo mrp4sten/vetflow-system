@@ -37,7 +37,7 @@ class PatientTest {
     String breed = "labrador";
 
     // Act
-    Patient p = Patient.create(name, species, breed, VALID_BIRTHDATE, owner, FIXED_CLOCK);
+    Patient p = Patient.create(name, species, breed, VALID_BIRTHDATE, null, owner, FIXED_CLOCK);
 
     // Assert
     assertNotNull(p);
@@ -59,10 +59,10 @@ class PatientTest {
     Owner owner = new Owner();
 
     assertThrows(IllegalArgumentException.class,
-        () -> Patient.create(null, "dog", "breed", VALID_BIRTHDATE, owner, FIXED_CLOCK));
+        () -> Patient.create(null, "dog", "breed", VALID_BIRTHDATE, null, owner, FIXED_CLOCK));
 
     assertThrows(IllegalArgumentException.class,
-        () -> Patient.create("   ", "dog", "breed", VALID_BIRTHDATE, owner, FIXED_CLOCK));
+        () -> Patient.create("   ", "dog", "breed", VALID_BIRTHDATE, null, owner, FIXED_CLOCK));
   }
 
   @Test
@@ -71,7 +71,7 @@ class PatientTest {
     Owner owner = new Owner();
 
     assertThrows(IllegalArgumentException.class,
-        () -> Patient.create("Fido", null, "breed", VALID_BIRTHDATE, owner, FIXED_CLOCK));
+        () -> Patient.create("Fido", null, "breed", VALID_BIRTHDATE, null, owner, FIXED_CLOCK));
   }
 
   @Test
@@ -80,7 +80,7 @@ class PatientTest {
     Owner owner = new Owner();
 
     assertThrows(IllegalArgumentException.class,
-        () -> Patient.create("Fido", "iguana", "breed", VALID_BIRTHDATE, owner, FIXED_CLOCK));
+        () -> Patient.create("Fido", "iguana", "breed", VALID_BIRTHDATE, null, owner, FIXED_CLOCK));
   }
 
   @Test
@@ -90,7 +90,7 @@ class PatientTest {
     String tooLongBreed = "x".repeat(51);
 
     assertThrows(IllegalArgumentException.class,
-        () -> Patient.create("Fido", "dog", tooLongBreed, VALID_BIRTHDATE, owner, FIXED_CLOCK));
+        () -> Patient.create("Fido", "dog", tooLongBreed, VALID_BIRTHDATE, null, owner, FIXED_CLOCK));
   }
 
   @Test
@@ -98,7 +98,7 @@ class PatientTest {
   void shouldTreatEmptyBreedAsNull() {
     Owner owner = new Owner();
 
-    Patient p = Patient.create("Fido", "dog", "   ", VALID_BIRTHDATE, owner, FIXED_CLOCK);
+    Patient p = Patient.create("Fido", "dog", "   ", VALID_BIRTHDATE, null, owner, FIXED_CLOCK);
     assertNull(p.getBreed());
   }
 
@@ -108,7 +108,7 @@ class PatientTest {
     Owner owner = new Owner();
 
     assertThrows(IllegalArgumentException.class,
-        () -> Patient.create("Fido", "dog", "breed", null, owner, FIXED_CLOCK));
+        () -> Patient.create("Fido", "dog", "breed", null, null, owner, FIXED_CLOCK));
   }
 
   @Test
@@ -118,7 +118,7 @@ class PatientTest {
     LocalDate future = LocalDate.of(2099, 1, 1);
 
     assertThrows(IllegalArgumentException.class,
-        () -> Patient.create("Fido", "dog", "breed", future, owner, FIXED_CLOCK));
+        () -> Patient.create("Fido", "dog", "breed", future, null, owner, FIXED_CLOCK));
   }
 
   @Test
@@ -126,7 +126,7 @@ class PatientTest {
   void shouldUpdatePatientWithNewValues() {
     // Arrange (create)
     Owner owner1 = new Owner();
-    Patient p = Patient.create("Fido", "dog", "labrador", VALID_BIRTHDATE, owner1, FIXED_CLOCK);
+    Patient p = Patient.create("Fido", "dog", "labrador", VALID_BIRTHDATE, null, owner1, FIXED_CLOCK);
 
     // Use a later clock for update
     Instant later = FIXED_INSTANT.plusSeconds(3600);
@@ -154,7 +154,7 @@ class PatientTest {
   @DisplayName("Should rename patient and refresh updatedAt")
   void shouldRenamePatient() {
     Owner owner = new Owner();
-    Patient p = Patient.create("Fido", "dog", "labrador", VALID_BIRTHDATE, owner, FIXED_CLOCK);
+    Patient p = Patient.create("Fido", "dog", "labrador", VALID_BIRTHDATE, null, owner, FIXED_CLOCK);
 
     Instant later = FIXED_INSTANT.plusSeconds(120);
     

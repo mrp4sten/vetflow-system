@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS patients (
     breed       VARCHAR(100),
     birth_date  DATE,
     weight      DECIMAL(5,2),
+    is_active   BOOLEAN DEFAULT TRUE NOT NULL,
     allergies   TEXT,
     owner_id    BIGINT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -74,6 +75,7 @@ CREATE TABLE IF NOT EXISTS patients (
 CREATE INDEX IF NOT EXISTS idx_patients_owner_id    ON patients(owner_id);
 CREATE INDEX IF NOT EXISTS idx_patients_species     ON patients(species);
 CREATE INDEX IF NOT EXISTS idx_patients_name        ON patients(name);
+CREATE INDEX IF NOT EXISTS idx_patients_is_active   ON patients(is_active);
 CREATE INDEX IF NOT EXISTS idx_patients_created_at  ON patients(created_at);
 
 -----------------------------

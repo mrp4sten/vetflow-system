@@ -32,10 +32,6 @@ export const EditPatientPage: React.FC = () => {
 
   const methods = useForm<PatientFormData>({
     resolver: zodResolver(patientSchema),
-    defaultValues: {
-      gender: 'unknown',
-      species: 'dog',
-    },
   })
 
   const {
@@ -49,18 +45,23 @@ export const EditPatientPage: React.FC = () => {
 
   // Pre-populate form when patient data is loaded
   useEffect(() => {
-    if (patient) {
-      reset({
-        name: patient.name,
-        species: patient.species.toLowerCase() as 'dog' | 'cat',
-        breed: patient.breed || '',
-        birthDate: patient.birthDate || '',
-        weight: patient.weight,
-        gender: 'unknown',
-        ownerId: patient.ownerId,
-      })
+    if (patient && owners.length > 0) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        const formData = {
+          name: patient.name,
+          species: patient.species.toLowerCase() as 'dog' | 'cat',
+          breed: patient.breed || '',
+          birthDate: patient.birthDate || '',
+          weight: patient.weight,
+          ownerId: patient.ownerId,
+        }
+        
+        // Reset form with patient data
+        reset(formData)
+      }, 0)
     }
-  }, [patient, reset])
+  }, [patient, owners, reset])
 
   const onSubmit = async (data: PatientFormData) => {
     try {
@@ -142,7 +143,7 @@ export const EditPatientPage: React.FC = () => {
                     Species
                   </Label>
                   <Select
-                    value={watch('species') || 'dog'}
+                    value={watch('species')}
                     onValueChange={(value: any) => setValue('species', value)}
                   >
                     <SelectTrigger>
@@ -208,7 +209,7 @@ export const EditPatientPage: React.FC = () => {
                     Owner
                   </Label>
                   <Select
-                    value={watch('ownerId')?.toString() || ''}
+                    value={watch('ownerId')?.toString()}
                     onValueChange={(value) => setValue('ownerId', parseInt(value))}
                   >
                     <SelectTrigger className={errors.ownerId ? 'border-red-500' : ''}>

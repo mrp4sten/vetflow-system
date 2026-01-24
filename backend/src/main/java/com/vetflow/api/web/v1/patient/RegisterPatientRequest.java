@@ -1,7 +1,9 @@
 package com.vetflow.api.web.v1.patient;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -24,6 +26,9 @@ public record RegisterPatientRequest(
     @NotNull(message = "birthDate is required")
     @PastOrPresent(message = "birthDate cannot be in the future")
     LocalDate birthDate,
+
+    @DecimalMin(value = "0.1", message = "weight must be at least 0.1 kg")
+    BigDecimal weight,
 
     @NotNull(message = "ownerId is required")
     Long ownerId) {

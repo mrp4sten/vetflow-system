@@ -73,6 +73,7 @@ class PatientApplicationServiceTest {
         "dog",
         "Labrador",
         LocalDate.now().minusYears(2),
+        null,
         owner.getId());
 
     PatientResult result = service.registerPatient(command);
@@ -85,7 +86,7 @@ class PatientApplicationServiceTest {
   void updatePatient_notFound_throws() {
     when(patientRepository.findById(999L)).thenReturn(Optional.empty());
 
-    UpdatePatientCommand command = new UpdatePatientCommand(999L, null, null, null, null, null);
+    UpdatePatientCommand command = new UpdatePatientCommand(999L, null, null, null, null, null, null);
 
     assertThatThrownBy(() -> service.updatePatient(command))
         .isInstanceOf(ResourceNotFoundException.class);
@@ -110,6 +111,7 @@ class PatientApplicationServiceTest {
         "dog",
         "Mixed",
         LocalDate.now().minusYears(4),
+        null,
         owner.getId());
 
     PatientResult result = service.updatePatient(command);

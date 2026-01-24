@@ -204,57 +204,63 @@ export const PatientsPage: React.FC = () => {
     {
       accessorKey: 'name',
       header: 'Patient',
-      cell: ({ row }) => (
-        <div className="flex items-center gap-2">
-          <Heart className="h-4 w-4 text-pink-500" />
-          <div>
-            <div className="font-medium">{row.original.name}</div>
-            <div className="text-sm text-muted-foreground">
-              {row.original.species} • {row.original.breed || 'Mixed'}
+      cell: ({ row }) => {
+        const isInactive = !row.original.isActive
+        return (
+          <div className={`flex items-center gap-2 ${isInactive ? 'opacity-50' : ''}`}>
+            <Heart className={`h-4 w-4 ${isInactive ? 'text-gray-400' : 'text-pink-500'}`} />
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium">{row.original.name}</span>
+                {isInactive && (
+                  <Badge variant="secondary" className="text-xs">
+                    Inactive
+                  </Badge>
+                )}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {row.original.species} • {row.original.breed || 'Mixed'}
+              </div>
             </div>
           </div>
-        </div>
-      ),
+        )
+      },
     },
     {
       accessorKey: 'owner',
       header: 'Owner',
-      cell: ({ row }) => (
-        <div className="flex items-center gap-2">
-          <User className="h-4 w-4 text-muted-foreground" />
-          <div>
-            <div className="font-medium">{row.original.owner?.name}</div>
-            <div className="text-sm text-muted-foreground">
-              {row.original.owner?.phone}
+      cell: ({ row }) => {
+        const isInactive = !row.original.isActive
+        return (
+          <div className={`flex items-center gap-2 ${isInactive ? 'opacity-50' : ''}`}>
+            <User className="h-4 w-4 text-muted-foreground" />
+            <div>
+              <div className="font-medium">{row.original.owner?.name}</div>
+              <div className="text-sm text-muted-foreground">
+                {row.original.owner?.phone}
+              </div>
             </div>
           </div>
-        </div>
-      ),
-    },
-    {
-      accessorKey: 'gender',
-      header: 'Gender',
-      cell: ({ row }) => (
-        <Badge variant="outline" className="capitalize">
-          {row.original.gender}
-        </Badge>
-      ),
+        )
+      },
     },
     {
       accessorKey: 'birthDate',
       header: 'Age',
       cell: ({ row }) => {
+        const isInactive = !row.original.isActive
         if (!row.original.birthDate) return <span className="text-muted-foreground">Unknown</span>
-        return <span>{formatAge(row.original.birthDate)}</span>
+        return <span className={isInactive ? 'opacity-50' : ''}>{formatAge(row.original.birthDate)}</span>
       },
     },
     {
       accessorKey: 'weight',
       header: 'Weight',
       cell: ({ row }) => {
+        const isInactive = !row.original.isActive
         if (!row.original.weight) return <span className="text-muted-foreground">-</span>
         return (
-          <div className="text-sm">
+          <div className={`text-sm ${isInactive ? 'opacity-50' : ''}`}>
             <div>{row.original.weight} kg</div>
             <div className="text-muted-foreground">
               {row.original.weightInLbs?.toFixed(1)} lbs
