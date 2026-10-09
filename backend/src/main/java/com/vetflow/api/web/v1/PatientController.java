@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class PatientController {
   private final PatientApplicationService patientApplicationService;
 
   @PostMapping("/patients")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   public ResponseEntity<PatientResponse> registerPatient(@Valid @RequestBody RegisterPatientRequest request) {
     PatientResult result = patientApplicationService.registerPatient(
         new RegisterPatientCommand(request.name(),
@@ -45,6 +47,7 @@ public class PatientController {
   }
 
   @PutMapping("/patients/{patientId}")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   public PatientResponse updatePatient(@PathVariable Long patientId,
       @Valid @RequestBody UpdatePatientRequest request) {
     PatientResult result = patientApplicationService.updatePatient(
@@ -58,6 +61,7 @@ public class PatientController {
   }
 
   @GetMapping("/owners/{ownerId}/patients")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   public List<PatientResponse> listByOwner(@PathVariable Long ownerId) {
     return patientApplicationService.listByOwner(ownerId).stream()
         .map(PatientController::toResponse)

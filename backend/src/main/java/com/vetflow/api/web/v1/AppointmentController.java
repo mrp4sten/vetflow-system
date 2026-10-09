@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -40,6 +41,7 @@ public class AppointmentController {
   private final AppointmentApplicationService appointmentApplicationService;
 
   @PostMapping("/appointments")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   public ResponseEntity<AppointmentResponse> scheduleAppointment(
       @Valid @RequestBody ScheduleAppointmentRequest request) {
     ScheduleAppointmentCommand command = new ScheduleAppointmentCommand(
@@ -53,6 +55,7 @@ public class AppointmentController {
   }
 
   @PatchMapping("/appointments/{appointmentId}/reschedule")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   public AppointmentResponse rescheduleAppointment(@PathVariable Long appointmentId,
       @Valid @RequestBody RescheduleAppointmentRequest request) {
     AppointmentResult result = appointmentApplicationService
@@ -61,6 +64,7 @@ public class AppointmentController {
   }
 
   @PatchMapping("/appointments/{appointmentId}/cancel")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   public AppointmentResponse cancelAppointment(@PathVariable Long appointmentId,
       @Valid @RequestBody CancelAppointmentRequest request) {
     AppointmentResult result = appointmentApplicationService
@@ -69,6 +73,7 @@ public class AppointmentController {
   }
 
   @GetMapping("/patients/{patientId}/appointments")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   public List<AppointmentResponse> listByPatient(@PathVariable Long patientId) {
     return appointmentApplicationService.listByPatient(patientId).stream()
         .map(AppointmentController::toResponse)

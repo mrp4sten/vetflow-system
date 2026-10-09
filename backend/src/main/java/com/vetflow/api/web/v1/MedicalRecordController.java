@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class MedicalRecordController {
   private final MedicalRecordApplicationService medicalRecordApplicationService;
 
   @PostMapping("/medical-records")
+  @PreAuthorize("hasAnyRole('ADMIN','VETERINARIAN')")
   public ResponseEntity<MedicalRecordResponse> createMedicalRecord(
       @Valid @RequestBody CreateMedicalRecordRequest request) {
     MedicalRecordResult result = medicalRecordApplicationService.createMedicalRecord(
@@ -45,6 +47,7 @@ public class MedicalRecordController {
   }
 
   @GetMapping("/patients/{patientId}/medical-records")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   public List<MedicalRecordResponse> listByPatient(@PathVariable Long patientId) {
     return medicalRecordApplicationService.listByPatient(patientId).stream()
         .map(MedicalRecordController::toResponse)

@@ -1,6 +1,7 @@
 package com.vetflow.api.application.patient;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.vetflow.api.application.shared.ResourceNotFoundException;
 import com.vetflow.api.application.shared.ValidationException;
+import com.vetflow.api.audit.AuditService;
 import com.vetflow.api.domain.model.Owner;
 import com.vetflow.api.domain.model.Patient;
 import com.vetflow.api.domain.port.OwnerRepository;
@@ -22,6 +24,7 @@ public class PatientApplicationService {
 
   private final PatientRepository patientRepository;
   private final OwnerRepository ownerRepository;
+  private final AuditService auditService;
 
   public PatientResult registerPatient(RegisterPatientCommand command) {
     Objects.requireNonNull(command, "command must not be null");
@@ -32,6 +35,7 @@ public class PatientApplicationService {
         command.birthDate(),
         owner);
     Patient saved = patientRepository.save(patient);
+    auditService.recordCreation("patients", saved.getId(), saved);
     return toResult(saved);
   }
 
@@ -44,6 +48,8 @@ public class PatientApplicationService {
     Patient patient = patientRepository.findById(command.patientId())
         .orElseThrow(() -> new ResourceNotFoundException("Patient %d not found".formatted(command.patientId())));
 
+    Map<String, Object> before = auditService.snapshot(patient);
+
     if (command.name() != null) {
       patient.rename(command.name());
     }
@@ -55,6 +61,7 @@ public class PatientApplicationService {
         owner);
 
     Patient saved = patientRepository.save(patient);
+    auditService.recordUpdate("patients", saved.getId(), before, saved);
     return toResult(saved);
   }
 

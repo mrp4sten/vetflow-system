@@ -3,6 +3,7 @@ package com.vetflow.api.web.v1;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,7 @@ public class OwnerController {
   private final OwnerApplicationService ownerApplicationService;
 
   @PostMapping
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT')")
   public ResponseEntity<OwnerResponse> createOwner(@Valid @RequestBody CreateOwnerRequest request) {
     OwnerResult result = ownerApplicationService.createOwner(
         new CreateOwnerCommand(request.name(), request.phone(), request.email(), request.address()));
@@ -40,11 +42,13 @@ public class OwnerController {
   }
 
   @GetMapping("/{ownerId}")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT','VETERINARIAN')")
   public OwnerResponse getOwner(@PathVariable Long ownerId) {
     return toResponse(ownerApplicationService.getById(ownerId));
   }
 
   @PutMapping("/{ownerId}")
+  @PreAuthorize("hasAnyRole('ADMIN','ASSISTANT')")
   public OwnerResponse updateOwner(@PathVariable Long ownerId, @Valid @RequestBody UpdateOwnerRequest request) {
     OwnerResult result = ownerApplicationService
         .updateOwner(new UpdateOwnerCommand(ownerId, request.phone(), request.email(), request.address()));

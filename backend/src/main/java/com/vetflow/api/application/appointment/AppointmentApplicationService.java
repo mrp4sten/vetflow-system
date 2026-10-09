@@ -2,12 +2,14 @@ package com.vetflow.api.application.appointment;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
 import com.vetflow.api.application.shared.ResourceNotFoundException;
 import com.vetflow.api.application.shared.ValidationException;
+import com.vetflow.api.audit.AuditService;
 import com.vetflow.api.domain.model.Appointment;
 import com.vetflow.api.domain.model.Patient;
 import com.vetflow.api.domain.port.AppointmentRepository;
@@ -22,6 +24,7 @@ public class AppointmentApplicationService {
 
   private final AppointmentRepository appointmentRepository;
   private final PatientRepository patientRepository;
+  private final AuditService auditService;
   private static final String COMMAND_MUST_NOT_BE_NULL_MESSAGE = "command must not be null";
 
   public AppointmentResult scheduleAppointment(ScheduleAppointmentCommand command) {
@@ -42,6 +45,7 @@ public class AppointmentApplicationService {
       appointment.changePriority(command.priority());
     }
     Appointment saved = appointmentRepository.save(appointment);
+    auditService.recordCreation("appointments", saved.getId(), saved);
     return toResult(saved);
   }
 
@@ -54,8 +58,10 @@ public class AppointmentApplicationService {
       throw new ValidationException("newDate is required");
     }
     Appointment appointment = loadAppointment(command.appointmentId());
+    Map<String, Object> before = auditService.snapshot(appointment);
     appointment.reschedule(command.newDate());
     Appointment saved = appointmentRepository.save(appointment);
+    auditService.recordUpdate("appointments", saved.getId(), before, saved);
     return toResult(saved);
   }
 
@@ -65,8 +71,10 @@ public class AppointmentApplicationService {
       throw new ValidationException("appointmentId is required");
     }
     Appointment appointment = loadAppointment(command.appointmentId());
+    Map<String, Object> before = auditService.snapshot(appointment);
     appointment.cancel(command.reason());
     Appointment saved = appointmentRepository.save(appointment);
+    auditService.recordUpdate("appointments", saved.getId(), before, saved);
     return toResult(saved);
   }
 
